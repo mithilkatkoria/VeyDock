@@ -23,7 +23,7 @@ impl Hub {
 #[tauri::command] async fn detect_recording_apps()->Result<Vec<String>,String>{tauri::async_runtime::spawn_blocking(streamer::detect).await.map_err(|_|"Recording app detection is unavailable".to_string())?}
 #[tauri::command] fn set_streamer_privacy(app:tauri::AppHandle,active:bool){streamer::set_private(active);update_tray(&app);}
 #[tauri::command] fn load_state(hub:State<Hub>)->Store {hub.read()}
-#[tauri::command] fn open_releases()->Result<(),String>{open::that("https://github.com/mithilkatkoria/draey-codex-hub/releases").map_err(|_|"Could not open GitHub releases in your browser.".into())}
+#[tauri::command] fn open_releases()->Result<(),String>{open::that("https://github.com/mithilkatkoria/veydock/releases").map_err(|_|"Could not open GitHub releases in your browser.".into())}
 #[tauri::command] async fn detect_codex(hub:State<'_,Hub>)->Result<codex::Installation,String>{let settings=hub.read().settings;tauri::async_runtime::spawn_blocking(move||codex::detect(&settings)).await.map_err(|_|"Detection failed".into())}
 #[tauri::command] async fn choose_path(kind:String)->Option<String>{tauri::async_runtime::spawn_blocking(move||{let dialog=rfd::FileDialog::new();let path=if kind=="exe" {dialog.add_filter("Windows executable",&["exe"]).pick_file()}else{dialog.pick_folder()};path.map(|p|p.to_string_lossy().into_owned())}).await.ok().flatten()}
 #[derive(serde::Deserialize)] #[serde(rename_all="camelCase")]
@@ -237,7 +237,7 @@ async fn launch_in_workspace(app:&tauri::AppHandle,id:&str,project_id:Option<Str
 #[tauri::command] fn open_profile_folder(hub:State<Hub>,id:String)->Result<(),String>{open::that(hub.profile(&id)?.home).map_err(|_|"Cannot open profile folder".into())}
 #[tauri::command] async fn export_config(hub:State<'_,Hub>)->Result<bool,String>{
  let s=hub.read();let safe=json!({"version":1,"profiles":s.profiles.iter().map(|p|json!({"id":p.id,"name":p.name,"plan":p.plan,"accent":p.accent,"availability":p.availability})).collect::<Vec<_>>(),"projects":s.projects,"settings":s.settings});
- tauri::async_runtime::spawn_blocking(move||{if let Some(path)=rfd::FileDialog::new().set_file_name("draey-config.json").add_filter("JSON",&["json"]).save_file(){std::fs::write(path,serde_json::to_vec_pretty(&safe).map_err(|_|"Cannot encode export")?).map_err(|_|"Cannot write export")?;Ok(true)}else{Ok(false)}}).await.map_err(|_|"Export dialog failed".to_string())?
+ tauri::async_runtime::spawn_blocking(move||{if let Some(path)=rfd::FileDialog::new().set_file_name("veydock-config.json").add_filter("JSON",&["json"]).save_file(){std::fs::write(path,serde_json::to_vec_pretty(&safe).map_err(|_|"Cannot encode export")?).map_err(|_|"Cannot write export")?;Ok(true)}else{Ok(false)}}).await.map_err(|_|"Export dialog failed".to_string())?
 }
 #[tauri::command] async fn import_config(app:tauri::AppHandle,hub:State<'_,Hub>)->Result<bool,String>{
  let file=tauri::async_runtime::spawn_blocking(||rfd::FileDialog::new().add_filter("JSON",&["json"]).pick_file()).await.map_err(|_|"Import dialog failed")?;let Some(file)=file else{return Ok(false)};
@@ -270,9 +270,9 @@ fn keep_saved_login_current(app:tauri::AppHandle) {
   }
  });
 }
-fn update_tray(app:&tauri::AppHandle){use tauri::menu::{Menu,MenuItem};let Ok(menu)=Menu::new(app) else{return};let add=|id:String,label:String|{if let Ok(item)=MenuItem::with_id(app,id,label,true,None::<&str>){let _=menu.append(&item);}};add("dashboard".into(),"Vdoc".into());let mut profiles=app.state::<Hub>().read().profiles;profiles.sort_by(|a,b|a.created_at.cmp(&b.created_at).then(a.id.cmp(&b.id)));for (index,p) in profiles.into_iter().enumerate(){let label=if streamer::private(){format!("Account {}",index+1)}else{p.name};add(format!("profile:{}",p.id),format!("Open {} - {}",label,p.availability.replace('-'," ")));}add("refresh".into(),"Refresh all limits".into());add("settings".into(),"Settings".into());add("quit".into(),"Quit Hub".into());if let Some(tray)=app.tray_by_id("hub"){let _=tray.set_menu(Some(menu));}}
+fn update_tray(app:&tauri::AppHandle){use tauri::menu::{Menu,MenuItem};let Ok(menu)=Menu::new(app) else{return};let add=|id:String,label:String|{if let Ok(item)=MenuItem::with_id(app,id,label,true,None::<&str>){let _=menu.append(&item);}};add("dashboard".into(),"VeyDock".into());let mut profiles=app.state::<Hub>().read().profiles;profiles.sort_by(|a,b|a.created_at.cmp(&b.created_at).then(a.id.cmp(&b.id)));for (index,p) in profiles.into_iter().enumerate(){let label=if streamer::private(){format!("Account {}",index+1)}else{p.name};add(format!("profile:{}",p.id),format!("Open {} - {}",label,p.availability.replace('-'," ")));}add("refresh".into(),"Refresh all limits".into());add("settings".into(),"Settings".into());add("quit".into(),"Quit VeyDock".into());if let Some(tray)=app.tray_by_id("hub"){let _=tray.set_menu(Some(menu));}}
 pub fn run(){
- match host::handoff_if_needed(){Ok(true)=>return,Ok(false)=>{},Err(error)=>{let _=rfd::MessageDialog::new().set_title("Open Vdoc independently").set_description(error).show();return;}}
+ match host::handoff_if_needed(){Ok(true)=>return,Ok(false)=>{},Err(error)=>{let _=rfd::MessageDialog::new().set_title("Open VeyDock independently").set_description(error).show();return;}}
  let builder=tauri::Builder::default().plugin(tauri_plugin_updater::Builder::new().build()).manage(updates::UpdateState::default()).plugin(tauri_plugin_single_instance::init(|app,_,_|show(app))).setup(|app|{
   let (path,store)=storage::load_current().map_err(std::io::Error::other)?;
   app.manage(Hub{usage_slots:tokio::sync::Semaphore::new(3),path,store:Mutex::new(store),operations:Mutex::new(HashMap::new()),logins:Mutex::new(HashMap::new()),workspace_gate:tokio::sync::RwLock::new(()),pending_switch:Mutex::new(None),switch_cancel:Mutex::new(None)});
@@ -281,12 +281,12 @@ pub fn run(){
    window.set_icon(tauri::image::Image::from_bytes(include_bytes!("../icons/128x128.png"))?)?;
   }
   let icon=tauri::image::Image::from_bytes(include_bytes!("../icons/32x32.png"))?;
-  tauri::tray::TrayIconBuilder::with_id("hub").icon(icon).tooltip("Vdoc").on_menu_event(|app,event|{let id=event.id.as_ref();match id {"quit"=>app.exit(0),"dashboard"=>show(app),"settings"=>{show(app);let _=app.emit("navigate","settings");},"refresh"=>{let app=app.clone();let profiles=app.state::<Hub>().read().profiles;for p in profiles{let app=app.clone();tauri::async_runtime::spawn(async move{let _=refresh(&app,p.id).await;});}},_=>{if let Some(id)=id.strip_prefix("profile:"){let app=app.clone();let id=id.to_string();tauri::async_runtime::spawn(async move{if let Err(e)=launch_profile(app.clone(),id,None).await{show(&app);let _=app.emit("hub-error",e);}});}}}}).build(app)?;
+  tauri::tray::TrayIconBuilder::with_id("hub").icon(icon).tooltip("VeyDock").on_menu_event(|app,event|{let id=event.id.as_ref();match id {"quit"=>app.exit(0),"dashboard"=>show(app),"settings"=>{show(app);let _=app.emit("navigate","settings");},"refresh"=>{let app=app.clone();let profiles=app.state::<Hub>().read().profiles;for p in profiles{let app=app.clone();tauri::async_runtime::spawn(async move{let _=refresh(&app,p.id).await;});}},_=>{if let Some(id)=id.strip_prefix("profile:"){let app=app.clone();let id=id.to_string();tauri::async_runtime::spawn(async move{if let Err(e)=launch_profile(app.clone(),id,None).await{show(&app);let _=app.emit("hub-error",e);}});}}}}).build(app)?;
   update_tray(app.handle());
   keep_saved_login_current(app.handle().clone());
   if std::env::args().any(|a|a=="--background"){if let Some(w)=app.get_webview_window("main"){let _=w.hide();}}
   Ok(())
  }).on_window_event(|w,event|{if let tauri::WindowEvent::CloseRequested{api,..}=event {if w.app_handle().state::<Hub>().read().settings.minimize_to_tray{api.prevent_close();let _=w.hide();}}})
  .invoke_handler(tauri::generate_handler![updates::check_update,updates::install_update,open_releases,detect_recording_apps,set_streamer_privacy,load_state,detect_codex,choose_path,save_profile,remove_profile,save_project,remove_project,save_settings,refresh_usage,login_profile,cancel_login,launch_profile,workspace_status,cancel_switch,diagnostics,open_profile_folder,export_config,import_config]);
- if let Err(error)=builder.run(tauri::generate_context!()){let _=rfd::MessageDialog::new().set_title("Vdoc could not start").set_description(format!("{error}\nYour profile files have been preserved.")).set_level(rfd::MessageLevel::Error).show();}
+ if let Err(error)=builder.run(tauri::generate_context!()){let _=rfd::MessageDialog::new().set_title("VeyDock could not start").set_description(format!("{error}\nYour profile files have been preserved.")).set_level(rfd::MessageLevel::Error).show();}
 }
