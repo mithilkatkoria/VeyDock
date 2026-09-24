@@ -6,7 +6,7 @@
 
 VeyDock, or **VDock** for short, keeps your saved Codex profiles in one place so you can see current usage, reset times, availability, and deliberately open the profile you want without repeating the full sign-in flow every time.
 
-[Download for Windows](https://github.com/mithilkatkoria/draey-codex-hub/releases) · [Changelog](CHANGELOG.md) · [Verification](VERIFICATION.md) · [Contributing](CONTRIBUTING.md)
+[Download for Windows](https://github.com/mithilkatkoria/VeyDock/releases) · [Changelog](CHANGELOG.md) · [Verification](VERIFICATION.md) · [Contributing](CONTRIBUTING.md)
 
 > VeyDock is an independent community project. It is not affiliated with or endorsed by OpenAI.
 
@@ -32,7 +32,7 @@ Production builds do not invent usage percentages. If Codex does not return a va
 
 ## Download
 
-Get the latest Windows build from the [Releases page](https://github.com/mithilkatkoria/draey-codex-hub/releases).
+Get the latest Windows build from the [Releases page](https://github.com/mithilkatkoria/VeyDock/releases).
 
 The current prerelease targets Windows x64 and also runs on Windows ARM through x64 emulation.
 
@@ -75,7 +75,7 @@ See [Streamer Mode](docs/streamer-mode.md) for screen-sharing privacy controls.
 Requirements: Windows, Git, Node.js 22+, pnpm 10, Rust via rustup, Tauri Windows prerequisites, Visual Studio C++ Build Tools, Windows SDK, and WebView2.
 
 ```powershell
-git clone https://github.com/mithilkatkoria/draey-codex-hub.git veydock
+git clone https://github.com/mithilkatkoria/VeyDock.git veydock
 cd veydock
 npm install --global pnpm@10
 pnpm install --frozen-lockfile
