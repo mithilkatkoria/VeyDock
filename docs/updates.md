@@ -2,7 +2,7 @@
 
 ## For users
 
-Download the setup EXE from this repository's GitHub Releases, run it, then search for **Draey Codex Hub** in Windows Start. Install Codex Desktop/CLI separately and connect your own accounts. The download never includes somebody else's accounts.
+Download the setup EXE from this repository's GitHub Releases, run it, then search for **VeyDock** in Windows Start. Install Codex Desktop/CLI separately and connect your own accounts. The download never includes somebody else's accounts.
 
 People using alpha.3 or earlier must install the newer setup manually once because their old executable has no updater. From alpha.4 onward, the Hub checks the public update feed shortly after startup. It shows a notice when a newer version is available. **Settings > App updates** also offers a manual check.
 
