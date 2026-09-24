@@ -37,7 +37,7 @@ export function readVersions(files) {
   const pkg=JSON.parse(files['package.json']).version;
   const tauri=JSON.parse(files['src-tauri/tauri.conf.json']).version;
   const cargo=/\[package\][\s\S]*?\nversion\s*=\s*"([^"]+)"/.exec(files['src-tauri/Cargo.toml'])?.[1];
-  const lock=/\[\[package\]\]\s*\nname = "draey-codex-hub"\s*\nversion = "([^"]+)"/.exec(files['src-tauri/Cargo.lock'])?.[1];
+  const lock=/\[\[package\]\]\s*\nname = "veydock"\s*\nversion = "([^"]+)"/.exec(files['src-tauri/Cargo.lock'])?.[1];
   if(!semver.test(pkg)||[tauri,cargo,lock].some(v=>v!==pkg))throw new Error('Version mismatch between package.json, Tauri, Cargo.toml, or Cargo.lock.');
   return pkg;
 }
@@ -47,14 +47,14 @@ export function prepare(files,input,date) {
     out[name]=files[name].replace(/("version"\s*:\s*")[^"]+(")/,`$1${next}$2`);
   }
   out['src-tauri/Cargo.toml']=files['src-tauri/Cargo.toml'].replace(/(\[package\][\s\S]*?\nversion\s*=\s*")[^"]+(" )?/,(_,prefix,suffix)=>prefix+next+(suffix??''));
-  out['src-tauri/Cargo.lock']=files['src-tauri/Cargo.lock'].replace(/(\[\[package\]\]\s*\nname = "draey-codex-hub"\s*\nversion = ")[^"]+/,`$1${next}`);
+  out['src-tauri/Cargo.lock']=files['src-tauri/Cargo.lock'].replace(/(\[\[package\]\]\s*\nname = "veydock"\s*\nversion = ")[^"]+/,`$1${next}`);
   out['src/App.tsx']=files['src/App.tsx'].replace(/v\d+\.\d+\.\d+(?:-[\w.-]+)?(?=\s*(?:\u00c2)?\u00b7\s*Windows)/g,`v${next}`);
   const heading='## [Unreleased]';
   if(!files['CHANGELOG.md'].includes(heading))throw new Error('CHANGELOG.md must contain an Unreleased section.');
   if(files['CHANGELOG.md'].includes(`## [${next}]`))throw new Error('Version already exists in changelog.');
   out['CHANGELOG.md']=files['CHANGELOG.md'].replace(heading,`${heading}\n\n### Pending\n- Record the next changes here.\n\n## [${next}] - ${date}`)
-    .replace(/\[Unreleased\]: .*/,`[Unreleased]: https://github.com/mithilkatkoria/draey-codex-hub/compare/v${next}...main`)
-    + `\n[${next}]: https://github.com/mithilkatkoria/draey-codex-hub/releases/tag/v${next}\n`;
+    .replace(/\[Unreleased\]: .*/,`[Unreleased]: https://github.com/mithilkatkoria/VeyDock/compare/v${next}...main`)
+    + `\n[${next}]: https://github.com/mithilkatkoria/VeyDock/releases/tag/v${next}\n`;
   readVersions(out);
   return {version:next,files:out};
 }
