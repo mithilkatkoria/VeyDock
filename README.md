@@ -1,101 +1,88 @@
-# Draey Codex Hub: Multi-account Codex manager for Windows
+# VeyDock
 
-<img src="src-tauri/icons/128x128.png" alt="Draey's transparent folded D icon" width="72" height="72">
+<img src="src-tauri/icons/128x128.png" alt="VeyDock icon" width="72" height="72">
 
-**Have more than one Codex account? See your real usage limits in one place and deliberately choose which account to use next.**
+**A fast Windows control panel for multiple Codex profiles.**
 
-Draey Codex Hub is a Windows Codex account manager and usage monitor for developers managing personal, work, or other accounts they are authorized to use. Compare remaining allowances, see reset times, and open Codex from one local dashboard.
+VeyDock, or **VDock** for short, keeps your saved Codex profiles in one place so you can see current usage, reset times, availability, and deliberately open the profile you want without repeating the full sign-in flow every time.
 
-[Download for Windows](https://github.com/mithilkatkoria/draey-codex-hub/releases) · [Getting started](#download-for-windows) · [Version history](CHANGELOG.md) · [Contribute](CONTRIBUTING.md)
+[Download for Windows](https://github.com/mithilkatkoria/draey-codex-hub/releases) · [Changelog](CHANGELOG.md) · [Verification](VERIFICATION.md) · [Contributing](CONTRIBUTING.md)
 
-### Why use it with multiple Codex accounts?
+> VeyDock is an independent community project. It is not affiliated with or endorsed by OpenAI.
 
-| Your situation | How the Hub helps |
-| --- | --- |
-| You keep checking limits across several accounts | Startup refresh requests each account's real limits independently. |
-| Your accounts have different plans and allowance windows | Account cards display the windows Codex reports, including Pro and additional-model allowances. |
-| You want to know when an allowance resets | Remaining usage and reset times appear together, with timestamps for cached data. |
-| An account is reserved or has Friend Priority | Keep the preference visible and make an explicit choice before opening it. |
-| You want your familiar projects and tasks | The launcher targets the existing Codex workspace; cross-account handoff remains under acceptance testing. |
-| You prefer a desktop tool | Use project shortcuts, the system tray, and Ctrl+K on Windows. |
+## Why VeyDock
 
-This is an account-management tool, not a way to increase allowances or bypass account restrictions. Every user connects their own authorized accounts. There is no automatic account rotation.
+- **Live Codex usage** - request the real rate-limit windows reported for each saved profile.
+- **Multiple profiles** - keep Plus, Pro, work, personal, or other authorized profiles organised in one dashboard.
+- **Deliberate switching** - choose the profile yourself. VeyDock does not automatically rotate accounts.
+- **Reset visibility** - see remaining usage and reset times together.
+- **Reserved profiles** - mark an account as Reserved or Friend Priority without making it the automatic default.
+- **Quick launch** - use Ctrl+K and the Windows tray.
+- **Projects** - keep useful project launch targets beside your account controls.
+- **Streamer mode** - hide identities, paths, project names, and diagnostic details while sharing your screen.
+- **Local-first** - account metadata and saved authentication state stay on your Windows machine.
 
-**Early test build:** full real A/B/A account-switch acceptance is still pending. This is an independent community project, not an official OpenAI product.
+## Status
 
-## Download for Windows
+VeyDock is currently an early prerelease.
 
-**[Download v0.1.0-alpha.4 for Windows](https://github.com/mithilkatkoria/draey-codex-hub/releases/tag/v0.1.0-alpha.4)**
+Real multi-profile usage refresh has been tested. Full real A/B/A Codex Desktop switching acceptance is still being verified, so releases remain alpha until that workflow is proven end to end.
 
-1. Download **Draey-Codex-Hub-setup.exe** from the release's Assets section and run it. This creates the Start menu shortcut.
-2. Open **Draey Codex Hub** from Windows Search. For a portable copy, download the ZIP, extract it, and open **Draey Codex Hub.exe** instead.
-3. Install [Codex Desktop](https://developers.openai.com/codex/app/) and [Codex CLI](https://developers.openai.com/codex/cli/) separately; open Codex normally once.
-4. Add your own accounts and complete OpenAI sign-in for each. There is no fixed account limit. Three, four, and larger collections adapt to the available window space. No personal accounts are included.
+Production builds do not invent usage percentages. If Codex does not return a value, VeyDock shows it as unavailable or uses a clearly timestamped cached value.
 
-GitHub's automatic **Source code** downloads do not contain the app. Use the attached installer, EXE, or Windows ZIP.
+## Download
 
-The download is an unsigned x64 Windows test build, also tested on Windows ARM through x64 emulation. It needs [Microsoft Edge WebView2](https://developer.microsoft.com/microsoft-edge/webview2/). If Windows reports a missing Visual C++ runtime DLL, install the [Microsoft x64 Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe). Node.js and Rust are not required to run the download. The NSIS installer creates a Start menu shortcut. Signed releases remain future work.
+Get the latest Windows build from the [Releases page](https://github.com/mithilkatkoria/draey-codex-hub/releases).
 
-To appear in Windows Search, use the installer rather than just running a portable executable. Search for **Draey Codex Hub** after installation. Installing an update preserves the separate user-folder account store.
+The current prerelease targets Windows x64 and also runs on Windows ARM through x64 emulation.
 
-## What it does
+You also need Codex Desktop, Codex CLI, and Microsoft Edge WebView2.
 
-- Automatically requests real allowances independently for every saved account through Codex `account/rateLimits/read`.
-- Displays the windows actually reported, including different Pro and additional-model layouts; missing values remain unknown.
-- Preserves Friend Priority and Reserved preferences. Account selection is deliberate, with no automatic rotation or Pro prioritization.
-- Offers project shortcuts, Ctrl+K commands, tray support, settings, and timestamped cached values.
-- Includes [streamer mode](docs/streamer-mode.md) with Auto, On, and Off. Mask identities, project names, paths, tooltips, forms, and diagnostic details without changing saved accounts or launch targets.
-- Uses the existing Codex workspace instead of opening an empty separate desktop profile.
+## How it works
 
-## Updates and resource use
+```text
+Open VeyDock
+      ↓
+See every saved profile and its current usage
+      ↓
+Choose a profile
+      ↓
+Open Codex
+      ↓
+Continue in that profile
+```
 
-From **alpha.4 onward**, the app checks for updates after startup. Choose **Settings > App updates > Download and install** when a new release is available. Updates are signature verified and install only after you click. Saved accounts and projects remain in their separate folder.
+VeyDock never automatically jumps to another account when a limit is reached.
 
-People using alpha.3 or earlier need one manual setup download to obtain the updater. A portable copy becomes an installed app when updated through the installer. See the [user and maintainer update guide](docs/updates.md) for the complete process.
+## Privacy and local data
 
-**Windows publisher signing is not yet configured.** This download can still show Unknown publisher or SmartScreen warnings. Update signatures establish update integrity, not a verified Windows publisher. The owner must complete signing-provider identity verification; the [Windows signing setup guide](docs/windows-signing.md) explains the required steps.
+VeyDock never asks for your ChatGPT password.
 
-The Hub uses Windows WebView2 rather than bundling a browser. Its UI uses CSS and SVG, including a short reduced-motion-aware startup animation. Usage requests are capped at three simultaneously, with no limit on saved accounts. Display polling pauses while hidden. WebView2 and temporary Codex app-server processes still consume memory; a universal under-1% RAM promise would be inaccurate.
+Sensitive authentication data must never be committed to GitHub. Existing installs currently keep account state under the legacy path:
 
-## Account switching and local data
+`%USERPROFILE%\.draey-codex-hub`
 
-Choose a saved account in the Hub. The Hub verifies it, requests a normal Codex quit, and opens the same workspace with that login after Codex exits. Save your work and respond to any quit prompt. If needed, use **File > Quit (Ctrl+Q)**. Do not sign out to switch: sign-out can revoke the login the Hub saved. The selected account stays queued for up to ten minutes, with cancellation and independent refresh available. The Hub never force-kills Codex. Full real A/B/A Desktop acceptance remains pending.
+That legacy path is intentionally preserved during the rebrand so existing users do not lose saved profiles. A future migration can move it safely to a VeyDock-named directory without breaking existing installations.
 
-Your account entries and credentials are saved locally between launches. If a usage request rejects an expired access token, the Hub asks Codex to renew the saved login once before requiring browser sign-in. A token already revoked by OpenAI cannot be repaired locally; reconnect that account once. A failed network request does not erase an account or its saved login.
+The shared Codex workspace remains under:
 
-Projects, tasks, desktop data, and configuration stay in place. The Hub transfers only local `auth.json` credentials, retains a recovery backup, and serializes switching against its own authentication operations. Finish independent CLI work before switching too. File-based credentials are currently required; other credential-store configurations are preserved and rejected for switching.
+`%USERPROFILE%\.codex`
 
-The app keeps account slots, settings, and sensitive authentication backups under `%USERPROFILE%\.draey-codex-hub`. On first launch they recover the previous `%LOCALAPPDATA%\dev.draey.codexhub` store, including the copy Windows virtualized inside the Codex package. Original files are preserved. This prevents Explorer launches and launches from Codex from showing different profile lists. The shared workspace remains `%USERPROFILE%\.codex`. **Never upload these locations, credentials, or authentication backups to GitHub.** Release packages contain no personal accounts or projects. Each user signs into their own accounts.
+See [Streamer Mode](docs/streamer-mode.md) for screen-sharing privacy controls.
 
 ## Build from source
 
-Prerequisites: Windows, Git, Node.js 22+, pnpm 10, [Rust via rustup](https://rustup.rs/), and [Tauri's Windows prerequisites](https://v2.tauri.app/start/prerequisites/) (Visual Studio C++ Build Tools, Windows SDK, WebView2). The repository selects the x64 MSVC Rust toolchain, including on ARM Windows; install the x64 C++ libraries. Ensure Cargo is on PATH.
+Requirements: Windows, Git, Node.js 22+, pnpm 10, Rust via rustup, Tauri Windows prerequisites, Visual Studio C++ Build Tools, Windows SDK, and WebView2.
 
 ```powershell
-git clone https://github.com/mithilkatkoria/draey-codex-hub.git
-cd draey-codex-hub
+git clone https://github.com/mithilkatkoria/draey-codex-hub.git veydock
+cd veydock
 npm install --global pnpm@10
 pnpm install --frozen-lockfile
 pnpm desktop
 ```
 
-Build a standalone embedded-UI test executable:
-
-```powershell
-pnpm tauri build --debug --no-bundle
-# src-tauri/target/debug/draey-codex-hub.exe
-```
-
-Build a release executable and NSIS installer locally:
-
-```powershell
-pnpm package
-# src-tauri/target/x86_64-pc-windows-msvc/release/bundle/nsis/
-```
-
-The initial alpha.1 download preceded its documentation commit. New release packages are built from their versioned source and include SHA-256 checksums. See each release for the exact tested scope.
-
-## Tests and project layout
+Run tests:
 
 ```powershell
 pnpm test
@@ -103,50 +90,32 @@ pnpm build
 cargo test --manifest-path src-tauri/Cargo.toml --lib
 ```
 
-`src/` contains the dashboard and native bridge. `src-tauri/src/` contains persistence, usage parsing, Codex RPC, and workspace authentication handoff. `scripts/` and the Rust example contain local diagnostic probes; do not publish their output without reviewing it. `VERIFICATION.md` records tested behavior and remaining acceptance checks.
-
-The repository's Windows CI runs frontend tests/build and Rust tests on pushes and pull requests. It does not sign into real accounts or certify account switching.
-
-## Development workflow
-
-`main` is the default development branch. Maintainers can push directly, or use a feature branch and pull request:
+Build the Windows package:
 
 ```powershell
-git switch -c feature/my-change
-# edit and run tests
-git add .
-git commit -m "Describe the change"
-git push -u origin feature/my-change
+pnpm package
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Contributions are welcome under the [MIT license](LICENSE).
+## Project structure
 
-## Frequently asked questions
+```text
+src/                 React interface
+src/components/      VeyDock UI
+src/services/        refresh, updates, privacy, and native bridge logic
+src-tauri/src/       Rust persistence, Codex RPC, usage, and switching
+scripts/             release and verification tooling
+updates/             signed updater feed
+```
 
-### Does this work with more than two Codex accounts?
+## Verification and releases
 
-The Hub supports multiple saved accounts. Four real connected accounts have been tested for independent startup usage refresh; there is no four-account limit in the profile model.
+- [Release process](RELEASING.md)
+- [Verification status](VERIFICATION.md)
+- [Security](SECURITY.md)
+- [Branding](BRANDING.md)
 
-### Are the usage numbers real?
+## License
 
-Production usage comes from Codex app-server. Unreported values stay unknown. Failed requests show an error or timestamped cached values; they do not generate pretend allowances.
+MIT © 2026 Mithil Katkoria.
 
-### Is it an official OpenAI app?
-
-No. Draey Codex Hub is an independent project created by Mithil Katkoria. OpenAI, ChatGPT, and Codex names identify the products it works with; no endorsement is implied.
-
-### Is account switching fully verified?
-
-Not yet. Existing-workspace opening and waiting/cancellation have been checked. Full real A/B/A switching, including the reopened account identity and original sidebar, remains pending. See [verification details](VERIFICATION.md).
-
-### Who owns this project?
-
-Copyright © 2026 Mithil Katkoria. See [LICENSE](LICENSE) for code permissions and [BRANDING.md](BRANDING.md) for attribution and official-project identification. Publishing source does not remove its copyright.
-
-## Versioning
-
-The public download is **v0.1.0-alpha.1**. Source development is preparing **v0.1.0-alpha.2**; it has not been released as v1.0. Future releases use `MAJOR.MINOR.PATCH`: fixes such as `1.0.1`, smaller compatible features such as `1.1.0`, and major/breaking changes such as `2.0.0`. Every commit is tracked in Git; every published release gets its own tag and changelog entry. See [RELEASING.md](RELEASING.md).
-
-![Vertical account cards in a development preview](docs/images/accounts-preview.png)
-
-The preview above uses clearly labelled simulated data. The Windows production app requests real Codex limits and has no simulated fallback.
+**VeyDock** is the formal product name. **VDock** is the short form.
