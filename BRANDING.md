@@ -2,7 +2,7 @@
 
 **VeyDock** is the official product name. **VDock** is the approved short form for compact UI and informal references.
 
-The current repository URL remains https://github.com/mithilkatkoria/draey-codex-hub until the GitHub repository itself is renamed to `veydock`.
+The current repository URL remains https://github.com/mithilkatkoria/VeyDock until the GitHub repository itself is renamed to `veydock`.
 
 Copyright © 2026 Mithil Katkoria.
 
