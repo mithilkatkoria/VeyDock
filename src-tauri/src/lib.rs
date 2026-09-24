@@ -23,7 +23,7 @@ impl Hub {
 #[tauri::command] async fn detect_recording_apps()->Result<Vec<String>,String>{tauri::async_runtime::spawn_blocking(streamer::detect).await.map_err(|_|"Recording app detection is unavailable".to_string())?}
 #[tauri::command] fn set_streamer_privacy(app:tauri::AppHandle,active:bool){streamer::set_private(active);update_tray(&app);}
 #[tauri::command] fn load_state(hub:State<Hub>)->Store {hub.read()}
-#[tauri::command] fn open_releases()->Result<(),String>{open::that("https://github.com/mithilkatkoria/veydock/releases").map_err(|_|"Could not open GitHub releases in your browser.".into())}
+#[tauri::command] fn open_releases()->Result<(),String>{open::that("https://github.com/mithilkatkoria/draey-codex-hub/releases").map_err(|_|"Could not open GitHub releases in your browser.".into())}
 #[tauri::command] async fn detect_codex(hub:State<'_,Hub>)->Result<codex::Installation,String>{let settings=hub.read().settings;tauri::async_runtime::spawn_blocking(move||codex::detect(&settings)).await.map_err(|_|"Detection failed".into())}
 #[tauri::command] async fn choose_path(kind:String)->Option<String>{tauri::async_runtime::spawn_blocking(move||{let dialog=rfd::FileDialog::new();let path=if kind=="exe" {dialog.add_filter("Windows executable",&["exe"]).pick_file()}else{dialog.pick_folder()};path.map(|p|p.to_string_lossy().into_owned())}).await.ok().flatten()}
 #[derive(serde::Deserialize)] #[serde(rename_all="camelCase")]
