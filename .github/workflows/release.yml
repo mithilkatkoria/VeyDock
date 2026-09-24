@@ -33,7 +33,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           ./scripts/package-release.ps1
           $version=(Get-Content package.json -Raw | ConvertFrom-Json).version
-          node scripts/verify-update-signature.mjs "artifacts/releases/$version/Draey-Codex-Hub-setup.exe"
+          node scripts/verify-update-signature.mjs "artifacts/releases/$version/VeyDock-setup.exe"
           if ($LASTEXITCODE -ne 0) { throw 'Update signature verification failed. Nothing will be published.' }
       - name: Publish immutable version and advance the update feed
         env:
@@ -42,7 +42,7 @@ jobs:
           $version=(Get-Content package.json -Raw | ConvertFrom-Json).version
           $folder="artifacts/releases/$version"
           $assets=@(Get-ChildItem -LiteralPath $folder -File | ForEach-Object { $_.FullName })
-          $options=@('--repo',$env:GITHUB_REPOSITORY,'--target',(git rev-parse HEAD),'--title',"Draey Codex Hub $version",'--notes',"Windows update $version. See CHANGELOG.md and VERIFICATION.md at the release tag. Installer updates are signature verified. Windows publisher signing is separate.")
+          $options=@('--repo',$env:GITHUB_REPOSITORY,'--target',(git rev-parse HEAD),'--title',"VeyDock $version",'--notes',"Windows update $version. See CHANGELOG.md and VERIFICATION.md at the release tag. Installer updates are signature verified. Windows publisher signing is separate.")
           if ($version.Contains('-')) { $options+='--prerelease' }
           gh release create "v$version" @assets @options
           if ($LASTEXITCODE -ne 0) { throw 'Release was not published. The update feed was not changed.' }
