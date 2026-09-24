@@ -79,11 +79,11 @@ The signed-out restart flow still requires real Desktop acceptance; no productio
 - Unsigned test executable; no signed installer.
 - Initial download predates the documentation commit tagged with this release; it is not claimed to be a reproducible artifact of that tag.
 
-[Unreleased]: https://github.com/mithilkatkoria/draey-codex-hub/compare/v0.1.0-alpha.4...main
-[0.1.0-alpha.1]: https://github.com/mithilkatkoria/draey-codex-hub/releases/tag/v0.1.0-alpha.1
+[Unreleased]: https://github.com/mithilkatkoria/VeyDock/compare/v0.1.0-alpha.4...main
+[0.1.0-alpha.1]: https://github.com/mithilkatkoria/VeyDock/releases/tag/v0.1.0-alpha.1
 
-[0.1.0-alpha.2]: https://github.com/mithilkatkoria/draey-codex-hub/releases/tag/v0.1.0-alpha.2
+[0.1.0-alpha.2]: https://github.com/mithilkatkoria/VeyDock/releases/tag/v0.1.0-alpha.2
 
-[0.1.0-alpha.3]: https://github.com/mithilkatkoria/draey-codex-hub/releases/tag/v0.1.0-alpha.3
+[0.1.0-alpha.3]: https://github.com/mithilkatkoria/VeyDock/releases/tag/v0.1.0-alpha.3
 
-[0.1.0-alpha.4]: https://github.com/mithilkatkoria/draey-codex-hub/releases/tag/v0.1.0-alpha.4
+[0.1.0-alpha.4]: https://github.com/mithilkatkoria/VeyDock/releases/tag/v0.1.0-alpha.4
