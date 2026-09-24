@@ -23,7 +23,7 @@ pub async fn check_update(app: tauri::AppHandle, state: State<'_, UpdateState>) 
 }
 
 fn trusted_download(url: &str) -> bool {
-    url.starts_with("https://github.com/mithilkatkoria/veydock/releases/download/")
+    url.starts_with("https://github.com/mithilkatkoria/draey-codex-hub/releases/download/")
 }
 
 #[tauri::command]
@@ -54,7 +54,7 @@ mod tests {
     use super::*;
     #[test]
     fn restricts_update_downloads_to_this_repositories_https_releases() {
-        assert!(trusted_download("https://github.com/mithilkatkoria/veydock/releases/download/v1.0.0/setup.exe"));
+        assert!(trusted_download("https://github.com/mithilkatkoria/draey-codex-hub/releases/download/v1.0.0/setup.exe"));
         for bad in ["http://github.com/mithilkatkoria/veydock/releases/download/a", "https://github.com.evil.test/mithilkatkoria/veydock/releases/download/a", "https://github.com/other/repo/releases/download/a"] { assert!(!trusted_download(bad)); }
     }
 }
