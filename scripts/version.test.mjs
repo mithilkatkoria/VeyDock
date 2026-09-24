@@ -4,8 +4,8 @@ import {nextVersion,prepare,readVersions} from './version.mjs';
 const fixture={
  'package.json':'{"version":"1.0.0"}',
  'src-tauri/tauri.conf.json':'{"version":"1.0.0","app":{"windows":[{"decorations":false}]}}',
- 'src-tauri/Cargo.toml':'[package]\nname = "draey-codex-hub"\nversion = "1.0.0"\n[dependencies]\nserde = "1"\n',
- 'src-tauri/Cargo.lock':'[[package]]\nname = "draey-codex-hub"\nversion = "1.0.0"\n\n[[package]]\nname = "other"\nversion = "7.0.0"\n',
+ 'src-tauri/Cargo.toml':'[package]\nname = "veydock"\nversion = "1.0.0"\n[dependencies]\nserde = "1"\n',
+ 'src-tauri/Cargo.lock':'[[package]]\nname = "veydock"\nversion = "1.0.0"\n\n[[package]]\nname = "other"\nversion = "7.0.0"\n',
  'src/App.tsx':'<span>v1.0.0 · Windows</span>',
  'CHANGELOG.md':'# Changelog\n\n## [Unreleased]\n\n### Added\n- Feature.\n\n## [1.0.0]\n- Original.\n[Unreleased]: old\n'
 };
