@@ -1,12 +1,12 @@
 [package]
-name = "draey-codex-hub"
+name = "veydock"
 version = "0.1.0-alpha.4"
-description = "Multiple Codex accounts in your existing workspace"
-authors = ["Draey"]
+description = "VeyDock - multi-profile Codex control for Windows"
+authors = ["Mithil Katkoria"]
 edition = "2021"
 
 [lib]
-name = "draey_hub"
+name = "veydock_core"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
