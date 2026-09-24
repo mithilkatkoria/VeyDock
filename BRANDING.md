@@ -1,11 +1,15 @@
-# Copyright, attribution, and project identity
+# VeyDock brand and project identity
 
-Copyright © 2026 Mithil Katkoria. The official Draey Codex Hub repository is https://github.com/mithilkatkoria/draey-codex-hub.
+**VeyDock** is the official product name. **VDock** is the approved short form for compact UI and informal references.
 
-The code is currently licensed under MIT. Redistributed copies or substantial portions must retain the copyright and license notice. MIT permits copying, modification, distribution, and commercial use; this document does not remove those permissions or create a no-copy restriction.
+The current repository URL remains https://github.com/mithilkatkoria/draey-codex-hub until the GitHub repository itself is renamed to `veydock`.
 
-The code license does not grant endorsement or permission to impersonate the original author. Identify forks and modified distributions clearly, name their maintainer, and do not describe them as an official Draey release. Permission to use project names as trademarks is not granted here. No registered trademark or exclusive rights beyond applicable law are claimed.
+Copyright © 2026 Mithil Katkoria.
 
-Factual references to the project and links to the official repository are welcome. OpenAI, ChatGPT, and Codex belong to their respective owners; this project is independent.
+VeyDock is an independent Windows utility for managing Codex profiles and usage. It is not an OpenAI product and is not affiliated with or endorsed by OpenAI.
 
-If you believe a distribution removed required license notices or impersonates the official project, retain the relevant links and contact the maintainer. A public repository cannot technically prevent copying, and independent implementations of an idea are not prohibited by this notice.
+The source code is licensed under the MIT License. Redistribution and modification are permitted under that license provided the required copyright and license notice is retained.
+
+Forks and modified distributions should identify themselves clearly and must not imply that they are official VeyDock releases.
+
+OpenAI, ChatGPT, and Codex are names and marks of their respective owners.
