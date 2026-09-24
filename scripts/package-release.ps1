@@ -42,14 +42,14 @@ The portable app becomes an installed app when using this update path.
 Update signing does not remove Windows Unknown publisher warnings.
 
 Microsoft Edge WebView2 is required. See setup and verification details:
-https://github.com/mithilkatkoria/draey-codex-hub
+https://github.com/mithilkatkoria/VeyDock
 
 Copyright 2026 Mithil Katkoria. MIT licensed. Independent community project.
 "@ | Set-Content -LiteralPath (Join-Path $portable 'START-HERE.txt') -Encoding utf8
     Compress-Archive -Path (Join-Path $portable '*') -DestinationPath (Join-Path $output 'VeyDock-Windows.zip')
     Copy-Item -LiteralPath $installer -Destination (Join-Path $output 'VeyDock-setup.exe')
     Copy-Item -LiteralPath $signatureFile -Destination (Join-Path $output 'VeyDock-setup.exe.sig')
-    $feed = @{ version=$version; notes="VeyDock $version. See the release notes on GitHub for changes and verification details."; pub_date=(Get-Date).ToUniversalTime().ToString('o'); platforms=@{ 'windows-x86_64'=@{ signature=(Get-Content -LiteralPath $signatureFile -Raw).Trim(); url="https://github.com/mithilkatkoria/draey-codex-hub/releases/download/v$version/VeyDock-setup.exe" } } }
+    $feed = @{ version=$version; notes="VeyDock $version. See the release notes on GitHub for changes and verification details."; pub_date=(Get-Date).ToUniversalTime().ToString('o'); platforms=@{ 'windows-x86_64'=@{ signature=(Get-Content -LiteralPath $signatureFile -Raw).Trim(); url="https://github.com/mithilkatkoria/VeyDock/releases/download/v$version/VeyDock-setup.exe" } } }
     [IO.File]::WriteAllText((Join-Path $output 'latest.json'), ($feed | ConvertTo-Json -Depth 5), (New-Object Text.UTF8Encoding($false)))
     $files = Get-ChildItem -LiteralPath $output -File | Sort-Object Name
     $files | ForEach-Object { '{0}  {1}' -f (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant(), $_.Name } | Set-Content -LiteralPath (Join-Path $output 'SHA256SUMS.txt') -Encoding ascii
