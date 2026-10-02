@@ -1,5 +1,7 @@
 # VeyDock
 
+**[Official website](https://veydock-website.vercel.app)** · **[Download for Windows](https://veydock-website.vercel.app/download)** · [Website launch checks](website/LAUNCH.md)
+
 <img src="src-tauri/icons/128x128.png" alt="VeyDock icon" width="72" height="72">
 
 **A fast Windows control panel for multiple Codex profiles.**

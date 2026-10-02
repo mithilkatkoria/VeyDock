@@ -22,3 +22,7 @@ auth-backups/
 *.pfx
 *.p12
 *.pem
+.vercel
+.env*
+
+!.env.example

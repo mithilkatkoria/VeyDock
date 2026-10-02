@@ -1,0 +1,13 @@
+*
+!website
+!website/**
+website/node_modules
+website/dist
+website/.vercel
+website/public/media/capture.png
+website/public/media/profiles.png
+website/public/media/website-first.png
+
+website/research
+website/.astro
+website/scripts/indexnow-key.txt

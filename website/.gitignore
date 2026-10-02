@@ -1,0 +1,14 @@
+node_modules/
+.vercel/
+dist/
+.env
+.env.*
+!.env.example
+public/media/capture.png
+.vercel
+
+research/
+public/media/profiles.png
+public/media/website-first.png
+
+.astro/

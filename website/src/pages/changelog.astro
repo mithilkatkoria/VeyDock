@@ -1,0 +1,59 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getRelease, repository } from "../lib/release";
+const r = await getRelease();
+---
+
+<Layout
+  title="VeyDock Changelog | Releases and Verification"
+  description="The current VeyDock public release and newer development work, kept separate with links to GitHub release notes and verification."
+>
+  <article class="page wrap">
+    <header class="page-header">
+      <p class="eyebrow">RELEASE RECORD / NO INVENTED MILESTONES</p>
+      <h1>The work, in public.</h1>
+      <p class="lede">
+        Release notes describe the shipped build. Development previews describe
+        what is being worked on.
+      </p>
+    </header>
+    <div class="prose">
+      <h2>{r.version} / current public release</h2>
+      <p class="mono">
+        {new Date(r.date).toLocaleDateString("en-GB")} /{" "}
+        {r.prerelease ? "PRERELEASE" : "STABLE"}
+      </p>
+      <p>
+        The actual published installer and release notes are available on
+        GitHub. The historical package filename remains visible on the download
+        page.
+      </p>
+      <p>
+        <a href={r.release}>Read the official release notes ↗</a>
+      </p>
+      <h2>Development interface / not a new release</h2>
+      <p>
+        The website captures the newer profile-card interface using clearly
+        labelled sample data. This is not an announcement of a new desktop
+        version. Taskbar icon, layout and sidebar work can be inspected in the
+        source history.
+      </p>
+      <p>
+        <a href={`${repository}/commits/main/`}>Inspect the commit history</a> ·{" "}
+        <a href={`${repository}/blob/main/CHANGELOG.md`}>
+          Full source changelog
+        </a>
+      </p>
+      <h2>Verification remains visible</h2>
+      <p>
+        Usage refresh observations, fixture tests and real-desktop acceptance
+        are separate kinds of evidence. Consult the{" "}
+        <a href={`${repository}/blob/main/VERIFICATION.md`}>
+          verification record
+        </a>{" "}
+        for current status. A website deployment does not complete an
+        account-switch test.
+      </p>
+    </div>
+  </article>
+</Layout>

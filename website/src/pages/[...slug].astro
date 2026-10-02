@@ -1,0 +1,77 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { pages } from "../lib/content";
+import { site } from "../lib/release";
+const slug = Astro.params.slug || "";
+const page = pages[slug];
+if (!page) return Astro.rewrite("/404");
+const crumbs = slug
+  .split("/")
+  .map((name, i, all) => ({
+    "@type": "ListItem",
+    position: i + 2,
+    name: name.replaceAll("-", " "),
+    item: `${site}/${all.slice(0, i + 1).join("/")}`,
+  }));
+const schema: any = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "VeyDock", item: site },
+        ...crumbs,
+      ],
+    },
+  ],
+};
+if (page.guide)
+  schema["@graph"].push({
+    "@type": "Article",
+    headline: page.title,
+    description: page.description,
+    datePublished: "2026-10-02",
+    dateModified: "2026-10-02",
+    author: {
+      "@type": "Person",
+      name: "Mithil Katkoria",
+      url: "https://github.com/mithilkatkoria",
+    },
+    mainEntityOfPage: `${site}/${slug}`,
+    image: `${site}/media/veydock-social.png`,
+  });
+---
+
+<Layout
+  title={`${page.title} | VeyDock`}
+  description={page.description}
+  schema={schema}
+>
+  <article class="page wrap">
+    <header class="page-header">
+      <p class="eyebrow">{page.label}</p>
+      <h1>{page.title}</h1>
+      <p class="lede">{page.description}</p>
+      {page.guide && <p class="mono">BY MITHIL KATKORIA / 2 OCTOBER 2026</p>}
+    </header>
+    <div class="article">
+      <nav aria-label="On this page">
+        {page.sections.map((s) => (
+          <a href={`#${s.id}`}>{s.title}</a>
+        ))}
+      </nav>
+      <div class="prose">
+        {page.sections.map((s) => (
+          <section id={s.id}>
+            <h2>{s.title}</h2>
+            <div set:html={s.html} />
+          </section>
+        ))}
+        <p class="notice">
+          Need the application?{" "}
+          <a href="/download">Download the current Windows release</a>.
+        </p>
+      </div>
+    </div>
+  </article>
+</Layout>

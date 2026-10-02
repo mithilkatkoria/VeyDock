@@ -1,0 +1,32 @@
+{
+  "name": "veydock-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1",
+    "build": "astro build",
+    "check": "astro check",
+    "format": "prettier --plugin=prettier-plugin-astro --write src scripts *.json *.mjs",
+    "test:production": "node scripts/validate.mjs",
+    "audit:production": "node scripts/audit.mjs"
+  },
+  "dependencies": {
+    "@astrojs/vercel": "^11.0.11",
+    "@fontsource-variable/archivo": "^5.2.0",
+    "@fontsource/martian-mono": "^5.2.0",
+    "astro": "^7.3.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@axe-core/playwright": "^4.13.0",
+    "lighthouse": "^13.5.0",
+    "playwright": "^1.63.0",
+    "prettier": "^3.9.9",
+    "prettier-plugin-astro": "^1.1.0",
+    "sharp": "^0.35.5",
+    "typescript": "^5.9.2"
+  },
+  "overrides": {
+    "path-to-regexp": "6.3.0"
+  }
+}

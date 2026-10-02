@@ -1,0 +1,24 @@
+---
+import Layout from "../layouts/Layout.astro";
+Astro.response.status = 404;
+---
+
+<Layout
+  title="Nothing docked here | VeyDock"
+  description="This VeyDock page was not found. Return to the product website or inspect the source on GitHub."
+  noindex={true}
+>
+  <section class="page wrap not-found">
+    <p class="mono">404 / POSITION NOT FOUND</p>
+    <h1>Nothing docked here.</h1>
+    <p class="lede">That address does not have a berth.</p>
+    <div class="hero-actions">
+      <a class="button" href="/">
+        Return home ↗
+      </a>
+      <a class="text-link" href="https://github.com/mithilkatkoria/VeyDock">
+        View GitHub ↗
+      </a>
+    </div>
+  </section>
+</Layout>

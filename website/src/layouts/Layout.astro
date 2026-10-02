@@ -1,0 +1,167 @@
+---
+import "../styles/site.css";
+import archivo from "@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2?url";
+import "@fontsource/martian-mono/latin-400.css";
+import { site, repository } from "../lib/release";
+const { title, description, schema, noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site).href;
+const preview = import.meta.env.VERCEL_ENV === "preview";
+Astro.response.headers.set(
+  "Cache-Control",
+  "public, max-age=0, s-maxage=600, stale-while-revalidate=60",
+);
+const analytics = {
+  ga: import.meta.env.PUBLIC_GA_ID || "",
+  clarity: import.meta.env.PUBLIC_CLARITY_ID || "",
+  backplane: import.meta.env.PUBLIC_BACKPLANE_EVENT_URL || "",
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta
+      name="robots"
+      content={noindex || preview ? "noindex, follow" : "index, follow"}
+    />
+    <meta name="theme-color" content="#0B0B0C" />
+    {import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION && (
+      <meta
+        name="google-site-verification"
+        content={import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION}
+      />
+    )}
+    {import.meta.env.PUBLIC_BING_SITE_VERIFICATION && (
+      <meta
+        name="msvalidate.01"
+        content={import.meta.env.PUBLIC_BING_SITE_VERIFICATION}
+      />
+    )}
+    <link
+      rel="preload"
+      href={archivo}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${site}/media/veydock-social.png`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="VeyDock, Codex profile switching for Windows, with a labelled development interface preview"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="VeyDock updates"
+      href="/rss.xml"
+    />
+    {schema && (
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify(schema).replace(/</g, "\\u003c")}
+      />
+    )}
+  </head>
+  <body>
+    <a class="skip" href="#main">
+      Skip to content
+    </a>
+    <header class="header">
+      <a class="brand" href="/">
+        <img src="/favicon.svg" alt="" width="25" height="25" />
+        VeyDock<span class="mono brand-note">/ WINDOWS</span>
+      </a>
+      <nav aria-label="Main">
+        <a href="/features">Product</a>
+        <a href="/docs">Docs</a>
+        <a href={repository}>GitHub ↗</a>
+        <a class="nav-download" href="/download">
+          Download ↓
+        </a>
+      </nav>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer>
+      <div class="footer-top">
+        <a class="brand" href="/">
+          VeyDock <span class="mono">/ VDock</span>
+        </a>
+        <div class="footer-links">
+          <a href="/download">Download</a>
+          <a href="/docs">Docs</a>
+          <a href="/guides">Guides</a>
+          <a href="/changelog">Changelog</a>
+          <a href={repository}>GitHub ↗</a>
+          <a href="/security">Security</a>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/about">About</a>
+          <a href="/LICENSE.txt">MIT licence</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Independent project. Not affiliated with or endorsed by OpenAI.</p>
+        <p>
+          © 2026 <a href="https://github.com/mithilkatkoria">Mithil Katkoria</a>
+        </p>
+      </div>
+    </footer>
+    <dialog id="command" aria-labelledby="command-title">
+      <div class="palette-head">
+        <h2 id="command-title">Quick dock</h2>
+        <button data-close aria-label="Close quick dock">
+          Esc
+        </button>
+      </div>
+      <p class="mono">WEBSITE DEMONSTRATION / NO LOCAL APP CONTROL</p>
+      <label for="command-search" class="sr-only">
+        Find a command
+      </label>
+      <input
+        id="command-search"
+        placeholder="Find a profile or command…"
+        autocomplete="off"
+      />
+      <div id="commands" role="listbox" aria-label="Commands"></div>
+      <p id="command-result" role="status"></p>
+      <div class="palette-foot mono">↑ ↓ NAVIGATE &nbsp; ENTER SELECT</div>
+    </dialog>
+    {(analytics.ga || analytics.clarity || analytics.backplane) && (
+      <aside
+        id="consent"
+        hidden
+        data-config={JSON.stringify(analytics)}
+        aria-label="Analytics preferences"
+      >
+        <p>
+          Optional analytics help improve this site. Downloads work without
+          them.
+        </p>
+        <div>
+          <button data-consent="no">Reject optional</button>
+          <button data-consent="yes">Allow analytics</button>
+          <a href="/privacy">Preferences</a>
+        </div>
+      </aside>
+    )}
+    <script src="../scripts/client.ts" />
+  </body>
+</html>
