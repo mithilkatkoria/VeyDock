@@ -1,6 +1,6 @@
 export const repository = "https://github.com/mithilkatkoria/VeyDock";
 export const site = (
-  import.meta.env.SITE_URL || "https://veydock-website.vercel.app"
+  import.meta.env.SITE_URL || "https://veydock.vercel.app"
 ).replace(/\/$/, "");
 export const fallback = {
   version: "0.2.0-beta.1",

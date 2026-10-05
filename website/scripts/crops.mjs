@@ -1,7 +1,7 @@
 import { chromium } from "playwright";
 const browser = await chromium.launch({ channel: "msedge", headless: true });
 const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
-await page.goto("https://veydock-website.vercel.app", {
+await page.goto("https://veydock.vercel.app", {
   waitUntil: "networkidle",
 });
 await page.screenshot({ path: "research/hero-desktop.png" });

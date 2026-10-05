@@ -1,6 +1,6 @@
 import { chromium } from "playwright";
 import { writeFile } from "node:fs/promises";
-const origin = "https://veydock-website.vercel.app";
+const origin = "https://veydock.vercel.app";
 const browser = await chromium.launch({ channel: "msedge", headless: true });
 const context = await browser.newContext();
 const page = await context.newPage();

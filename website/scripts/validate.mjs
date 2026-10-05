@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { chromium } from "playwright";
-const origin = process.env.TEST_ORIGIN || "https://veydock-website.vercel.app";
+const origin = process.env.TEST_ORIGIN || "https://veydock.vercel.app";
 const browser = await chromium.launch({ channel: "msedge", headless: true });
 const page = await browser.newPage();
 const errors = [];

@@ -1,6 +1,6 @@
 # VeyDock universal website launch
 
-Validated 5 October 2026 against https://veydock-website.vercel.app. The site is deployed through the existing GitHub integration with `website` as the Vercel root.
+Validated 5 October 2026 against https://veydock.vercel.app. The site is deployed through the existing GitHub integration with `website` as the Vercel root.
 
 | Check | Result | Evidence or boundary |
 | --- | --- | --- |
@@ -41,7 +41,7 @@ Screenshots show actual implemented components with private-safe simulated data.
 ## Exact remaining owner actions
 
 1. Custom domain: register or confirm control of veydock.dev, or use your existing draey.dev DNS. Add the domain to the Vercel veydock-website project, follow the exact DNS record Vercel supplies, set SITE_URL to the new HTTPS origin and redeploy. Set it as the primary domain, update GitHub and resubmit the canonical sitemap. Do not index both origins.
-2. Google: open Search Console with your account, add the URL-prefix property https://veydock-website.vercel.app/, choose HTML-tag verification, put only its content token in PUBLIC_GOOGLE_SITE_VERIFICATION on Vercel and redeploy. Verify, submit https://veydock-website.vercel.app/sitemap.xml, inspect /, /download and /guides/multiple-codex-accounts-windows, then request indexing. A custom-domain switch needs a corresponding new property.
+2. Google: open Search Console with your account, add the URL-prefix property https://veydock.vercel.app/, choose HTML-tag verification, put only its content token in PUBLIC_GOOGLE_SITE_VERIFICATION on Vercel and redeploy. Verify, submit https://veydock.vercel.app/sitemap.xml, inspect /, /download and /guides/multiple-codex-accounts-windows, then request indexing. A custom-domain switch needs a corresponding new property.
 3. Bing: add the same canonical site in Bing Webmaster Tools. Import the verified Search Console property or use its HTML tag via PUBLIC_BING_SITE_VERIFICATION, redeploy, verify and submit the sitemap. IndexNow is already accepted independently.
 4. Legal: review website privacy and terms before treating them as final legal notices. Configure analytics only after updating the notice and consent choices to reflect real services.
 5. Optional rich results: open Google's Rich Results Test for the production homepage. Schema syntax was validated locally against the rendered document, but no Google eligibility result is asserted here.
@@ -49,3 +49,7 @@ Screenshots show actual implemented components with private-safe simulated data.
 ## Maintaining the site
 
 The Vercel GitHub connection deploys changes on main using website as the root. PR previews are noindex; alternate deployment hosts send X-Robots-Tag: noindex. GitHub remains the source for download metadata. Submit IndexNow only for changed public URLs using scripts/indexnow.mjs. Desktop and website changes are now tracked together. Keep provider acceptance claims aligned with the native verification record.
+
+## Canonical address migration
+
+The production address is now https://veydock.vercel.app. The previous veydock-website.vercel.app address redirects to it. The earlier Lighthouse report records the original deployment host; the domain change does not constitute a fresh Lighthouse measurement. Search Console ownership must be verified for the new URL-prefix property.

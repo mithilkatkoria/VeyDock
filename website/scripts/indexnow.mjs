@@ -1,5 +1,5 @@
 import { readFile, readdir } from "node:fs/promises";
-const origin = process.env.SITE_URL || "https://veydock-website.vercel.app";
+const origin = process.env.SITE_URL || "https://veydock.vercel.app";
 const files = await readdir(new URL("../public/", import.meta.url));
 const file = files.find((f) => /^[a-f0-9]{32}\.txt$/.test(f));
 const key = (
