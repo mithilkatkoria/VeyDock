@@ -3,14 +3,14 @@ export const site = (
   import.meta.env.SITE_URL || "https://veydock-website.vercel.app"
 ).replace(/\/$/, "");
 export const fallback = {
-  version: "0.1.0-alpha.4",
-  date: "2026-09-08T06:11:02Z",
+  version: "0.2.0-beta.1",
+  date: "2026-10-05T12:43:18Z",
   prerelease: true,
-  size: 3567866,
-  name: "Draey-Codex-Hub-setup.exe",
-  url: `${repository}/releases/download/v0.1.0-alpha.4/Draey-Codex-Hub-setup.exe`,
-  release: `${repository}/releases/tag/v0.1.0-alpha.4`,
-  checksums: `${repository}/releases/download/v0.1.0-alpha.4/SHA256SUMS.txt`,
+  size: 3620212,
+  name: "VeyDock-setup.exe",
+  url: `${repository}/releases/download/v0.2.0-beta.1/VeyDock-setup.exe`,
+  release: `${repository}/releases/tag/v0.2.0-beta.1`,
+  checksums: `${repository}/releases/download/v0.2.0-beta.1/SHA256SUMS.txt`,
   stale: true,
 };
 let cached: typeof fallback | undefined;

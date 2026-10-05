@@ -14,7 +14,7 @@ Validated 5 October 2026 against https://veydock-website.vercel.app. The site is
 | Responsive layout | PASS | 1920, 1440, 1366, 820, 430 and 390 px: no horizontal overflow. |
 | Browser and keyboard | PASS | No unexpected browser errors. Ctrl + K demo, arrows, Enter and Escape checked. Demo cannot control local apps. |
 | Reduced motion | PASS | No entrance animation under reduced-motion preference. |
-| Downloads | PASS for currently linked release | Actual GitHub installer fetched with executable MZ header. Recheck after new beta installer publication. Clean-machine installation is not a website test. |
+| Downloads | PASS for currently linked release | Published v0.2.0-beta.1 installer downloaded (3,620,212 bytes), SHA256 matched and updater signature verified. A modified installer was rejected. Clean-machine installation is not a website test. |
 | Internal links | PASS | 30 destinations and 145 anchors checked, zero broken. |
 | Accessibility | PASS for automated scan | Axe: zero violations. Not a human accessibility certification. |
 | Lighthouse desktop | 100 / 100 / 100 / 100 | Performance, accessibility, best practices, SEO. Production lab result. |

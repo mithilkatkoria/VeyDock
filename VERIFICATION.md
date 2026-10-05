@@ -93,7 +93,7 @@ Verified locally:
 - Official Claude Code 2.1.289 native ARM64 CLI returns structured signed-out auth status with the requested configuration directory in a disposable probe. No real Claude account was authenticated.
 - PowerShell helper whitelist fixture discards prompt, transcript, secret and context-capacity fields. Only quota windows, timestamp and opaque profile ID are recorded.
 - Development interface filter and responsive captures pass using simulated data only. These are not real account acceptance.
-- A Windows x64 production executable compiled. The final release workflow must rebuild the latest commit and package its installer before publication.
+- Final Windows release CI rebuilt commit d8e402c and published v0.2.0-beta.1. The downloaded 3,620,212-byte installer matched SHA256 1c6925c782de7efc614d2620a686111abb3c186890a4ca43eee24a519dea6a23. Its updater signature and trusted comment verified; a modified installer was correctly rejected. The update feed was advanced by CI. Clean-machine installation remains unverified.
 
 Not verified:
 
