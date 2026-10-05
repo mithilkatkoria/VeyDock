@@ -439,7 +439,7 @@ export const pages: Record<string, Page> = {
 const claudeBoundary = section(
   "beta",
   "Claude Code beta boundary",
-  `<p>Claude support is implemented in the development branch of the Windows application. Check the release notes before expecting it in a downloaded installer. Real A → B → A authentication acceptance is pending. Use only accounts you are authorised to access.</p><p>The adapter supports normal <code>claude.ai</code> CLI sign-in. Keyless Console sign-ins are stored outside the chosen configuration directory and are unsupported. API keys, setup tokens and cloud-provider authentication are not handled by this beta. No Claude Desktop switching is claimed.</p>`,
+  `<p>Claude support is implemented in the v0.2.0-beta.1 source and matching releases when published. Check the release notes before expecting it in a downloaded installer. Real A → B → A authentication acceptance is pending. Use only accounts you are authorised to access.</p><p>The adapter supports normal <code>claude.ai</code> CLI sign-in. Keyless Console sign-ins are stored outside the chosen configuration directory and are unsupported. API keys, setup tokens and cloud-provider authentication are not handled by this beta. No Claude Desktop switching is claimed.</p>`,
 );
 const claudeQuota = section(
   "quota",

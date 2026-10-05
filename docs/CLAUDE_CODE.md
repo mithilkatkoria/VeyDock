@@ -19,7 +19,7 @@ Keyless Console sign-ins are stored outside this directory, so this beta rejects
 
 Choose Enable quota helper in profile settings, then start a new session and make a normal request. The helper records only supported quota percentages, reset timestamps and a confirmation timestamp. The original status-line payload, prompts, transcript paths, source and credentials are discarded. Context-window usage is not quota.
 
-Existing custom status lines are never replaced. To compose one manually, invoke the generated `.veydock-statusline.ps1` alongside your own command using a wrapper that sends the same stdin to both. Review your wrapper: do not log the original payload or overwrite provider configuration blindly.
+Existing custom status lines are never replaced. To compose one manually, copy the reviewed [helper source](../src-tauri/src/claude-statusline.ps1) into that profile directory and invoke it with `-ProfileId` set to the profile UUID (its storage-folder name). Use a wrapper that sends the same stdin to both commands. The generated command in a fresh profile uses an encoded PowerShell invocation with this argument. Review your wrapper: do not log the original payload or overwrite provider configuration blindly.
 
 The Hub says Last confirmed. Refreshing it reads the cache and does not generate a Claude turn. Missing fields remain unavailable. Confirm in Claude with `/usage`.
 
