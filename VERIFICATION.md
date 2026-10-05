@@ -88,7 +88,7 @@ Version: 0.2.0-beta.1. Existing Codex IDs, home paths, reservation preferences, 
 
 Verified locally:
 
-- 37 frontend tests, including independent startup refresh, unchanged launch IDs under streamer mode and provider-specific Claude quota rendering.
+- 38 frontend tests, including independent startup refresh, unchanged launch IDs under streamer mode and provider-specific Claude quota rendering.
 - 28 native Windows tests, including legacy migration, Codex transaction regression, Claude directory/identity rejection, unsupported authentication rejection, helper cache scoping and preservation of custom status lines.
 - Official Claude Code 2.1.289 native ARM64 CLI returns structured signed-out auth status with the requested configuration directory in a disposable probe. No real Claude account was authenticated.
 - PowerShell helper whitelist fixture discards prompt, transcript, secret and context-capacity fields. Only quota windows, timestamp and opaque profile ID are recorded.

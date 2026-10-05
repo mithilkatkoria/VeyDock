@@ -1,39 +1,42 @@
-# VEYDOCK WEBSITE LAUNCH
+# VeyDock universal website launch
 
-Validated 2 October 2026. Production URL: https://veydock-website.vercel.app
+Validated 5 October 2026 against https://veydock-website.vercel.app. The site is deployed through the existing GitHub integration with `website` as the Vercel root.
 
 | Check | Result | Evidence or boundary |
 | --- | --- | --- |
-| Design | PASS | Actual production screenshots reviewed at 1920, 1440, 1366, 820, 430 and 390 px. Corrected stretched mobile media after first review. |
-| Vercel production | PASS | Public deployment, Astro project, Root Directory website. |
-| Custom domain | USER ACTION REQUIRED | No VeyDock domain ownership available. Recommended veydock.dev or veydock.draey.dev after ownership/DNS verification. |
-| Homepage | PASS | 200, one H1, clear Windows product category. |
-| Download | PASS | Real GitHub installer reached, 200, executable MZ header, 3,567,866 bytes. |
-| GitHub integration | PASS | Connected Vercel project, repository homepage/description/topics updated. Source is published on main. |
-| Current release metadata | PASS | GitHub release resolved to 0.1.0-alpha.4 and historical real asset filename. 10-minute server/CDN refresh, labelled fallback. |
-| Tracked Backplane download | NOT YET AVAILABLE | No production endpoint configured. Direct download works without optional analytics. |
-| robots.txt | PASS | Live 200, production crawling allowed. |
-| OAI-SearchBot | PASS | Live robots explicitly allows search crawler. GPTBot has a separate disallow policy. |
-| sitemap.xml | PASS | Live 200, 19 canonical page URLs; no preview/local/API/404 addresses. |
-| llms.txt | PASS | Live 200 plain text, factual product description and limitations. |
-| SoftwareApplication schema | PASS | Production JSON-LD parsed; real version/download, author, free offer; no ratings or invented metrics. External Google Rich Results eligibility has not been confirmed. |
-| OpenGraph | PASS | Live metadata and 1200 x 630 custom image verified. |
-| Google Search Console | USER ACTION REQUIRED | No authorized Search Console account available. Verification tag configuration prepared. |
-| Bing / IndexNow | PASS / USER ACTION REQUIRED | Public key returned 200; IndexNow accepted three URLs with 202. Bing account verification remains yours. Acceptance does not prove indexing. |
-| Lighthouse Desktop | 100 / 100 / 100 / 100 | Performance / accessibility / best practices / SEO, measured against public production. |
-| Lighthouse Mobile | 100 / 100 / 100 / 100 | Same categories, measured against public production. |
-| Accessibility | PASS | Axe scan: zero violations. Keyboard demo tested. This is not a complete human accessibility certification. |
-| Reduced motion | PASS | Entrance animation disabled, sticky zoom/transitions disabled by media query. |
-| Broken links | 0 internal | 20 internal destinations and 85 anchors checked. External services were not exhaustively audited. |
-| Download tested | PASS | Actual linked GitHub executable fetched. Installer execution was not part of website testing. |
+| Visual redesign | PASS | New editorial hero, two-provider rail, actual mixed-provider interface preview, five-stage Dock Rail and provider capability matrix. Graphite, bone and signal orange. |
+| Multi-provider messaging | PASS | Windows profile dock for AI coding tools. Claude Code explicitly beta; Codex remains represented. |
+| Provider documentation | PASS | Provider index, two overviews and two setup manuals. Claude docs describe native CLI authentication, directory verification, helper whitelist and unsupported keyless Console isolation. |
+| Codex SEO cluster | PASS | Four existing guide URLs preserved. |
+| Claude SEO cluster | BETA, PUBLISHED | Four distinct guides with answer-first content and official sources. No promise of proven multi-account switching. |
+| Production | PASS | Connected Vercel GitHub deployment reports success. Public canonical returns 200. |
+| Metadata and schema | PASS | 30 canonical sitemap pages return 200, each with one H1, description and parsed JSON-LD. Product version and download use GitHub release metadata. No invented ratings. |
+| Responsive layout | PASS | 1920, 1440, 1366, 820, 430 and 390 px: no horizontal overflow. |
+| Browser and keyboard | PASS | No unexpected browser errors. Ctrl + K demo, arrows, Enter and Escape checked. Demo cannot control local apps. |
+| Reduced motion | PASS | No entrance animation under reduced-motion preference. |
+| Downloads | PASS for currently linked release | Actual GitHub installer fetched with executable MZ header. Recheck after new beta installer publication. Clean-machine installation is not a website test. |
+| Internal links | PASS | 30 destinations and 145 anchors checked, zero broken. |
+| Accessibility | PASS for automated scan | Axe: zero violations. Not a human accessibility certification. |
+| Lighthouse desktop | 100 / 100 / 100 / 100 | Performance, accessibility, best practices, SEO. Production lab result. |
+| Lighthouse mobile | 96 / 100 / 100 / 100 | Same categories. Production lab result. |
+| Core Web Vitals | FIELD DATA NOT AVAILABLE | Lab LCP/CLS/TBT in reports/production-summary.json. No field INP claim. |
+| robots.txt | PASS | Search crawlers allowed on public content. GPTBot and ClaudeBot training policy separately disallowed. Preview hosts remain noindex. |
+| AI search discovery | PASS for technical preparation | OAI-SearchBot, Claude-SearchBot, Claude-User and PerplexityBot policy checked against primary documentation. Factual llms.txt and provider docs published. Not an indexing guarantee. |
+| OpenGraph | PASS | Broader 1200 x 630 product card and social metadata. |
+| IndexNow | PASS | Changed content URLs accepted with HTTP 200. This does not prove indexing. |
+| Dependency audit | PASS | Cache dependency updated to 4.3.0 after CI caught a newly reported advisory. npm audit reports zero vulnerabilities; rebuilt successfully. |
+| MIT and branding | PASS | MIT source licence, ownership/attribution and branding guidance retained. Font OFL notices distributed. Independent of OpenAI and Anthropic. |
+| Google Search Console | USER ACTION REQUIRED | Ownership authentication and verification are not available to this session. |
+| Custom domain | USER ACTION REQUIRED | Current canonical remains the verified Vercel origin. |
+| Optional analytics | NOT CONFIGURED | No production GA, Clarity or Backplane IDs. No private profile data is sent by website demos. |
 
-## Product truth
+## Product boundary
 
-The website does not claim complete account-switch acceptance, permanent authentication, sub-1% memory use, a verified Windows publisher, or fully verified installer updating. Development screenshots are actual UI with streamer masking and simulated data, explicitly newer than the download. No simulated desktop launch video is presented as a real authenticated switch.
+The native product has a provider registry, non-destructive Codex defaults for legacy profiles, Claude terminal orchestration and supported quota-cache handling. Local checks passed 38 frontend tests and 28 native Windows tests. The official Claude 2.1.289 CLI was probed in a disposable signed-out configuration directory. The PowerShell helper whitelist test passed.
 
-MIT copyright/attribution and branding guidance are linked. Font OFL notices are distributed. Privacy and terms are marked as requiring human legal review. Initial production has no optional analytics IDs and no tracking banner; environment-driven integrations are consent gated.
+Real Claude A → B → A, authenticated launch, browser-free persistent relaunch and comparison with `/usage` require two authorised interactive sign-ins and remain blocked. Claude stays beta. Codex real Desktop A/B/A acceptance remains pending from the earlier alpha; transaction regression tests are not a substitute. Windows publisher signing and clean-machine installer-update acceptance also remain pending. See ../VERIFICATION.md and ../docs/CLAUDE_CODE.md.
 
-Lighthouse numbers are lab results. LCP, CLS and TBT measurements are recorded in reports/production-summary.json. Field INP and real-user Core Web Vitals are not yet available. Scores can vary between runs. Source checks/build pass; npm audit reports zero vulnerabilities at launch.
+Screenshots show actual implemented components with private-safe simulated data. They are labelled development previews. No fake production quota or authenticated switch video is presented.
 
 ## Exact remaining owner actions
 
@@ -45,4 +48,4 @@ Lighthouse numbers are lab results. LCP, CLS and TBT measurements are recorded i
 
 ## Maintaining the site
 
-The Vercel GitHub connection deploys changes on main using website as the root. PR previews are noindex; alternate deployment hosts send X-Robots-Tag: noindex. GitHub remains the source for download metadata. Submit IndexNow only for changed public URLs using scripts/indexnow.mjs. Desktop files were not modified by the website work.
+The Vercel GitHub connection deploys changes on main using website as the root. PR previews are noindex; alternate deployment hosts send X-Robots-Tag: noindex. GitHub remains the source for download metadata. Submit IndexNow only for changed public URLs using scripts/indexnow.mjs. Desktop and website changes are now tracked together. Keep provider acceptance claims aligned with the native verification record.

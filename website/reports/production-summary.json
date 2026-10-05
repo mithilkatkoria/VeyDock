@@ -1,26 +1,26 @@
 {
   "url": "https://veydock-website.vercel.app",
-  "date": "2026-10-02",
+  "date": "2026-10-05",
   "fieldData": "Not available",
   "desktop": {
-    "seo": 100,
-    "lcpMs": 357.2235,
-    "accessibility": 100,
-    "cls": 6.703752955082743E-05,
-    "tbtMs": 0,
     "performance": 100,
-    "best-practices": 100
+    "accessibility": 100,
+    "best-practices": 100,
+    "seo": 100,
+    "lcpMs": 376.324,
+    "cls": 0.001730601049236786,
+    "tbtMs": 0
   },
   "mobile": {
-    "seo": 100,
-    "lcpMs": 1666.0423,
+    "performance": 96,
     "accessibility": 100,
+    "best-practices": 100,
+    "seo": 100,
+    "lcpMs": 1606.0327,
     "cls": 0,
-    "tbtMs": 0,
-    "performance": 100,
-    "best-practices": 100
+    "tbtMs": 222
   },
-  "axeViolations": 0,
+  "pages": 30,
   "viewports": [
     1920,
     1440,
@@ -29,6 +29,10 @@
     430,
     390
   ],
+  "browserErrors": [],
+  "axeViolations": 0,
   "internalBrokenLinks": 0,
-  "indexNowStatus": 202
+  "internalLinks": 30,
+  "anchorsChecked": 145,
+  "indexNowStatus": 200
 }
