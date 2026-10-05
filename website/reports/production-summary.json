@@ -1,5 +1,5 @@
 {
-  "url": "https://veydock-website.vercel.app",
+  "url": "https://veydock.vercel.app",
   "date": "2026-10-05",
   "fieldData": "Not available",
   "desktop": {
@@ -7,18 +7,18 @@
     "accessibility": 100,
     "best-practices": 100,
     "seo": 100,
-    "lcpMs": 376.324,
-    "cls": 0.001730601049236786,
+    "lcpMs": 393.61400000000003,
+    "cls": 0.001618509945130315,
     "tbtMs": 0
   },
   "mobile": {
-    "performance": 96,
+    "performance": 100,
     "accessibility": 100,
     "best-practices": 100,
     "seo": 100,
-    "lcpMs": 1606.0327,
-    "cls": 0,
-    "tbtMs": 222
+    "lcpMs": 1531.1684,
+    "cls": 8.653753355896642e-05,
+    "tbtMs": 56
   },
   "pages": 30,
   "viewports": [
@@ -33,6 +33,12 @@
   "axeViolations": 0,
   "internalBrokenLinks": 0,
   "internalLinks": 30,
-  "anchorsChecked": 145,
-  "indexNowStatus": 200
+  "anchorsChecked": 146,
+  "indexNowStatus": 200,
+  "searchConsole": {
+    "ownership": "Verified using HTML file",
+    "homepageLiveTest": "Available to Google; page can be indexed",
+    "manualIndexing": "Daily quota exceeded; retry after reset",
+    "sitemap": "Submitted; initial Google fetch unsuccessful; public XML returns 200 and parses"
+  }
 }

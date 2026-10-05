@@ -27,4 +27,10 @@ The official authentication docs support separate configuration directories but 
 
 Search bots are allowed on public content. GPTBot and ClaudeBot training crawlers are separately disallowed. Claude-SearchBot, Claude-User, OAI-SearchBot and PerplexityBot are not conflated with training crawlers. Preview deployments remain noindex and blocked. robots.txt is voluntary crawl guidance, not an access-control mechanism or a ranking guarantee.
 
-No ranking, indexing or field Core Web Vitals claim is made. Production lab audits and changed-URL IndexNow submissions are recorded separately after deployment. Search Console ownership still requires owner authentication.
+No ranking, indexing or field Core Web Vitals claim is made. Production lab audits and changed-URL IndexNow submissions are recorded separately after deployment. Search Console URL-prefix ownership is now verified. Homepage live inspection passed. Indexing request is pending because Google returned its daily quota limit. Initial sitemap fetching remains pending despite valid public XML.
+
+## Product copy and Google guidance
+
+The homepage and download page target free Codex account management on Windows with specific benefits, setup instructions, MIT source links and visible FAQs. Claude Code remains explicitly beta. Provider fees and quotas are separate from the free app. No fabricated reviews, ratings, superlatives or unsupported rich-result promises were added.
+
+Primary guidance: https://developers.google.com/search/docs/fundamentals/seo-starter-guide and https://developers.google.com/search/docs/fundamentals/creating-helpful-content. Software schema guidance: https://developers.google.com/search/docs/appearance/structured-data/software-app.
