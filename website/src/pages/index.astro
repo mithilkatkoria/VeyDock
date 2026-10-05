@@ -48,8 +48,12 @@ const schema = {
       name: "VeyDock",
       alternateName: "VDock",
       description:
-        "An independent Windows profile dock for AI coding tools. Codex support and Claude Code beta in development.",
+        "Free, open-source Codex account manager for Windows with real usage limits, project shortcuts and Claude Code profile support in beta.",
       operatingSystem: "Windows",
+      isAccessibleForFree: true,
+      image: `${site}/media/veydock-social.png`,
+      screenshot: `${site}/media/veydock-mixed-provider-dock.webp`,
+      featureList: ["Codex profile management", "Provider-reported Codex usage limits", "Claude Code profiles (beta)", "Project shortcuts", "Streamer mode", "No fixed profile cap"],
       applicationCategory: "DeveloperApplication",
       url: site,
       downloadUrl: r.url,
@@ -64,14 +68,14 @@ const schema = {
 ---
 
 <Layout
-  title="VeyDock | A Windows Profile Dock for AI Coding Tools"
-  description="Keep Codex profiles, real usage limits and deliberate launches in one Windows dock. Explore Claude Code beta, provider documentation and MIT-licensed source."
+  title="VeyDock | Free Codex Account Manager for Windows"
+  description="Manage multiple Codex accounts and real usage limits on Windows. Free, MIT open source, with project shortcuts and Claude Code profiles in beta."
   schema={schema}
 >
   <section class="universal-hero wrap">
     <div class="hero-index mono">
       <span>VEYDOCK / VDOCK</span>
-      <span>AN INDEPENDENT WINDOWS INSTRUMENT</span>
+      <span>FREE SOFTWARE / MIT OPEN SOURCE</span>
     </div>
     <div class="universal-heading">
       <h1>
@@ -84,19 +88,20 @@ const schema = {
       <div class="hero-side">
         <p class="eyebrow">CONTROL, WITHOUT THE CLUTTER</p>
         <p>
-          A Windows profile dock for AI coding tools. Keep accounts, reported
-          usage and deliberate launches within reach.
+          A free, open-source account manager for Codex on Windows. Compare
+          real usage limits, organise your profiles and choose your next session.
+          Claude Code profiles are available in beta.
         </p>
         <div class="hero-actions">
           <a class="button" href="/download">
-            Download for Windows <span>↓</span>
+            Download free for Windows <span>↓</span>
           </a>
           <a class="text-link" href="#walkthrough">
             Watch the switch ▶
           </a>
         </div>
         <p class="mono release-line">
-          PUBLIC DOWNLOAD / v{r.version} / X64 / MIT
+          FREE DOWNLOAD / v{r.version} / X64 / MIT
         </p>
       </div>
     </div>
@@ -131,6 +136,15 @@ const schema = {
         release notes for the capabilities of the current download.
       </figcaption>
     </figure>
+  </section>
+  <section class="fit-section wrap" aria-labelledby="fit-title">
+    <div class="fit-heading"><p class="eyebrow">IS THIS YOUR WORKFLOW?</p><h2 id="fit-title">Multiple accounts.<br /><span>One clear view.</span></h2><p>VeyDock is for Windows developers who want to see their accounts and allowances together, without losing track of the identity they chose.</p></div>
+    <div class="fit-rows">
+      <div><span class="mono">01 / KNOW</span><h3>See the limits before you launch.</h3><p>Compare provider-reported Codex usage windows and reset times. Timestamped cached readings stay clearly labelled when a refresh fails.</p><a href="/guides/codex-usage-limits-windows">Understand Codex usage limits ↗</a></div>
+      <div><span class="mono">02 / CHOOSE</span><h3>Personal, work or reserved. Your choice.</h3><p>Name your authorised profiles, keep project shortcuts nearby and preserve Friend Priority. There is no fixed account cap or automatic preference for Pro.</p><a href="/guides/multiple-codex-accounts-windows">Manage multiple Codex accounts ↗</a></div>
+      <div><span class="mono">03 / OWN</span><h3>Free to use. Open to inspect.</h3><p>No VeyDock subscription, paywall or account-count upgrade. Download the Windows app, inspect its source and adapt it under the MIT licence.</p><a href={repository}>Explore the open-source app ↗</a></div>
+    </div>
+    <p class="fit-boundary">VeyDock does not include a Codex or Claude subscription, increase provider limits or bypass their terms. It is an unsigned prerelease. Real account-switching acceptance is still pending. <a href="/providers">Check the provider capabilities before downloading ↗</a></p>
   </section>
   <SwitchFilm />
   <section class="editorial">
@@ -322,6 +336,15 @@ const schema = {
         <b>↗</b>
       </a>
     </div>
+  </section>
+  <section class="product-questions wrap" aria-labelledby="questions-title">
+    <p class="eyebrow">BEFORE YOU DOWNLOAD</p><h2 id="questions-title">A few useful answers.</h2>
+    <details><summary>Is VeyDock really free?</summary><p>Yes. The Windows app and its MIT-licensed source are free. There is no paid VeyDock plan or fixed profile limit. OpenAI and Anthropic accounts, subscriptions and usage charges remain separate.</p></details>
+    <details><summary>What does VeyDock do for multiple Codex accounts?</summary><p>It keeps named profiles, real reported usage limits, reset times, reservations and project launch targets in one Windows dashboard. You choose the profile explicitly. Read the <a href="/guides/switch-codex-accounts-windows">Codex switching guide</a> for the normal-quit handoff and current acceptance limitations.</p></details>
+    <details><summary>Does it support Claude Code?</summary><p>Yes, in beta. It prepares separate Claude Code configuration directories and launches the official native Windows CLI in a terminal. Supported quota readings are labelled Last confirmed. It does not switch Claude Desktop accounts. Real two-account isolation and persistent relaunch acceptance are pending. See <a href="/docs/providers/claude-code">Claude Code setup</a>.</p></details>
+    <details><summary>Will I need to give VeyDock my password?</summary><p>No. Connect through the provider's normal browser or CLI sign-in. Saved local authentication files can contain sensitive tokens, so protect your Windows account and do not share profile folders. Read <a href="/security">how authentication is handled</a>.</p></details>
+    <details><summary>What do I need to install it?</summary><p>A Windows computer, WebView2 and the provider you want to use. The current installer is x64; Windows ARM uses x64 emulation. Codex uses Desktop and CLI. Claude Code beta uses its native Windows CLI. You do not need Node.js or Rust to run the compiled app. See <a href="/download">downloads and requirements</a>.</p></details>
+    <details><summary>Is VeyDock an official OpenAI or Anthropic app?</summary><p>No. VeyDock is an independent community project by Mithil Katkoria. It is not affiliated with or endorsed by either provider. The <a href={repository}>public source</a>, <a href={`${repository}/blob/main/VERIFICATION.md`}>verification record</a> and <a href="/changelog">release history</a> are available to inspect.</p></details>
   </section>
   <section class="final-download wrap">
     <p class="eyebrow">READY TO DOCK?</p>

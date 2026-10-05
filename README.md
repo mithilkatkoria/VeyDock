@@ -4,9 +4,9 @@
 
 <img src="src-tauri/icons/128x128.png" alt="VeyDock icon" width="72" height="72">
 
-**A Windows profile dock for AI coding tools.**
+**Free, open-source account management for Codex on Windows, with Claude Code profiles in beta.**
 
-VeyDock, or **VDock** for short, keeps your saved provider profiles in one place so you can see current usage, reset times, availability, and deliberately open the profile you want without repeating the full sign-in flow every time.
+VeyDock, or **VDock** for short, brings named profiles, provider-reported usage windows, reset times and project shortcuts into one Windows dashboard. Choose your next account deliberately, keep reservations visible and inspect or adapt the MIT-licensed source. There is no VeyDock subscription or fixed account cap. Provider accounts and fees are separate.
 
 [Download for Windows](https://github.com/mithilkatkoria/VeyDock/releases) · [Changelog](CHANGELOG.md) · [Verification](VERIFICATION.md) · [Contributing](CONTRIBUTING.md)
 
@@ -37,7 +37,7 @@ Claude beta supports normal claude.ai sign-ins only. Keyless Console authenticat
 
 VeyDock is currently an early prerelease.
 
-Real multi-profile usage refresh has been tested. Full real A/B/A Codex Desktop switching acceptance is still being verified, so releases remain alpha until that workflow is proven end to end.
+Real multi-profile usage refresh has been tested. Full real A/B/A Codex Desktop switching acceptance is still being verified, so the current release remains a prerelease.
 
 Production builds do not invent usage percentages. If Codex does not return a value, VeyDock shows it as unavailable or uses a clearly timestamped cached value.
 

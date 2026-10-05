@@ -12,17 +12,17 @@ const section = (id: string, title: string, html: string) => ({
   title,
   html,
 });
-const verification = `<p>The public build is an alpha. Independent usage refresh has been observed with real profiles. Complete A/B/A switching and installer-driven updating have not yet passed documented real-desktop acceptance. Read the <a href="${repo}/blob/main/VERIFICATION.md">verification record</a> before relying on a workflow.</p>`;
+const verification = `<p>The current public build is an unsigned prerelease. Independent usage refresh has been observed with real profiles. Complete A/B/A switching and installer-driven updating have not yet passed documented real-desktop acceptance. Read the <a href="${repo}/blob/main/VERIFICATION.md">verification record</a> before relying on a workflow.</p>`;
 const quit = `<p>Save your work and quit Codex through its normal menu. Keep VeyDock open. A workspace handoff waits for Codex to finish closing before replacing local authentication. Do not sign out to switch: signing out can revoke a saved login. VeyDock does not silently rotate accounts or force-kill Codex.</p>`;
 const data = `<p>Hub state and managed profile homes live under <code>%USERPROFILE%\\.draey-codex-hub</code>. The shared Codex workspace normally lives under <code>%USERPROFILE%\\.codex</code>. Authentication files and recovery copies can contain tokens. Keep them out of Git, cloud sharing and public support attachments. Local storage is not a claim of encryption or a security audit.</p>`;
 const usage = `<p>VeyDock reads Codex app-server <code>account/rateLimits/read</code> independently for configured profiles. The dashboard shows the windows the service returns, rather than forcing every plan into a session-and-weekly template. Missing readings are N/A, not a synthetic 100% allowance.</p><p>Remaining percentage and used percentage are different. A 20% remaining reading means 80% used in that reported window. Reset countdowns and exact dates refer to that window, not a promise that every limit will reset together.</p>`;
 const stale = `<p>Live means the most recent refresh succeeded. Cached means you are seeing an older confirmed reading. Check the timestamp before choosing an account. A failed refresh does not prove that an account has no allowance, and cached allowance does not prove that a login is still valid.</p>`;
 export const pages: Record<string, Page> = {
   features: {
-    title: "What VeyDock does",
+    title: "Codex profiles, usage and launch features",
     label: "PRODUCT / CAPABILITIES",
     description:
-      "Explore VeyDock profiles, real Codex usage windows, deliberate switching, quick launch and privacy controls.",
+      "Manage multiple Codex profiles, compare real usage limits and launch projects with VeyDock. Free and MIT open source, with Claude Code support in beta.",
     sections: [
       section(
         "profiles",
@@ -352,7 +352,7 @@ export const pages: Record<string, Page> = {
     title: "A small independent instrument",
     label: "ABOUT / MITHIL KATKORIA",
     description:
-      "VeyDock is an independent open-source Windows Codex utility created by Mithil Katkoria and distributed under MIT.",
+      "VeyDock is a free, MIT-licensed account manager for Codex on Windows, with Claude Code profiles in beta. Created by Mithil Katkoria.",
     sections: [
       section(
         "creator",
@@ -439,7 +439,7 @@ export const pages: Record<string, Page> = {
 const claudeBoundary = section(
   "beta",
   "Claude Code beta boundary",
-  `<p>Claude support is implemented in the v0.2.0-beta.1 source and matching releases when published. Check the release notes before expecting it in a downloaded installer. Real A → B → A authentication acceptance is pending. Use only accounts you are authorised to access.</p><p>The adapter supports normal <code>claude.ai</code> CLI sign-in. Keyless Console sign-ins are stored outside the chosen configuration directory and are unsupported. API keys, setup tokens and cloud-provider authentication are not handled by this beta. No Claude Desktop switching is claimed.</p>`,
+  `<p>Claude Code beta is available in v0.2.0-beta.1. Check the release notes before expecting it in a downloaded installer. Real A → B → A authentication acceptance is pending. Use only accounts you are authorised to access.</p><p>The adapter supports normal <code>claude.ai</code> CLI sign-in. Keyless Console sign-ins are stored outside the chosen configuration directory and are unsupported. API keys, setup tokens and cloud-provider authentication are not handled by this beta. No Claude Desktop switching is claimed.</p>`,
 );
 const claudeQuota = section(
   "quota",
@@ -470,12 +470,12 @@ pages["providers"] = {
     section(
       "compare",
       "One dock, provider-specific capabilities",
-      `<p>VeyDock is a Windows profile dock for AI coding tools. Codex and Claude Code have different authentication and launch contracts. They share profile names, reservations, projects and quick launch, not an invented common quota model.</p><table><thead><tr><th>Provider</th><th>Launch</th><th>Usage</th><th>Status</th></tr></thead><tbody><tr><td><a href="/providers/codex">Codex</a></td><td>Existing Desktop workspace</td><td>Independent app-server reads</td><td>Public alpha; full switching acceptance pending</td></tr><tr><td><a href="/providers/claude-code">Claude Code</a></td><td>Isolated Windows terminal</td><td>Last confirmed status-line cache</td><td>Development beta; real A/B/A pending</td></tr></tbody></table>`,
+      `<p>VeyDock is a Windows profile dock for AI coding tools. Codex and Claude Code have different authentication and launch contracts. They share profile names, reservations, projects and quick launch, not an invented common quota model.</p><table><thead><tr><th>Provider</th><th>Launch</th><th>Usage</th><th>Status</th></tr></thead><tbody><tr><td><a href="/providers/codex">Codex</a></td><td>Existing Desktop workspace</td><td>Independent app-server reads</td><td>Public alpha; full switching acceptance pending</td></tr><tr><td><a href="/providers/claude-code">Claude Code</a></td><td>Isolated Windows terminal</td><td>Last confirmed status-line cache</td><td>Beta; real A/B/A pending</td></tr></tbody></table>`,
     ),
     section(
       "facts",
       "Product facts",
-      `<p>Formal name: VeyDock. Short name: VDock. Platform: Windows. Source: MIT licensed. Creator: Mithil Katkoria. No fixed profile cap. No silent account rotation or subscription preference. Each provider's service terms and quotas continue to apply.</p><p>VeyDock is not an OpenAI or Anthropic product. See <a href="/download">current downloads</a>, <a href="/security">security boundaries</a> and <a href="/docs/providers">provider documentation</a>.</p>`,
+      `<p>Formal name: VeyDock. Short name: VDock. Platform: Windows. Price: free. Source: MIT licensed. Creator: Mithil Katkoria. No fixed profile cap. No silent account rotation or subscription preference. Each provider's service terms and quotas continue to apply.</p><p>VeyDock is not an OpenAI or Anthropic product. See <a href="/download">current downloads</a>, <a href="/security">security boundaries</a> and <a href="/docs/providers">provider documentation</a>.</p>`,
     ),
   ],
 };
