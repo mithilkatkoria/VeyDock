@@ -1,3 +1,4 @@
+import "./switch-film";
 const dialog = document.querySelector<HTMLDialogElement>("#command")!;
 const input = document.querySelector<HTMLInputElement>("#command-search")!;
 const list = document.querySelector<HTMLDivElement>("#commands")!;
