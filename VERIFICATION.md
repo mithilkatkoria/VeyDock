@@ -80,3 +80,26 @@ A point-in-time measurement of the installed pre-portrait alpha.3 Hub plus its s
 - The updater is covered for startup checks without automatic installation, duplicate checks, failure/retry, and restriction to this repository's HTTPS release downloads. A real installer-driven upgrade of an existing user's app is not yet observed; no silent or forced installation is performed during this task.
 - Account-switch acceptance remains as recorded above. This release does not claim that UI or updater tests establish a real A/B/A Codex Desktop switch.
 - Final native regression run: 22 tests passed. The 5 version-tool tests also passed. The standalone executable is 14,694,400 bytes; the updater-signed installer is 3,567,866 bytes.
+
+
+## Multi-provider beta, 5 October 2026
+
+Version: 0.2.0-beta.1. Existing Codex IDs, home paths, reservation preferences, identities and project mappings are retained by schema migration. Unknown future providers are rejected without resetting the original file.
+
+Verified locally:
+
+- 37 frontend tests, including independent startup refresh, unchanged launch IDs under streamer mode and provider-specific Claude quota rendering.
+- 28 native Windows tests, including legacy migration, Codex transaction regression, Claude directory/identity rejection, unsupported authentication rejection, helper cache scoping and preservation of custom status lines.
+- Official Claude Code 2.1.289 native ARM64 CLI returns structured signed-out auth status with the requested configuration directory in a disposable probe. No real Claude account was authenticated.
+- PowerShell helper whitelist fixture discards prompt, transcript, secret and context-capacity fields. Only quota windows, timestamp and opaque profile ID are recorded.
+- Development interface filter and responsive captures pass using simulated data only. These are not real account acceptance.
+- A Windows x64 production executable compiled. The final release workflow must rebuild the latest commit and package its installer before publication.
+
+Not verified:
+
+- Real Claude A → B → A identity, persistent browser-free relaunch, real quota comparison with /usage, simultaneous terminal attribution or restart acceptance. Two authorised interactive sign-ins are required. Claude remains beta. See docs/CLAUDE_CODE.md for the exact checklist.
+- Real Codex Desktop A/B/A acceptance remains pending from the existing public alpha. The Codex orchestrator was preserved and its native regression tests pass; this is not a new real-account switching claim.
+- Windows publisher signing and reputation. Updater signatures are separate from Authenticode and do not remove SmartScreen warnings.
+- Installer-driven update acceptance on a clean friend computer. Account data lives separately from application binaries.
+
+No Claude credentials are copied, imported or exported. No default Claude config is overwritten. Claude keyless Console authentication, API keys, setup tokens, third-party clouds and Claude Desktop are unsupported in this beta. No concurrency reliability claim is made.

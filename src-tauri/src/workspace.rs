@@ -152,7 +152,7 @@ mod tests {
         fs::write(home.join("auth.json"), &bytes).unwrap(); bytes
     }
     fn profile(home: PathBuf, id: &str) -> Profile {
-        Profile { id:id.into(),name:id.into(),plan:"other".into(),accent:"blue".into(),home,desktop_data:PathBuf::from("unused"),managed:true,availability:"reserved".into(),created_at:now(),last_used_at:None,connection:"connected".into(),identity_key:None,account_email:None,actual_plan:None }
+        Profile {provider:crate::model::default_provider(), id:id.into(),name:id.into(),plan:"other".into(),accent:"blue".into(),home,desktop_data:PathBuf::from("unused"),managed:true,availability:"reserved".into(),created_at:now(),last_used_at:None,connection:"connected".into(),identity_key:None,account_email:None,actual_plan:None }
     }
     #[test]
     fn switches_only_auth_preserves_workspace_and_saves_rotated_outgoing_credentials() {

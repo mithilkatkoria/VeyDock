@@ -1123,3 +1123,186 @@ dialog input {
 .screen-crop img {
   height: auto;
 }
+
+/* Universal dock: editorial composition, sharp provider rails. */
+.universal-hero {
+  padding-top: 36px;
+}
+.hero-index {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 20px;
+}
+.universal-heading {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 8vw;
+  align-items: end;
+  padding: 45px 0 55px;
+}
+.universal-heading h1 {
+  font-size: clamp(60px, 7.7vw, 132px);
+  margin: 0;
+  line-height: 0.96;
+}
+.hero-side {
+  max-width: 400px;
+  padding-bottom: 5px;
+}
+.hero-side > p:not(.eyebrow):not(.mono) {
+  font-size: 20px;
+  line-height: 1.5;
+}
+.hero-side .hero-actions {
+  flex-wrap: wrap;
+}
+.provider-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--rule);
+  margin: 0 0 30px;
+}
+.provider-strip a {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 24px;
+}
+.provider-strip a + a {
+  border-left: 1px solid var(--rule);
+}
+.provider-strip strong {
+  font-size: 21px;
+}
+.provider-strip a > span:not(.provider-number) {
+  grid-column: 2;
+  font-size: 13px;
+  color: var(--muted);
+}
+.provider-strip b {
+  grid-column: 3;
+  grid-row: 1/3;
+  font-weight: 400;
+}
+.provider-number {
+  color: var(--signal);
+  grid-row: 1/3;
+}
+.dock-preview {
+  margin: 0;
+  border: 1px solid var(--rule);
+  background: var(--steel);
+}
+.dock-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 700px;
+  object-fit: contain;
+  background: #10151d;
+}
+.dock-preview figcaption {
+  padding: 14px 20px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.provider-matrix {
+  padding-top: 90px;
+  padding-bottom: 90px;
+  border-top: 1px solid var(--rule);
+}
+.provider-matrix h2 {
+  font-size: clamp(35px, 4vw, 65px);
+  line-height: 1.1;
+  letter-spacing: -0.045em;
+  font-weight: 500;
+}
+.provider-matrix h2 span {
+  color: var(--muted);
+}
+.table-scroll {
+  overflow: auto;
+}
+.provider-matrix table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+}
+.provider-matrix caption {
+  text-align: left;
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+.provider-matrix th,
+.provider-matrix td {
+  padding: 19px 15px;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+.provider-matrix thead {
+  color: var(--signal);
+}
+.provider-matrix tbody th {
+  font-weight: 500;
+  width: 28%;
+}
+.provider-matrix td {
+  color: var(--muted);
+}
+@media (max-width: 900px) {
+  .universal-heading {
+    gap: 30px;
+    grid-template-columns: 1fr;
+    padding: 35px 0;
+  }
+  .universal-heading h1 {
+    font-size: clamp(64px, 10vw, 100px);
+  }
+  .hero-side {
+    max-width: 600px;
+  }
+  .hero-index span:last-child {
+    display: none;
+  }
+  .provider-strip a {
+    padding: 17px;
+    gap: 10px;
+  }
+  .provider-strip strong {
+    font-size: 18px;
+  }
+  .provider-matrix {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+}
+@media (max-width: 520px) {
+  .provider-strip {
+    grid-template-columns: 1fr;
+  }
+  .provider-strip a + a {
+    border-left: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .universal-heading h1 {
+    font-size: clamp(55px, 14.5vw, 74px);
+  }
+  .hero-side > p:not(.eyebrow):not(.mono) {
+    font-size: 17px;
+  }
+  .provider-matrix table {
+    font-size: 12px;
+  }
+  .provider-matrix th,
+  .provider-matrix td {
+    padding: 14px 8px;
+  }
+  .dock-preview figcaption {
+    padding: 12px;
+  }
+}

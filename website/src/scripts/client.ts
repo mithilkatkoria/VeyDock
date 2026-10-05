@@ -4,9 +4,10 @@ const list = document.querySelector<HTMLDivElement>("#commands")!;
 const result = document.querySelector<HTMLParagraphElement>("#command-result")!;
 let selected = 0;
 const commands = [
-  { label: "Open Plus 1", hint: "Profile demo" },
-  { label: "Open Plus 2", hint: "Profile demo" },
-  { label: "Open Pro", hint: "Reserved profile demo" },
+  { label: "Open Codex: Plus 1", hint: "Codex profile demo" },
+  { label: "Open Claude Code: Work", hint: "Claude beta profile demo" },
+  { label: "Open Codex: Pro", hint: "Reserved profile demo" },
+  { label: "Open project with Claude Code", hint: "Project demo" },
   { label: "View usage", hint: "Documentation", href: "/docs/usage-limits" },
   { label: "Download VeyDock", hint: "Windows x64", href: "/download" },
   {
@@ -17,7 +18,7 @@ const commands = [
 ];
 function filtered() {
   return commands.filter((c) =>
-    c.label.toLowerCase().includes(input.value.toLowerCase()),
+    `${c.label} ${c.hint}`.toLowerCase().includes(input.value.toLowerCase()),
   );
 }
 function select(index: number) {
@@ -110,7 +111,8 @@ const media = document.querySelector<HTMLElement>(".sequence-media");
 const captions = [
   "Configured profiles, without a fixed limit.",
   "Remaining allowance, reset times and freshness.",
-  "A deliberate handoff. Real switching acceptance is pending.",
+  "Codex Desktop and Claude Code beta terminal profiles.",
+  "A deliberate launch. Real switching acceptance is pending.",
   "Ctrl + K in the app. Try the website demonstration.",
 ];
 if (media) {

@@ -7,6 +7,21 @@ All published releases receive an immutable Git tag and an entry here. Unrelease
 ### Pending
 - Record the next changes here.
 
+## [0.2.0-beta.1] - 2026-10-05
+
+### Added
+- Provider registry, preserving existing Codex profiles and workspace handoffs.
+- Claude Code beta profiles, official CLI sign-in, isolated terminal launch, project routing and connection verification.
+- Opt-in Claude quota helper with last-confirmed timestamps and strict payload filtering.
+- Provider filters, provider-aware quick launch, diagnostics and local export migration.
+- Multi-provider website, capability documentation and four Claude guides.
+
+### Verification boundary
+- Claude real A/B/A acceptance and concurrent-account reliability remain pending. No Claude Desktop or keyless Console support is claimed.
+
+### Pending
+- Record the next changes here.
+
 ## [0.1.0-alpha.4] - 2026-09-08
 
 ### Added
@@ -79,7 +94,7 @@ The signed-out restart flow still requires real Desktop acceptance; no productio
 - Unsigned test executable; no signed installer.
 - Initial download predates the documentation commit tagged with this release; it is not claimed to be a reproducible artifact of that tag.
 
-[Unreleased]: https://github.com/mithilkatkoria/VeyDock/compare/v0.1.0-alpha.4...main
+[Unreleased]: https://github.com/mithilkatkoria/VeyDock/compare/v0.2.0-beta.1...main
 [0.1.0-alpha.1]: https://github.com/mithilkatkoria/VeyDock/releases/tag/v0.1.0-alpha.1
 
 [0.1.0-alpha.2]: https://github.com/mithilkatkoria/VeyDock/releases/tag/v0.1.0-alpha.2
@@ -87,3 +102,5 @@ The signed-out restart flow still requires real Desktop acceptance; no productio
 [0.1.0-alpha.3]: https://github.com/mithilkatkoria/VeyDock/releases/tag/v0.1.0-alpha.3
 
 [0.1.0-alpha.4]: https://github.com/mithilkatkoria/VeyDock/releases/tag/v0.1.0-alpha.4
+
+[0.2.0-beta.1]: https://github.com/mithilkatkoria/VeyDock/releases/tag/v0.2.0-beta.1

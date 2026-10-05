@@ -1,7 +1,7 @@
 [package]
 name = "veydock"
-version = "0.1.0-alpha.4"
-description = "VeyDock - multi-profile Codex control for Windows"
+version = "0.2.0-beta.1"
+description = "VeyDock - Windows profile dock for AI coding tools"
 authors = ["Mithil Katkoria"]
 edition = "2021"
 

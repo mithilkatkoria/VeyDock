@@ -1,8 +1,9 @@
 import type { Profile, UsageWindow } from '../types';
 
 export function presentWindows(profile: Profile, windows: UsageWindow[]) {
-  const isCore = (w: UsageWindow) => w.id.startsWith('codex:') || w.bucket.toLowerCase() === 'codex';
-  const pro = (profile.actualPlan ?? profile.plan).toLowerCase().startsWith('pro');
+  const provider = profile.provider ?? 'codex';
+  const isCore = (w: UsageWindow) => w.id.startsWith(`${provider}:`) || w.bucket.toLowerCase() === provider;
+  const pro = provider === 'codex' && (profile.actualPlan ?? profile.plan).toLowerCase().startsWith('pro');
   const priority = (w: UsageWindow) => pro && w.durationMins === 10080 ? -1 : w.durationMins ?? Number.MAX_SAFE_INTEGER;
   const core = windows.filter(isCore).sort((a,b) => priority(a)-priority(b));
   const additional = windows.filter(w => !isCore(w)).sort((a,b) => a.bucket.localeCompare(b.bucket) || priority(a)-priority(b));

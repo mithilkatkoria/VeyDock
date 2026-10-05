@@ -108,7 +108,7 @@ export const pages: Record<string, Page> = {
         "status",
         "Before relying on the alpha",
         verification +
-          "<p>VeyDock is independent and is not affiliated with or endorsed by OpenAI.</p>",
+          "<p>VeyDock is independent and is not affiliated with or endorsed by OpenAI or Anthropic.</p>",
       ),
     ],
   },
@@ -367,7 +367,7 @@ export const pages: Record<string, Page> = {
       section(
         "independent",
         "Independent of OpenAI",
-        "<p>VeyDock is an independent project and is not affiliated with or endorsed by OpenAI. Codex and third-party services remain subject to their own terms. Public alpha status means the verification record matters more than marketing promises.</p>",
+        "<p>VeyDock is an independent project and is not affiliated with or endorsed by OpenAI or Anthropic. Codex and third-party services remain subject to their own terms. Public alpha status means the verification record matters more than marketing promises.</p>",
       ),
     ],
   },
@@ -425,7 +425,7 @@ export const pages: Record<string, Page> = {
       section(
         "third-parties",
         "Independent and dependent on third parties",
-        "<p>VeyDock is not affiliated with or endorsed by OpenAI. Codex, OpenAI authentication, Windows, Vercel and GitHub have their own terms and availability. Changes to those services can affect functionality.</p>",
+        "<p>VeyDock is not affiliated with or endorsed by OpenAI or Anthropic. Codex, OpenAI authentication, Windows, Vercel and GitHub have their own terms and availability. Changes to those services can affect functionality.</p>",
       ),
       section(
         "updates",
@@ -435,3 +435,264 @@ export const pages: Record<string, Page> = {
     ],
   },
 };
+
+const claudeBoundary = section(
+  "beta",
+  "Claude Code beta boundary",
+  `<p>Claude support is implemented in the development branch of the Windows application. Check the release notes before expecting it in a downloaded installer. Real A → B → A authentication acceptance is pending. Use only accounts you are authorised to access.</p><p>The adapter supports normal <code>claude.ai</code> CLI sign-in. Keyless Console sign-ins are stored outside the chosen configuration directory and are unsupported. API keys, setup tokens and cloud-provider authentication are not handled by this beta. No Claude Desktop switching is claimed.</p>`,
+);
+const claudeQuota = section(
+  "quota",
+  "Last confirmed, not arbitrary live refresh",
+  `<p>Anthropic documents <code>rate_limits.five_hour</code> and <code>rate_limits.seven_day</code> in status-line input for supported subscription sessions after an API response. A window may be absent. VeyDock's optional local helper records only validated percentages, reset times and a timestamp. It never saves the original status-line payload, conversation text or transcript paths.</p><p>The Hub reads that small cache and labels it Last confirmed. Refreshing the Hub does not generate a Claude request. Context-window percentage is not subscription quota. Use Claude's <code>/usage</code> to confirm provider readings. Model-specific windows not present in the supported payload are not invented.</p>`,
+);
+const claudeSetup = section(
+  "setup",
+  "Connect through the official CLI",
+  `<ol><li>Install native Claude Code from <a href="https://code.claude.com/docs/en/setup">Anthropic's Windows setup documentation</a>. Use version 2.1.268 or later so authentication status reports its configuration directory.</li><li>In VeyDock, choose Add account, then Claude Code (beta). Name the profile.</li><li>Save and connect. VeyDock opens a Windows terminal with that profile's <code>CLAUDE_CONFIG_DIR</code>. Complete the normal Claude sign-in there.</li><li>Open profile settings in the Hub and choose Check connection. The adapter checks official <code>claude auth status</code>, the account identity and the configuration directory.</li><li>Optionally choose Enable quota helper. Existing custom status lines are preserved and require manual composition.</li><li>Choose Open Claude Code, or a saved project using that profile. Verify the identity with <code>/status</code>.</li></ol>`,
+);
+const claudeIsolation = section(
+  "isolation",
+  "Configuration isolation, with an explicit boundary",
+  `<p>Each managed Claude profile has a separate directory under the Hub's profile storage. Only the launched process receives <code>CLAUDE_CONFIG_DIR</code>. VeyDock clears inherited Claude, Anthropic and Codex authentication variables before launch. Your default Claude configuration is not overwritten.</p><p>This differs from the Codex shared-Desktop handoff. VeyDock does not copy Claude credential files, reuse Codex homes or ask for passwords. Isolation of real accounts and concurrent sessions still needs acceptance testing on Windows; it is not a security-audit claim.</p>`,
+);
+const sources = section(
+  "sources",
+  "Provider documentation",
+  `<ul><li><a href="https://code.claude.com/docs/en/authentication">Claude Code authentication and multiple accounts</a></li><li><a href="https://code.claude.com/docs/en/statusline">Supported Claude status-line quota fields</a></li><li><a href="https://code.claude.com/docs/en/cli-reference">Claude CLI authentication commands</a></li><li><a href="https://code.claude.com/docs/en/env-vars">Claude configuration environment variables</a></li></ul><p>Checked 5 October 2026. Provider behaviour can change. VeyDock is independent of OpenAI and Anthropic.</p>`,
+);
+pages["providers"] = {
+  title: "AI coding providers in VeyDock",
+  description:
+    "Compare Codex Desktop support and Claude Code beta: authentication, isolation, launch surfaces and honest usage freshness.",
+  label: "PRODUCT / PROVIDERS",
+  sections: [
+    section(
+      "compare",
+      "One dock, provider-specific capabilities",
+      `<p>VeyDock is a Windows profile dock for AI coding tools. Codex and Claude Code have different authentication and launch contracts. They share profile names, reservations, projects and quick launch, not an invented common quota model.</p><table><thead><tr><th>Provider</th><th>Launch</th><th>Usage</th><th>Status</th></tr></thead><tbody><tr><td><a href="/providers/codex">Codex</a></td><td>Existing Desktop workspace</td><td>Independent app-server reads</td><td>Public alpha; full switching acceptance pending</td></tr><tr><td><a href="/providers/claude-code">Claude Code</a></td><td>Isolated Windows terminal</td><td>Last confirmed status-line cache</td><td>Development beta; real A/B/A pending</td></tr></tbody></table>`,
+    ),
+    section(
+      "facts",
+      "Product facts",
+      `<p>Formal name: VeyDock. Short name: VDock. Platform: Windows. Source: MIT licensed. Creator: Mithil Katkoria. No fixed profile cap. No silent account rotation or subscription preference. Each provider's service terms and quotas continue to apply.</p><p>VeyDock is not an OpenAI or Anthropic product. See <a href="/download">current downloads</a>, <a href="/security">security boundaries</a> and <a href="/docs/providers">provider documentation</a>.</p>`,
+    ),
+  ],
+};
+pages["providers/codex"] = {
+  title: "Codex profiles in VeyDock",
+  description:
+    "Keep Codex profiles, provider-reported rate limits and project shortcuts together in an independent Windows dock.",
+  label: "PROVIDER / CODEX",
+  sections: [
+    section(
+      "workflow",
+      "Codex Desktop and its existing workspace",
+      `<p>The Codex adapter preserves managed profile homes and opens the established shared Codex Desktop workspace through a normal-quit handoff. Projects, task history and sidebar context are not copied into a blank Desktop profile.</p>${quit}`,
+    ),
+    section("usage", "Real rate-limit windows", usage + stale),
+    section(
+      "reservation",
+      "Explicit account choice",
+      `<p>Reservations and Friend Priority remain manual. Pro is not automatically preferred. Its returned weekly, Spark and reset-credit data may differ from Plus, so only actual provider windows are displayed.</p>`,
+    ),
+    section("acceptance", "Acceptance status", verification),
+    section(
+      "docs",
+      "Continue with Codex",
+      `<p><a href="/docs/providers/codex">Codex setup</a> · <a href="/guides/switch-codex-accounts-windows">Windows account switching guide</a></p>`,
+    ),
+  ],
+};
+pages["providers/claude-code"] = {
+  title: "Claude Code profiles in VeyDock (beta)",
+  description:
+    "Explore isolated Claude Code terminal profiles, normal claude.ai sign-in and supported last-confirmed quota readings on Windows.",
+  label: "PROVIDER / CLAUDE CODE BETA",
+  sections: [
+    claudeBoundary,
+    claudeSetup,
+    claudeIsolation,
+    claudeQuota,
+    sources,
+  ],
+};
+pages["docs/providers"] = {
+  title: "Choose and configure a provider",
+  description:
+    "Set up Codex or Claude Code beta in VeyDock, with provider-specific authentication, launch and usage contracts.",
+  label: "DOCS / PROVIDERS",
+  sections: [
+    section(
+      "choose",
+      "Choose the tool before the account",
+      `<p>Add account offers Codex and Claude Code (beta). Existing version-1 profiles migrate as Codex without changing IDs, home paths, project mappings, reservations or saved identities. A saved profile cannot change provider; create another profile instead.</p><p><a href="/docs/providers/codex">Configure Codex</a> or <a href="/docs/providers/claude-code">configure Claude Code beta</a>.</p>`,
+    ),
+    section(
+      "shared",
+      "Shared controls",
+      `<p>Use the All providers, Codex and Claude filters to organise the dock. Projects can prefer a profile from either provider. Ctrl + K searches provider, profile and project. Tray labels include the provider and respect streamer-mode aliases.</p><p>Streamer mode protects only Hub text. Claude terminals, Codex windows, browsers and file dialogs are outside that boundary.</p>`,
+    ),
+  ],
+};
+pages["docs/providers/codex"] = {
+  ...pages["providers/codex"],
+  title: "Configure Codex in VeyDock",
+  label: "DOCS / CODEX",
+  sections: [
+    section(
+      "installation",
+      "Detect Codex",
+      `<p>Install Codex Desktop and its CLI. VeyDock detects them or accepts executable overrides in Settings. Use a new managed profile or explicitly import your existing Codex login. Existing profiles remain intact when you add Claude.</p>`,
+    ),
+    ...pages["providers/codex"].sections,
+  ],
+};
+pages["docs/providers/claude-code"] = {
+  ...pages["providers/claude-code"],
+  title: "Configure Claude Code beta in VeyDock",
+  label: "DOCS / CLAUDE CODE BETA",
+};
+pages["guides/claude-code-account-switcher-windows"] = {
+  title: "Claude Code Account Switcher for Windows: Beta Workflow",
+  description:
+    "Use separate Claude Code configuration directories on Windows, with official sign-in and explicit VeyDock beta acceptance limits.",
+  label: "GUIDE / CLAUDE CODE WINDOWS",
+  guide: true,
+  sections: [
+    section(
+      "answer",
+      "Can VeyDock switch Claude Code accounts?",
+      `<p>The development beta creates separately configured Claude Code terminal profiles and validates normal claude.ai sign-in before launch. It does not switch Claude Desktop. Real A → B → A acceptance has not been completed, so this remains a beta workflow rather than a proven account-switching promise.</p>`,
+    ),
+    claudeSetup,
+    claudeIsolation,
+    claudeBoundary,
+    sources,
+  ],
+};
+pages["guides/manage-multiple-claude-code-accounts"] = {
+  title: "Manage Multiple Claude Code Accounts with Separate Profiles",
+  description:
+    "Organise authorised Claude Code accounts without copying credentials, and understand which sign-in methods the VeyDock beta supports.",
+  label: "GUIDE / MULTIPLE CLAUDE ACCOUNTS",
+  guide: true,
+  sections: [
+    section(
+      "answer",
+      "How should multiple Claude accounts be organised?",
+      `<p>Use a separate CLAUDE_CONFIG_DIR for each authorised claude.ai account and complete the provider's own sign-in in each directory. VeyDock beta stores labels, preferences and directory paths. It does not export Claude credentials or merge account histories.</p><p>This is a subscription-account workflow. Keyless Console authentication lives outside this directory and is excluded. Multiple accounts do not grant extra rights or remove provider limits.</p>`,
+    ),
+    claudeIsolation,
+    section(
+      "priority",
+      "Personal, work and reserved profiles",
+      `<p>Give accounts recognisable names and choose availability deliberately. A project can prefer your work profile, while another stays reserved. No account is automatically selected because of its plan. Use the provider filter or quick launcher to make the next choice.</p>`,
+    ),
+    claudeBoundary,
+    sources,
+  ],
+};
+pages["guides/claude-code-usage-limits"] = {
+  title: "Claude Code Usage Limits: Last Confirmed Quota in VeyDock",
+  description:
+    "Understand five-hour and seven-day Claude quota fields, missing readings, reset times and how VeyDock distinguishes cache from live usage.",
+  label: "GUIDE / CLAUDE CODE USAGE",
+  guide: true,
+  sections: [
+    section(
+      "answer",
+      "Can VeyDock refresh Claude limits live?",
+      `<p>No arbitrary live Claude quota refresh is claimed. The beta's opt-in helper receives supported status-line fields after a Claude response, whitelists quota data and stores a timestamped local cache. The Hub shows Last confirmed. Opening or refreshing the Hub does not consume a Claude turn to manufacture a reading.</p>`,
+    ),
+    claudeQuota,
+    section(
+      "reading",
+      "Read percentages and reset dates correctly",
+      `<p>Used and remaining are complements within a reported window. A 64% used field produces 36% remaining. A missing weekly window stays absent, not 0% or 100%. An elapsed reset countdown means a new reading is needed; it does not prove a reset or successful reauthentication.</p><p>Extra-usage spending and context capacity are different concepts from subscription rate limits. Only fields documented and present in the provider payload are shown.</p>`,
+    ),
+    sources,
+  ],
+};
+pages["guides/switch-claude-code-profiles-without-losing-context"] = {
+  title: "Switch Claude Code Profiles Without Moving Your Project",
+  description:
+    "Launch the same Windows project folder with a different Claude Code beta profile while keeping session history and authentication boundaries explicit.",
+  label: "GUIDE / CLAUDE CODE PROJECTS",
+  guide: true,
+  sections: [
+    section(
+      "answer",
+      "Does changing Claude profiles preserve the project?",
+      `<p>The project folder stays in place. VeyDock launches the chosen Claude profile with that folder as the working directory. Separate profile directories have separate configuration and session history. This is not a promise that conversations or provider memory transfer between accounts.</p>`,
+    ),
+    section(
+      "workflow",
+      "Use an explicit project preference",
+      `<ol><li>Save your work in the existing Claude terminal.</li><li>Add the project folder to VeyDock.</li><li>Choose an authenticated Claude profile from the project selector.</li><li>Open the project and verify the account using /status.</li><li>For the beta acceptance test, close that session before choosing the second account, then return to the first.</li></ol><p>VeyDock does not force-close terminals, overwrite your default Claude configuration or import Claude conversation history into another identity.</p>`,
+    ),
+    claudeBoundary,
+    sources,
+  ],
+};
+// Existing Codex routes remain stable. Add provider discovery without rewriting their content.
+pages.docs.sections.unshift(
+  section(
+    "providers",
+    "Provider-specific setup",
+    `<p><a href="/docs/providers/codex">Codex Desktop</a> and <a href="/docs/providers/claude-code">Claude Code beta</a> use different sign-in and usage sources. Start with the documentation for your tool.</p>`,
+  ),
+);
+pages.features.sections.unshift(
+  section(
+    "provider-dock",
+    "A Windows dock for AI coding profiles",
+    `<p>Keep Codex and Claude Code beta profiles in one dock. Filter by provider, keep manual reservations and launch project folders with the profile you choose. See <a href="/providers">the capability comparison</a> and the current <a href="/download">release notes</a> before relying on beta support.</p>`,
+  ),
+);
+
+pages.security.sections.push(
+  section(
+    "claude-security",
+    "Claude Code beta privacy boundary",
+    `<p>Claude signs in through its normal CLI. VeyDock sets a process-specific configuration directory and never copies Claude credential files. Its optional status-line helper writes a whitelist of quota percentage, reset time and timestamp. The original payload, transcript and prompt are discarded. Terminal and browser content are outside streamer-mode protection.</p>`,
+  ),
+);
+pages.privacy.sections.push(
+  section(
+    "claude-data",
+    "Claude provider data",
+    `<p>Claude Code beta authentication requests go to Anthropic through the official CLI. Profile metadata and the optional quota cache stay locally in the profile directory. This website does not receive account identities or quota readings. No analytics event may contain profile names, email addresses, paths, credentials or transcripts.</p>`,
+  ),
+);
+pages.about.sections.unshift(
+  section(
+    "positioning",
+    "VeyDock, also called VDock",
+    `<p>An independent Windows profile dock for AI coding tools, created by Mithil Katkoria. Codex is the established provider integration. Claude Code is a development beta with distinct authentication, isolation and quota boundaries. <a href="/providers">Compare provider capabilities</a>.</p>`,
+  ),
+);
+
+pages["docs/quick-launch"] = {
+  title: "Quick launch by provider, profile and project",
+  description:
+    "Find a VeyDock profile or saved project with Ctrl + K and launch deliberately using the chosen provider.",
+  label: "DOCS / QUICK LAUNCH",
+  sections: [
+    section(
+      "keyboard",
+      "Choose with the keyboard",
+      `<p>In the Windows app, press Ctrl + K outside a text field. Search for a provider, profile or saved project. Move through the results with the arrow keys, press Enter to select and Escape to dismiss. Reservations remain visible and require deliberate selection.</p><p>The website's Ctrl + K interaction is a demonstration. It does not open installed providers or access your local profile state.</p>`,
+    ),
+  ],
+};
+pages.guides.sections.push(
+  section(
+    "claude-guides",
+    "Claude Code beta guides",
+    `<ul class="index-list"><li><a href="/guides/claude-code-account-switcher-windows">Claude Code account switching on Windows</a></li><li><a href="/guides/manage-multiple-claude-code-accounts">Manage multiple Claude accounts</a></li><li><a href="/guides/claude-code-usage-limits">Read last-confirmed Claude quota</a></li><li><a href="/guides/switch-claude-code-profiles-without-losing-context">Launch the same project with another Claude profile</a></li></ul>`,
+  ),
+);
+
+// Provider overview is distinct from the procedural setup manual.
+pages['providers/claude-code'].sections=[section('overview','Claude Code, with a place in the dock',`<p>The beta adapter adds labelled Claude terminal profiles alongside Codex. You can reserve an account, attach a project preference and find it by provider in quick launch. Claude owns authentication and session execution.</p><p>This is a native Windows terminal integration, not Claude Desktop switching. Each profile uses its own configuration directory. Quota is last confirmed from supported status-line data, not an arbitrary live endpoint.</p>`),claudeBoundary,section('start','Read the setup contract',`<p><a href="/docs/providers/claude-code">Configure the official CLI, complete sign-in and enable the optional quota helper</a>. The manual explains minimum versions, custom status-line preservation and privacy boundaries.</p>`),sources];

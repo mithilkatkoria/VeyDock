@@ -5,14 +5,12 @@ import { site } from "../lib/release";
 const slug = Astro.params.slug || "";
 const page = pages[slug];
 if (!page) return Astro.rewrite("/404");
-const crumbs = slug
-  .split("/")
-  .map((name, i, all) => ({
-    "@type": "ListItem",
-    position: i + 2,
-    name: name.replaceAll("-", " "),
-    item: `${site}/${all.slice(0, i + 1).join("/")}`,
-  }));
+const crumbs = slug.split("/").map((name, i, all) => ({
+  "@type": "ListItem",
+  position: i + 2,
+  name: name.replaceAll("-", " "),
+  item: `${site}/${all.slice(0, i + 1).join("/")}`,
+}));
 const schema: any = {
   "@context": "https://schema.org",
   "@graph": [
@@ -30,8 +28,8 @@ if (page.guide)
     "@type": "Article",
     headline: page.title,
     description: page.description,
-    datePublished: "2026-10-02",
-    dateModified: "2026-10-02",
+    datePublished: slug.includes("claude-code") ? "2026-10-05" : "2026-10-02",
+    dateModified: "2026-10-05",
     author: {
       "@type": "Person",
       name: "Mithil Katkoria",
@@ -52,7 +50,9 @@ if (page.guide)
       <p class="eyebrow">{page.label}</p>
       <h1>{page.title}</h1>
       <p class="lede">{page.description}</p>
-      {page.guide && <p class="mono">BY MITHIL KATKORIA / 2 OCTOBER 2026</p>}
+      {page.guide && (
+        <p class="mono">BY MITHIL KATKORIA / UPDATED 5 OCTOBER 2026</p>
+      )}
     </header>
     <div class="article">
       <nav aria-label="On this page">

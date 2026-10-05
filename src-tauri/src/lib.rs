@@ -7,6 +7,8 @@ pub mod workspace;
 pub mod desktop;
 pub mod host;
 pub mod streamer;
+pub mod providers;
+pub mod claude;
 use model::*;
 use std::{collections::HashMap,path::PathBuf,sync::{Arc,Mutex}};
 use tauri::{Emitter,Manager,State};
@@ -23,20 +25,22 @@ impl Hub {
 #[tauri::command] async fn detect_recording_apps()->Result<Vec<String>,String>{tauri::async_runtime::spawn_blocking(streamer::detect).await.map_err(|_|"Recording app detection is unavailable".to_string())?}
 #[tauri::command] fn set_streamer_privacy(app:tauri::AppHandle,active:bool){streamer::set_private(active);update_tray(&app);}
 #[tauri::command] fn load_state(hub:State<Hub>)->Store {hub.read()}
+#[tauri::command] fn open_provider_docs()->Result<(),String>{open::that("https://code.claude.com/docs/en/setup").map_err(|_|"Could not open provider documentation".into())}
 #[tauri::command] fn open_releases()->Result<(),String>{open::that("https://github.com/mithilkatkoria/VeyDock/releases").map_err(|_|"Could not open GitHub releases in your browser.".into())}
 #[tauri::command] async fn detect_codex(hub:State<'_,Hub>)->Result<codex::Installation,String>{let settings=hub.read().settings;tauri::async_runtime::spawn_blocking(move||codex::detect(&settings)).await.map_err(|_|"Detection failed".into())}
 #[tauri::command] async fn choose_path(kind:String)->Option<String>{tauri::async_runtime::spawn_blocking(move||{let dialog=rfd::FileDialog::new();let path=if kind=="exe" {dialog.add_filter("Windows executable",&["exe"]).pick_file()}else{dialog.pick_folder()};path.map(|p|p.to_string_lossy().into_owned())}).await.ok().flatten()}
 #[derive(serde::Deserialize)] #[serde(rename_all="camelCase")]
-struct ProfileInput {id:Option<String>,name:String,plan:String,accent:String,availability:String,existing_home:Option<PathBuf>}
+struct ProfileInput {#[serde(default="default_provider")] provider:String,id:Option<String>,name:String,plan:String,accent:String,availability:String,existing_home:Option<PathBuf>}
 #[tauri::command] fn save_profile(app:tauri::AppHandle,hub:State<Hub>,input:ProfileInput)->Result<Profile,String>{
+ let adapter=providers::adapter(&input.provider)?;
  let name=name(&input.name)?;
  if !["plus","pro","other"].contains(&input.plan.as_str())||!["available","reserved","friend-priority"].contains(&input.availability.as_str())||!["blue","violet","mint","amber","rose"].contains(&input.accent.as_str()){return Err("Invalid profile preference".into())}
- let profile=if let Some(id)=input.id {let mut p=hub.profile(&id)?;p.name=name;p.plan=input.plan;p.accent=input.accent;p.availability=input.availability;p}else{
-  let id=uuid::Uuid::new_v4().to_string();let base=hub.root().join(&id);let source=input.existing_home.as_ref().map(|p|directory(p)).transpose()?;let managed=true;let home=base.join("home");
+ let profile=if let Some(id)=input.id {let mut p=hub.profile(&id)?;if p.provider!=input.provider{return Err("A saved profile cannot change provider. Create a separate profile.".into())}p.name=name;p.plan=input.plan;p.accent=input.accent;p.availability=input.availability;p}else{
+  let id=uuid::Uuid::new_v4().to_string();let base=hub.root().join(&input.provider).join(&id);if input.provider!="codex"&&input.existing_home.is_some(){return Err("Claude credentials cannot be imported. Use its normal sign-in.".into())}let source=input.existing_home.as_ref().map(|p|directory(p)).transpose()?;let managed=true;let home=base.join("home");
   if hub.read().profiles.iter().any(|p|p.home==home){return Err("This Codex home is already in the Hub.".into())}
   std::fs::create_dir_all(base.join("desktop")).map_err(|_|"Cannot create isolated profile storage")?;
-  if managed {std::fs::create_dir_all(&home).map_err(|_|"Cannot create Codex home")?;std::fs::write(home.join("config.toml"),"# Authentication is managed by Codex in this isolated home.\ncli_auth_credentials_store = \"file\"\n").map_err(|_|"Cannot initialize profile configuration")?;if let Some(source)=source {workspace::import_account(&source,&home)?;}}
-  Profile{id,name,plan:input.plan,accent:input.accent,availability:input.availability,home,desktop_data:base.join("desktop"),managed,created_at:now(),last_used_at:None,connection:"auth-required".into(),identity_key:None,account_email:None,actual_plan:None}
+  if managed {adapter.initialize(&home)?;if let Some(source)=source {workspace::import_account(&source,&home)?;}}
+  Profile{provider:input.provider,id,name,plan:input.plan,accent:input.accent,availability:input.availability,home,desktop_data:base.join("desktop"),managed,created_at:now(),last_used_at:None,connection:"auth-required".into(),identity_key:None,account_email:None,actual_plan:None}
  };
  hub.update(|s|{s.profiles.retain(|p|p.id!=profile.id);s.profiles.push(profile.clone());Ok(())})?;update_tray(&app);Ok(profile)
 }
@@ -50,7 +54,7 @@ struct ProfileInput {id:Option<String>,name:String,plan:String,accent:String,ava
 #[tauri::command] fn remove_project(hub:State<Hub>,id:String)->Result<(),String>{hub.update(|s|{s.projects.retain(|p|p.id!=id);Ok(())})}
 #[tauri::command] fn save_settings(hub:State<Hub>,settings:Settings)->Result<Settings,String>{
  if !(30..=3600).contains(&settings.refresh_seconds){return Err("Choose a refresh interval between 30 and 3600 seconds.".into())}
- for p in [&settings.desktop_exe,&settings.cli_exe].into_iter().flatten(){if !p.is_absolute()||!p.is_file()||!p.extension().is_some_and(|x|x.eq_ignore_ascii_case("exe")){return Err("Choose an existing .exe file.".into())}}
+ for p in [&settings.desktop_exe,&settings.cli_exe,&settings.claude_exe].into_iter().flatten(){if !p.is_absolute()||!p.is_file()||!p.extension().is_some_and(|x|x.eq_ignore_ascii_case("exe")){return Err("Choose an existing .exe file.".into())}}
  if let Some(p)=&settings.profile_root {directory(p)?;}
  let previous=hub.read().settings;
  set_startup(settings.startup)?;
@@ -62,6 +66,7 @@ fn set_startup(enabled:bool)->Result<(),String>{
 }
 async fn refresh(app:&tauri::AppHandle,id:String)->Result<Snapshot,String>{
  let hub=app.state::<Hub>();let _slot=hub.usage_slots.acquire().await.map_err(|_|"Usage refresh stopped")?;let _workspace_guard=hub.workspace_gate.read().await;let op=hub.operation(&id);let _guard=op.try_lock().map_err(|_|"Profile is busy connecting or launching. Try again shortly.")?;let p=hub.profile(&id)?;
+ if providers::adapter(&p.provider)?.capabilities().terminal_launch {let snapshot=claude::usage(&p)?;hub.update(|s|{s.usage_cache.insert(id.clone(),snapshot.clone());Ok(())})?;let _=app.emit("usage-updated",json!({"id":id,"snapshot":snapshot}));return Ok(snapshot)}
  let cli=codex::detect(&hub.read().settings).cli.ok_or("Codex CLI was not found. Locate it in Settings.")?;
  let result=async {let home=workspace::usage_home(&p,&workspace::shared_home()?)?;let mut rpc=codex::Rpc::start(&cli,&home).await?;let (account,value)=rpc.account_with_limits().await?;let key=codex::identity_key(&account)?;if p.identity_key.as_ref().is_some_and(|expected|expected!=&key){return Err("AUTH_REQUIRED: This folder now contains a different account. Reconnect deliberately before using it.".into())}let snapshot=usage::parse(&value)?;rpc.stop().await;workspace::sync_active_slot(&p,&home)?;hub.update(|s|{if let Some(p)=s.profiles.iter_mut().find(|p|p.id==id){p.identity_key=Some(key);p.account_email=account.get("email").and_then(Value::as_str).map(String::from);p.actual_plan=account.get("planType").and_then(Value::as_str).map(String::from);}Ok(())})?;Ok::<_,String>(snapshot)}.await;
  let snapshot=match result {Ok(snapshot)=>{hub.update(|s|{if let Some(p)=s.profiles.iter_mut().find(|p|p.id==id){p.connection="connected".into();s.usage_cache.insert(id.clone(),snapshot.clone());}Ok(())})?;snapshot},Err(message)=>{let state=if message.starts_with("AUTH_REQUIRED") {"auth-required"}else if message.starts_with("OFFLINE") {"offline"}else {"unavailable"};let mut snapshot=hub.read().usage_cache.get(&id).cloned().unwrap_or(Snapshot{windows:vec![],fetched_at:String::new(),source:"Codex app-server".into(),state:state.into(),message:None,reset_credits:None});snapshot.state=state.into();snapshot.message=Some(message);if state=="auth-required" {hub.update(|s|{if let Some(p)=s.profiles.iter_mut().find(|p|p.id==id){p.connection="auth-required".into();}Ok(())})?;}snapshot}};
@@ -73,6 +78,7 @@ async fn refresh(app:&tauri::AppHandle,id:String)->Result<Snapshot,String>{
  // Codex's browser callback listener can be shared across homes; serialize interactive login only.
  let auth_op=hub.operation("__interactive_login");let _auth_guard=auth_op.try_lock().map_err(|_|"Finish or cancel the other profile's sign-in first.")?;
  let p=hub.profile(&id)?;
+ if providers::adapter(&p.provider)?.capabilities().terminal_launch {let exe=claude::detect(&hub.read().settings).ok_or("Claude Code was not found. Install the native Windows CLI first.")?;if let Ok(identity)=claude::validate(&exe,&p).await{if p.identity_key.as_ref()==Some(&identity.key){hub.update(|s|{if let Some(p)=s.profiles.iter_mut().find(|p|p.id==id){p.connection="connected".into();}Ok(())})?;return Ok(())}}hub.update(|s|{if let Some(p)=s.profiles.iter_mut().find(|p|p.id==id){p.connection="auth-required".into();}Ok(())})?;claude::launch(&exe,&p,None,true)?;return Ok(())}
  let home=workspace::shared_home()?;
  let cli=codex::detect(&hub.read().settings).cli.ok_or("Codex CLI is missing. Locate it in Settings.")?;
  // A stale UI connection flag must not force another browser ceremony. Reuse a
@@ -125,7 +131,7 @@ fn switch_progress(app:&tauri::AppHandle,id:&str,stage:&str,message:&str) {
 }
 #[tauri::command] fn workspace_status(hub:State<Hub>)->Result<Value,String> {
  let home=workspace::shared_home()?;
- let active=hub.read().profiles.into_iter().find(|p|workspace::is_active(p,&home).unwrap_or(false)).map(|p|p.id);
+ let active=hub.read().profiles.into_iter().find(|p|p.provider=="codex"&&workspace::is_active(p,&home).unwrap_or(false)).map(|p|p.id);
  Ok(json!({"home":home,"activeProfileId":active,"pending":hub.pending_switch.lock().unwrap().clone()}))
 }
 #[tauri::command] fn cancel_switch(hub:State<Hub>) {
@@ -133,6 +139,16 @@ fn switch_progress(app:&tauri::AppHandle,id:&str,stage:&str,message:&str) {
 }
 #[tauri::command] async fn launch_profile(app:tauri::AppHandle,id:String,project_id:Option<String>)->Result<String,String>{
  let hub=app.state::<Hub>();
+ let p=hub.profile(&id)?;
+ if providers::adapter(&p.provider)?.capabilities().terminal_launch {
+  let op=hub.operation(&id);let _guard=op.try_lock().map_err(|_|"Profile is busy")?;
+  let exe=claude::detect(&hub.read().settings).ok_or("Claude Code was not found. Install the native Windows CLI first.")?;
+  let identity=claude::validate(&exe,&p).await?;
+  if p.identity_key.as_ref()!=Some(&identity.key){return Err("AUTH_REQUIRED: Claude identity changed. Check connection deliberately before launching.".into())}
+  let project=project_id.as_ref().map(|id|hub.read().projects.into_iter().find(|p|&p.id==id).ok_or("Project no longer exists")).transpose()?;
+  let result=claude::launch(&exe,&p,project.as_ref().map(|p|p.path.as_path()),false)?;
+  hub.update(|s|{if let Some(p)=s.profiles.iter_mut().find(|p|p.id==id){p.last_used_at=Some(now());}if let Some(project)=project.as_ref(){if let Some(p)=s.projects.iter_mut().find(|p|p.id==project.id){p.last_opened_at=Some(now());}}Ok(())})?;return Ok(result)
+ }
  let switch=hub.operation("__workspace_launch");
  let _launch_guard=switch.try_lock().map_err(|_|"An account switch is already pending. Finish or cancel it first.")?;
  let cancel=Arc::new(tokio::sync::Notify::new());
@@ -230,26 +246,27 @@ async fn launch_in_workspace(app:&tauri::AppHandle,id:&str,project_id:Option<Str
  Ok(result)
 }
 #[tauri::command] async fn diagnostics(hub:State<'_,Hub>,id:Option<String>)->Result<Value,String>{
- let _workspace_guard=hub.workspace_gate.read().await;let install=codex::detect(&hub.read().settings);let mut report=json!({"installation":install,"storagePath":hub.path,"independentHost":!host::is_codex_package().unwrap_or(true),"profileCount":hub.read().profiles.len(),"storageWritable":hub.path.parent().is_some_and(|p|p.is_dir()),"credentials":"Managed locally by Codex. No secrets are read into the Hub UI."});
+ if let Some(ref id)=id {let p=hub.profile(id)?;if p.provider=="claude-code"{let installation=providers::adapter(&p.provider)?.detect(&hub.read().settings);let auth=if let Some(exe)=&installation.executable{match claude::validate(exe,&p).await{Ok(_)=>"Connected through official Claude CLI".into(),Err(e)=>e}}else{"Claude Code not detected".into()};return Ok(json!({"provider":p.provider,"installation":installation,"homeExists":p.home.is_dir(),"authentication":auth,"credentials":"Managed by Claude Code. Not copied or returned to the UI.","quota":"Last confirmed status-line readings; no arbitrary live quota endpoint"}))}}
+ let _workspace_guard=hub.workspace_gate.read().await;let install=codex::detect(&hub.read().settings);let mut report=json!({"providers":providers::installations(&hub.read().settings),"installation":install,"storagePath":hub.path,"independentHost":!host::is_codex_package().unwrap_or(true),"profileCount":hub.read().profiles.len(),"storageWritable":hub.path.parent().is_some_and(|p|p.is_dir()),"credentials":"Managed locally by Codex. No secrets are read into the Hub UI."});
  if let Some(id)=id {let p=hub.profile(&id)?;let op=hub.operation(&id);let _guard=op.try_lock().map_err(|_|"Profile is busy")?;report["homeExists"]=p.home.is_dir().into();report["desktopWorkspace"]="Existing Codex workspace (shared across accounts)".into();if let Some(cli)=install.cli {let result=async {let home=workspace::usage_home(&p,&workspace::shared_home()?)?;let mut rpc=codex::Rpc::start(&cli,&home).await?;rpc.account_with_limits().await?;rpc.stop().await;Ok::<_,String>(())}.await;report["authentication"]=match result{Ok(())=>"Connected through Codex".into(),Err(e)=>e.into()};}}
  Ok(report)
 }
 #[tauri::command] fn open_profile_folder(hub:State<Hub>,id:String)->Result<(),String>{open::that(hub.profile(&id)?.home).map_err(|_|"Cannot open profile folder".into())}
 #[tauri::command] async fn export_config(hub:State<'_,Hub>)->Result<bool,String>{
- let s=hub.read();let safe=json!({"version":1,"profiles":s.profiles.iter().map(|p|json!({"id":p.id,"name":p.name,"plan":p.plan,"accent":p.accent,"availability":p.availability})).collect::<Vec<_>>(),"projects":s.projects,"settings":s.settings});
+ let s=hub.read();let safe=json!({"version":2,"profiles":s.profiles.iter().map(|p|json!({"provider":p.provider,"id":p.id,"name":p.name,"plan":p.plan,"accent":p.accent,"availability":p.availability})).collect::<Vec<_>>(),"projects":s.projects,"settings":s.settings});
  tauri::async_runtime::spawn_blocking(move||{if let Some(path)=rfd::FileDialog::new().set_file_name("veydock-config.json").add_filter("JSON",&["json"]).save_file(){std::fs::write(path,serde_json::to_vec_pretty(&safe).map_err(|_|"Cannot encode export")?).map_err(|_|"Cannot write export")?;Ok(true)}else{Ok(false)}}).await.map_err(|_|"Export dialog failed".to_string())?
 }
 #[tauri::command] async fn import_config(app:tauri::AppHandle,hub:State<'_,Hub>)->Result<bool,String>{
  let file=tauri::async_runtime::spawn_blocking(||rfd::FileDialog::new().add_filter("JSON",&["json"]).pick_file()).await.map_err(|_|"Import dialog failed")?;let Some(file)=file else{return Ok(false)};
  let bytes=std::fs::read(file).map_err(|_|"Cannot read import")?;if bytes.len()>2_000_000{return Err("Configuration file is too large".into())}
- let raw:Value=serde_json::from_slice(&bytes).map_err(|_|"Invalid JSON")?;if raw["version"]!=1{return Err("Unsupported export version".into())}
+ let raw:Value=serde_json::from_slice(&bytes).map_err(|_|"Invalid JSON")?;if raw["version"]!=1&&raw["version"]!=2{return Err("Unsupported export version".into())}
  // Never trust imported home paths or credentials. Recreate empty isolated homes and remap projects.
  let entries=raw["profiles"].as_array().ok_or("Profiles missing in export")?;
  let mut profiles=vec![];let mut mapping=HashMap::new();
- for v in entries {let old=v["id"].as_str().ok_or("Invalid profile id")?;if mapping.contains_key(old){return Err("Duplicate profile id in export".into())}let id=uuid::Uuid::new_v4().to_string();let base=hub.root().join(&id);let profile=Profile{id:id.clone(),name:name(v["name"].as_str().ok_or("Invalid profile name")?)?,plan:v["plan"].as_str().filter(|v|["pro","plus","other"].contains(v)).ok_or("Invalid plan")?.into(),accent:v["accent"].as_str().filter(|v|["blue","mint","violet","amber","rose"].contains(v)).ok_or("Invalid accent")?.into(),availability:v["availability"].as_str().filter(|v|["available","reserved","friend-priority"].contains(v)).ok_or("Invalid reservation")?.into(),home:base.join("home"),desktop_data:base.join("desktop"),managed:true,created_at:now(),last_used_at:None,connection:"auth-required".into(),identity_key:None,account_email:None,actual_plan:None};mapping.insert(old.to_string(),id);profiles.push(profile);}
+ for v in entries {let provider=v["provider"].as_str().unwrap_or("codex");providers::adapter(provider)?;let old=v["id"].as_str().ok_or("Invalid profile id")?;if mapping.contains_key(old){return Err("Duplicate profile id in export".into())}let id=uuid::Uuid::new_v4().to_string();let base=hub.root().join(&id);let profile=Profile{provider:provider.into(),id:id.clone(),name:name(v["name"].as_str().ok_or("Invalid profile name")?)?,plan:v["plan"].as_str().filter(|v|["pro","plus","other"].contains(v)).ok_or("Invalid plan")?.into(),accent:v["accent"].as_str().filter(|v|["blue","mint","violet","amber","rose"].contains(v)).ok_or("Invalid accent")?.into(),availability:v["availability"].as_str().filter(|v|["available","reserved","friend-priority"].contains(v)).ok_or("Invalid reservation")?.into(),home:base.join("home"),desktop_data:base.join("desktop"),managed:true,created_at:now(),last_used_at:None,connection:"auth-required".into(),identity_key:None,account_email:None,actual_plan:None};mapping.insert(old.to_string(),id);profiles.push(profile);}
  let mut projects:Vec<Project>=serde_json::from_value(raw["projects"].clone()).map_err(|_|"Invalid projects in export")?;
  for p in &mut projects {p.id=uuid::Uuid::new_v4().to_string();p.name=name(&p.name)?;if !p.path.is_absolute(){return Err("Imported project needs an absolute path".into())}p.preferred_profile_id=p.preferred_profile_id.as_ref().and_then(|id|mapping.get(id)).cloned();}
- for p in &profiles{std::fs::create_dir_all(&p.home).map_err(|_|"Cannot create imported profile")?;std::fs::create_dir_all(&p.desktop_data).map_err(|_|"Cannot create desktop profile")?;std::fs::write(p.home.join("config.toml"),"cli_auth_credentials_store = \"file\"\n").map_err(|_|"Cannot initialize imported profile")?;}
+ for p in &profiles{providers::adapter(&p.provider)?.initialize(&p.home)?;std::fs::create_dir_all(&p.desktop_data).map_err(|_|"Cannot create profile storage")?;}
  hub.update(|s|{s.profiles.extend(profiles);s.projects.extend(projects);Ok(())})?;update_tray(&app);Ok(true)
 }
 fn show(app:&tauri::AppHandle){if let Some(w)=app.get_webview_window("main"){let _=w.show();let _=w.unminimize();let _=w.set_focus();}}
@@ -262,7 +279,7 @@ fn keep_saved_login_current(app:tauri::AppHandle) {
    let Ok(home)=workspace::shared_home() else{continue};
    // Desktop can rotate credentials between usage refreshes. Preserve its latest
    // file in the matching slot, including while the Hub is hidden in the tray.
-   for profile in hub.read().profiles {
+   for profile in hub.read().profiles.into_iter().filter(|p|p.provider=="codex") {
     let operation=hub.operation(&profile.id);
     let Ok(_guard)=operation.try_lock() else{continue};
     let _=workspace::sync_active_slot(&profile,&home);
@@ -270,7 +287,29 @@ fn keep_saved_login_current(app:tauri::AppHandle) {
   }
  });
 }
-fn update_tray(app:&tauri::AppHandle){use tauri::menu::{Menu,MenuItem};let Ok(menu)=Menu::new(app) else{return};let add=|id:String,label:String|{if let Ok(item)=MenuItem::with_id(app,id,label,true,None::<&str>){let _=menu.append(&item);}};add("dashboard".into(),"VeyDock".into());let mut profiles=app.state::<Hub>().read().profiles;profiles.sort_by(|a,b|a.created_at.cmp(&b.created_at).then(a.id.cmp(&b.id)));for (index,p) in profiles.into_iter().enumerate(){let label=if streamer::private(){format!("Account {}",index+1)}else{p.name};add(format!("profile:{}",p.id),format!("Open {} - {}",label,p.availability.replace('-'," ")));}add("refresh".into(),"Refresh all limits".into());add("settings".into(),"Settings".into());add("quit".into(),"Quit VeyDock".into());if let Some(tray)=app.tray_by_id("hub"){let _=tray.set_menu(Some(menu));}}
+fn update_tray(app:&tauri::AppHandle){
+ use tauri::menu::{Menu,MenuItem,Submenu};let Ok(menu)=Menu::new(app) else{return};
+ let add=|id:&str,label:&str|{if let Ok(item)=MenuItem::with_id(app,id,label,true,None::<&str>){let _=menu.append(&item);}};
+ add("dashboard","VeyDock");let mut profiles=app.state::<Hub>().read().profiles;profiles.sort_by(|a,b|a.created_at.cmp(&b.created_at).then(a.id.cmp(&b.id)));
+ for provider in ["codex","claude-code"]{let Ok(adapter)=providers::adapter(provider) else{continue};let Ok(group)=Submenu::new(app,adapter.name(),true) else{continue};let mut count=0;
+  for (index,p) in profiles.iter().enumerate().filter(|(_,p)|p.provider==provider){let label=if streamer::private(){format!("Account {}",index+1)}else{p.name.clone()};if let Ok(item)=MenuItem::with_id(app,format!("profile:{}",p.id),format!("Open {} - {}",label,p.availability.replace('-'," ")),true,None::<&str>){let _=group.append(&item);count+=1;}}
+  if count>0{let _=menu.append(&group);}
+ }
+ add("refresh","Refresh reported usage");add("settings","Settings");add("quit","Quit VeyDock");if let Some(tray)=app.tray_by_id("hub"){let _=tray.set_menu(Some(menu));}
+}
+
+#[tauri::command] fn detect_providers(hub:State<Hub>)->Vec<providers::Installation>{providers::installations(&hub.read().settings)}
+#[tauri::command] async fn check_profile_connection(app:tauri::AppHandle,id:String)->Result<(),String>{
+ let hub=app.state::<Hub>();let p=hub.profile(&id)?;
+ if !providers::adapter(&p.provider)?.capabilities().terminal_launch{return Err("Use Codex Connect account for this profile".into())}
+ let op=hub.operation(&id);let _guard=op.try_lock().map_err(|_|"Profile is busy")?;
+ let exe=claude::detect(&hub.read().settings).ok_or("Claude Code is not installed")?;let identity=claude::validate(&exe,&p).await?;
+ if p.identity_key.as_ref()!=Some(&identity.key){let cache=p.home.join(".veydock-usage.json");if cache.exists(){std::fs::remove_file(cache).map_err(|_|"Cannot clear the previous identity's quota cache")?;}}
+ hub.update(|s|{let p=s.profiles.iter_mut().find(|p|p.id==id).ok_or("Profile no longer exists")?;p.account_email=Some(identity.email);p.identity_key=Some(identity.key);p.connection="connected".into();s.usage_cache.remove(&id);Ok(())})?;
+ let _=app.emit("profile-updated",hub.profile(&id)?);update_tray(&app);Ok(())
+}
+#[tauri::command] fn enable_usage_helper(hub:State<Hub>,id:String)->Result<(),String>{let p=hub.profile(&id)?;if p.provider!="claude-code"{return Err("This helper is for Claude Code profiles".into())}let op=hub.operation(&id);let _guard=op.try_lock().map_err(|_|"Profile is busy")?;claude::install_helper(&p)}
+
 pub fn run(){
  match host::handoff_if_needed(){Ok(true)=>return,Ok(false)=>{},Err(error)=>{let _=rfd::MessageDialog::new().set_title("Open VeyDock independently").set_description(error).show();return;}}
  let builder=tauri::Builder::default().plugin(tauri_plugin_updater::Builder::new().build()).manage(updates::UpdateState::default()).plugin(tauri_plugin_single_instance::init(|app,_,_|show(app))).setup(|app|{
@@ -287,6 +326,6 @@ pub fn run(){
   if std::env::args().any(|a|a=="--background"){if let Some(w)=app.get_webview_window("main"){let _=w.hide();}}
   Ok(())
  }).on_window_event(|w,event|{if let tauri::WindowEvent::CloseRequested{api,..}=event {if w.app_handle().state::<Hub>().read().settings.minimize_to_tray{api.prevent_close();let _=w.hide();}}})
- .invoke_handler(tauri::generate_handler![updates::check_update,updates::install_update,open_releases,detect_recording_apps,set_streamer_privacy,load_state,detect_codex,choose_path,save_profile,remove_profile,save_project,remove_project,save_settings,refresh_usage,login_profile,cancel_login,launch_profile,workspace_status,cancel_switch,diagnostics,open_profile_folder,export_config,import_config]);
+ .invoke_handler(tauri::generate_handler![updates::check_update,updates::install_update,open_releases,open_provider_docs,detect_providers,check_profile_connection,enable_usage_helper,detect_recording_apps,set_streamer_privacy,load_state,detect_codex,choose_path,save_profile,remove_profile,save_project,remove_project,save_settings,refresh_usage,login_profile,cancel_login,launch_profile,workspace_status,cancel_switch,diagnostics,open_profile_folder,export_config,import_config]);
  if let Err(error)=builder.run(tauri::generate_context!()){let _=rfd::MessageDialog::new().set_title("VeyDock could not start").set_description(format!("{error}\nYour profile files have been preserved.")).set_level(rfd::MessageLevel::Error).show();}
 }

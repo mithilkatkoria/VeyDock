@@ -15,3 +15,9 @@ it('shows precise used and remaining percentages with the actual window length a
 });
 
 it('keeps reconnect as the action while an expired login refreshes cached limits',()=>{const snapshot:Snapshot={state:'refreshing',fetchedAt:'1970-01-01T00:00:00Z',source:'test fixture',message:null,windows:[]};render(<ProfileCard {...props} profile={{...profile,connection:'auth-required'}} snapshot={snapshot}/>);expect(screen.getByRole('button',{name:'Connect account'})).toBeDefined();expect(screen.queryByRole('button',{name:/Open anyway/i})).toBeNull();});
+
+it('presents Claude quota as last confirmed and never shows Codex reset credits',()=>{
+ const snapshot:Snapshot={state:'stale',fetchedAt:'1970-01-01T00:00:00Z',source:'Claude statusline fixture',message:null,windows:[{id:'claude-code:five_hour',label:'5 hour',bucket:'claude-code',remainingPercent:36,usedPercent:64,resetsAt:1000,durationMins:300}]};
+ render(<ProfileCard {...props} profile={{...profile,provider:'claude-code',availability:'available'}} snapshot={snapshot}/>);
+ expect(screen.getByText('Last confirmed')).toBeDefined();expect(screen.getByRole('meter',{name:'claude-code 5 hour remaining'})).toBeDefined();expect(screen.getByRole('button',{name:'Open Claude Code'})).toBeDefined();expect(screen.queryByText('Banked resets')).toBeNull();expect(screen.queryByText('live')).toBeNull();
+});

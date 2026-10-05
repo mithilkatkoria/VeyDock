@@ -69,7 +69,7 @@ if (notfound.status() !== 404) throw Error("404 status " + notfound.status());
 await page.emulateMedia({ reducedMotion: "reduce" });
 await page.goto(origin);
 const reduced = await page
-  .locator(".hero-copy")
+  .locator(".universal-heading")
   .evaluate((el) => getComputedStyle(el).animationName);
 if (reduced !== "none") throw Error("Reduced motion failed");
 await page.goto(origin + "/download");

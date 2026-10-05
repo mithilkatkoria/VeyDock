@@ -4,13 +4,22 @@
 
 <img src="src-tauri/icons/128x128.png" alt="VeyDock icon" width="72" height="72">
 
-**A fast Windows control panel for multiple Codex profiles.**
+**A Windows profile dock for AI coding tools.**
 
-VeyDock, or **VDock** for short, keeps your saved Codex profiles in one place so you can see current usage, reset times, availability, and deliberately open the profile you want without repeating the full sign-in flow every time.
+VeyDock, or **VDock** for short, keeps your saved provider profiles in one place so you can see current usage, reset times, availability, and deliberately open the profile you want without repeating the full sign-in flow every time.
 
 [Download for Windows](https://github.com/mithilkatkoria/VeyDock/releases) · [Changelog](CHANGELOG.md) · [Verification](VERIFICATION.md) · [Contributing](CONTRIBUTING.md)
 
-> VeyDock is an independent community project. It is not affiliated with or endorsed by OpenAI.
+> VeyDock is an independent community project. It is not affiliated with or endorsed by OpenAI or Anthropic.
+
+## Providers
+
+| Provider | Launch | Usage | Acceptance |
+| --- | --- | --- | --- |
+| Codex | Existing Desktop workspace with normal-quit handoff | Independent app-server rate limits | Real Desktop A/B/A remains pending |
+| Claude Code beta | Separate `CLAUDE_CONFIG_DIR` terminal | Last-confirmed supported status-line cache | Real Claude A/B/A remains pending |
+
+Claude beta supports normal claude.ai sign-ins only. Keyless Console authentication is not isolated by the configuration directory and is unsupported. API keys, setup tokens and cloud-provider logins are excluded. There is no Claude Desktop integration or promise of concurrent-account reliability. See [Claude setup](docs/CLAUDE_CODE.md).
 
 ## Why VeyDock
 
@@ -38,7 +47,7 @@ Get the latest Windows build from the [Releases page](https://github.com/mithilk
 
 The current prerelease targets Windows x64 and also runs on Windows ARM through x64 emulation.
 
-You also need Codex Desktop, Codex CLI, and Microsoft Edge WebView2.
+You need Microsoft Edge WebView2 and the provider you choose. Codex uses Desktop and CLI. Claude Code beta uses the official native Windows CLI (v2.1.268 or later).
 
 ## How it works
 

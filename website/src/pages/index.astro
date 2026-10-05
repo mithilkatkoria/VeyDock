@@ -5,27 +5,38 @@ const r = await getRelease();
 const scenes = [
   [
     "01",
-    "PROFILE",
-    "Every profile.\nOne deliberate choice.",
-    "Keep your configured accounts together. Choose the one you want, with no automatic rotation or preference for Pro. Reserved profiles and Friend Priority remain your decision.",
+    "PROFILES",
+    "Your identities.\nYour decision.",
+    "Keep personal, work and reserved profiles in a single dock. No fixed account cap. No automatic rotation. Friend Priority stays exactly where you put it.",
+    "/docs/add-profile",
   ],
   [
     "02",
     "USAGE",
-    "Read the limit.\nThen make your move.",
-    "See remaining allowance, reset times and when the data was last confirmed. Each profile refreshes independently. Pro is allowed to have different windows from Plus.",
+    "Know what is known.",
+    "Codex reads real app-server limits independently. Claude Code beta reads supported status-line quota after a response. Last confirmed is labelled. Missing data is N/A, never an invented allowance.",
+    "/docs/providers",
   ],
   [
     "03",
-    "LAUNCH",
-    "Your workspace.\nThe profile you choose.",
-    "VeyDock prepares a shared-workspace handoff after Codex quits normally. Save your work first. Real A/B/A switching acceptance is still pending in the public alpha.",
+    "PROVIDERS",
+    "Two tools.\nDifferent rules.",
+    "Codex opens the established Desktop workspace through a normal-quit handoff. Claude Code beta opens an isolated Windows terminal with its own configuration directory. One interface does not mean identical capabilities.",
+    "/providers",
   ],
   [
     "04",
+    "LAUNCH",
+    "A folder.\nA profile.\nGo.",
+    "Choose a project and an explicit provider profile. Claude opens in that folder. Codex keeps its existing workspace. Authentication remains with each provider's normal sign-in flow.",
+    "/how-it-works",
+  ],
+  [
+    "05",
     "QUICK",
-    "Less reaching.\nMore doing.",
-    "The desktop quick launcher puts profiles and actions behind Ctrl + K. Try the website demonstration here. It does not open or control your local Codex app.",
+    "Find your next move.",
+    "Search provider, profile and project from the desktop quick launcher. Try the website demo with Ctrl + K. This page cannot control your local apps.",
+    "/docs/quick-launch",
   ],
 ];
 const schema = {
@@ -34,18 +45,16 @@ const schema = {
     {
       "@type": "SoftwareApplication",
       name: "VeyDock",
+      alternateName: "VDock",
       description:
-        "Windows Codex profile switcher and usage manager. Public alpha with account-switch verification pending.",
+        "An independent Windows profile dock for AI coding tools. Codex support and Claude Code beta in development.",
       operatingSystem: "Windows",
       applicationCategory: "DeveloperApplication",
       url: site,
       downloadUrl: r.url,
       softwareVersion: r.version,
-      author: {
-        "@type": "Person",
-        name: "Mithil Katkoria",
-        url: "https://github.com/mithilkatkoria",
-      },
+      license: `${repository}/blob/main/LICENSE`,
+      author: { "@type": "Person", name: "Mithil Katkoria" },
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     },
     { "@type": "WebSite", name: "VeyDock", url: site },
@@ -54,87 +63,105 @@ const schema = {
 ---
 
 <Layout
-  title="VeyDock | Codex Account Switcher for Windows"
-  description="A Windows Codex profile manager for usage limits, reset times and deliberate account switching. Explore the open-source alpha, documentation and real downloads."
+  title="VeyDock | A Windows Profile Dock for AI Coding Tools"
+  description="Keep Codex profiles, real usage limits and deliberate launches in one Windows dock. Explore Claude Code beta, provider documentation and MIT-licensed source."
   schema={schema}
 >
-  <section class="hero wrap">
-    <div class="hero-copy">
-      <p class="eyebrow">
-        VEYDOCK <span>WINDOWS UTILITY / 01</span>
-      </p>
-      <h1>
-        Switch Codex
-        <br />
-        profiles.
-        <br />
-        <span>Keep your flow.</span>
-      </h1>
-      <p class="hero-description">
-        A Windows Codex profile switcher and usage manager. Your accounts, usage
-        windows and next move, in one control panel.
-      </p>
-      <div class="hero-actions">
-        <a class="button" href="/download">
-          Download for Windows <span>↓</span>
-        </a>
-        <a class="text-link" href={repository}>
-          Inspect the source ↗
-        </a>
-      </div>
-      <p class="mono release-line">v{r.version} / X64 / MIT / PUBLIC ALPHA</p>
+  <section class="universal-hero wrap">
+    <div class="hero-index mono">
+      <span>VEYDOCK / VDOCK</span>
+      <span>AN INDEPENDENT WINDOWS INSTRUMENT</span>
     </div>
-    <figure class="hero-media">
+    <div class="universal-heading">
+      <h1>
+        One dock.
+        <br />
+        Your AI coding
+        <br />
+        <span>profiles.</span>
+      </h1>
+      <div class="hero-side">
+        <p class="eyebrow">CONTROL, WITHOUT THE CLUTTER</p>
+        <p>
+          A Windows profile dock for AI coding tools. Keep accounts, reported
+          usage and deliberate launches within reach.
+        </p>
+        <div class="hero-actions">
+          <a class="button" href="/download">
+            Download for Windows <span>↓</span>
+          </a>
+          <a class="text-link" href={repository}>
+            Open source ↗
+          </a>
+        </div>
+        <p class="mono release-line">
+          PUBLIC DOWNLOAD / v{r.version} / X64 / MIT
+        </p>
+      </div>
+    </div>
+    <div class="provider-strip">
+      <a href="/providers/codex">
+        <span class="provider-number mono">01</span>
+        <strong>Codex</strong>
+        <span>Desktop + live rate limits</span>
+        <b>↗</b>
+      </a>
+      <a href="/providers/claude-code">
+        <span class="provider-number mono">02</span>
+        <strong>Claude Code</strong>
+        <span>Isolated terminal / beta</span>
+        <b>↗</b>
+      </a>
+    </div>
+    <figure class="dock-preview">
       <div class="media-label mono">
-        <span>01 / THE CONTROL PANEL</span>
-        <span>DEVELOPMENT PREVIEW</span>
+        <span>THE DOCK / DEVELOPMENT INTERFACE</span>
+        <span>SAFE SAMPLE PROFILES</span>
       </div>
       <img
-        src="/media/veydock-codex-switcher-windows.webp"
+        src="/media/veydock-mixed-provider-dock.webp"
         width="1600"
         height="1000"
-        alt="VeyDock profile cards displaying safe sample usage, reserved status and Open Codex controls"
+        alt="Actual VeyDock development interface with Codex and Claude Code beta profile cards, using clearly simulated data"
         fetchpriority="high"
       />
       <figcaption>
-        Real interface. Simulated data. Newer than the current download.
+        Actual interface, simulated data. Claude beta is in development. Check
+        release notes for the capabilities of the current download.
       </figcaption>
     </figure>
-    <div class="hero-bottom mono">
-      <span>CHOOSE. CHECK. DOCK.</span>
-      <a href="#sequence">EXPLORE THE INSTRUMENT ↓</a>
-    </div>
   </section>
   <section class="editorial">
     <div class="wrap editorial-inner">
-      <p class="eyebrow">A SMALL TOOL FOR A SPECIFIC JOB</p>
+      <p class="eyebrow">DIFFERENT TOOLS. ONE DELIBERATE CHOICE.</p>
       <h2>
-        Four accounts.
+        Choose the profile.
         <br />
-        Three accounts.
-        <br />
-        <span>Your accounts.</span>
+        <span>Keep the context.</span>
       </h2>
       <div class="editorial-copy">
-        <p>You shouldn’t have to guess which profile has room to work.</p>
         <p>
-          VeyDock brings configured profiles and real Codex rate-limit readings
-          into one place. No fixed account cap. No silent switching. No made-up
-          production allowances.
+          Personal work. Client work. A reserved account for a friend. They
+          deserve names, boundaries and a place to land.
         </p>
-        <a class="text-link" href="/how-it-works">
-          Understand the handoff ↗
+        <p>
+          VeyDock organises the profiles you authorise. It does not change
+          provider quotas, promise unlimited usage or decide who should get
+          priority.
+        </p>
+        <a class="text-link" href="/features">
+          What the dock does ↗
         </a>
       </div>
     </div>
   </section>
   <section id="sequence" class="sequence wrap">
     <div class="sequence-heading">
-      <p class="eyebrow">THE DOCKING SEQUENCE</p>
-      <p class="mono">01 → 04 / UNDER YOUR CONTROL</p>
+      <p class="eyebrow">THE DOCK RAIL</p>
+      <p class="mono">01 → 05 / UNDER YOUR CONTROL</p>
     </div>
     <div class="sequence-grid">
-      <div class="rail" aria-label="Product sequence">
+      <nav class="rail" aria-label="Product sequence">
         {scenes.map(([n, label]) => (
           <a href={`#scene-${n}`} data-rail={n}>
             <span class="rail-dot"></span>
@@ -143,9 +170,9 @@ const schema = {
             </span>
           </a>
         ))}
-      </div>
+      </nav>
       <div class="scene-copy">
-        {scenes.map(([n, label, title, body]) => (
+        {scenes.map(([n, label, title, body, href]) => (
           <section class="scene" id={`scene-${n}`} data-scene={n}>
             <p class="eyebrow">
               {n} / {label}
@@ -159,21 +186,12 @@ const schema = {
               ))}
             </h2>
             <p>{body}</p>
-            {n === "04" ? (
+            {n === "05" ? (
               <button class="button secondary" data-command>
                 Try quick dock <kbd>Ctrl K</kbd>
               </button>
             ) : (
-              <a
-                class="text-link"
-                href={
-                  n === "02"
-                    ? "/docs/usage-limits"
-                    : n === "03"
-                      ? "/docs/switch-profiles"
-                      : "/docs/add-profile"
-                }
-              >
+              <a class="text-link" href={href}>
                 Read the details ↗
               </a>
             )}
@@ -184,11 +202,11 @@ const schema = {
         <div class="media-label mono">ACTUAL INTERFACE / SAMPLE DATA</div>
         <div class="screen-crop">
           <img
-            src="/media/veydock-codex-switcher-windows.webp"
+            src="/media/veydock-mixed-provider-dock.webp"
             width="1600"
             height="1000"
             loading="lazy"
-            alt="Development VeyDock interface showing independent account usage meters"
+            alt="Mixed provider profiles in the VeyDock development build"
           />
         </div>
         <figcaption id="scene-caption">
@@ -196,6 +214,69 @@ const schema = {
         </figcaption>
       </figure>
     </div>
+  </section>
+  <section class="provider-matrix wrap">
+    <p class="eyebrow">CAPABILITIES, NOT ASSUMPTIONS</p>
+    <h2>
+      Same dock.
+      <br />
+      <span>Provider-specific behaviour.</span>
+    </h2>
+    <div class="table-scroll">
+      <table>
+        <caption>
+          Implemented development capabilities. Real account switching
+          acceptance is pending.
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Capability</th>
+            <th scope="col">Codex</th>
+            <th scope="col">Claude Code beta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Launch surface</th>
+            <td>Existing Desktop workspace</td>
+            <td>Isolated Windows terminal</td>
+          </tr>
+          <tr>
+            <th scope="row">Usage source</th>
+            <td>App-server rate limits</td>
+            <td>Supported status-line fields</td>
+          </tr>
+          <tr>
+            <th scope="row">Freshness</th>
+            <td>Independent live refresh</td>
+            <td>Last confirmed after a response</td>
+          </tr>
+          <tr>
+            <th scope="row">Sign-in</th>
+            <td>Normal OpenAI browser flow</td>
+            <td>Normal claude.ai CLI flow</td>
+          </tr>
+          <tr>
+            <th scope="row">Isolation boundary</th>
+            <td>Managed homes, shared Desktop handoff</td>
+            <td>Separate CLAUDE_CONFIG_DIR</td>
+          </tr>
+          <tr>
+            <th scope="row">Acceptance</th>
+            <td>Desktop A/B/A pending</td>
+            <td>Real A/B/A pending, beta</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="alpha-note">
+      Claude keyless Console sign-ins are not isolated by its configuration
+      directory and are unsupported in this beta. Concurrent-account reliability
+      is not claimed.
+    </p>
+    <a class="text-link" href="/providers">
+      Explore both providers ↗
+    </a>
   </section>
   <section class="trust wrap">
     <p class="eyebrow">LOCAL CONTROL / OPEN SOURCE</p>
@@ -208,23 +289,27 @@ const schema = {
       <p>
         MIT licensed. Created by Mithil Katkoria.
         <br />
-        An independent project, built in the open.
+        Independent of OpenAI and Anthropic.
       </p>
     </div>
     <div class="trust-rows">
       <a href="/security">
-        <strong>Authentication stays with Codex.</strong>
-        <span>Normal OpenAI sign-in. No ChatGPT password form.</span>
+        <strong>Sign-in stays with the provider.</strong>
+        <span>No password collection. No Claude credential copying.</span>
         <b>↗</b>
       </a>
       <a href="/security#local-data">
-        <strong>Local does not mean risk-free.</strong>
-        <span>Saved authentication and backups are sensitive files.</span>
+        <strong>Local files are still sensitive.</strong>
+        <span>
+          Keep authentication out of Git and public support attachments.
+        </span>
         <b>↗</b>
       </a>
       <a href={`${repository}/blob/main/VERIFICATION.md`}>
         <strong>Evidence before promises.</strong>
-        <span>Read what was tested, and what still needs verification.</span>
+        <span>
+          Build checks and real account acceptance are different tests.
+        </span>
         <b>↗</b>
       </a>
       <a href={`${repository}/blob/main/LICENSE`}>
@@ -240,8 +325,8 @@ const schema = {
     <p class="eyebrow">READY TO DOCK?</p>
     <div>
       <h2>
-        A clearer view.
-        <br />A deliberate next move.
+        Your profiles.
+        <br />A clearer next move.
       </h2>
       <a class="button" href="/download">
         Get VeyDock for Windows <span>↓</span>
@@ -249,9 +334,9 @@ const schema = {
     </div>
     <p class="mono">v{r.version} / WINDOWS X64 / UNSIGNED PRERELEASE</p>
     <p class="alpha-note">
-      The public build is alpha software. Windows may show an unknown-publisher
-      warning. Account-switch acceptance and installer-driven updating are not
-      yet fully verified.
+      The current download is an unsigned prerelease. Windows may display an
+      unknown-publisher warning. Provider support depends on the downloaded
+      version. Real switching and installer-update acceptance remain pending.
     </p>
   </section>
 </Layout>

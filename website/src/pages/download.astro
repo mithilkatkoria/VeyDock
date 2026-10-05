@@ -5,7 +5,7 @@ const r = await getRelease();
 ---
 
 <Layout
-  title="Download VeyDock for Windows x64 | Official Alpha"
+  title="Download VeyDock for Windows x64 | Official Windows Build"
   description="Download the current real VeyDock Windows x64 installer from GitHub. Check its version, checksum, unsigned publisher status and setup requirements."
 >
   <section class="page wrap">
@@ -63,7 +63,7 @@ const r = await getRelease();
           </div>
           <div>
             <dt>PUBLISHER SIGNING</dt>
-            <dd>Unsigned public alpha</dd>
+            <dd>Unsigned prerelease</dd>
           </div>
         </dl>
         {r.stale && (
@@ -76,8 +76,7 @@ const r = await getRelease();
       <div class="download-note">
         <h3>Before you run it.</h3>
         <p>
-          The current alpha uses its historical installer name. That is the real
-          file, not a different product.
+          Some older releases use the historical Draey installer name. The filename above comes from the actual GitHub release.
         </p>
         <p>
           Windows may show Unknown publisher or SmartScreen warnings. Verify the
@@ -85,7 +84,7 @@ const r = await getRelease();
           signing.
         </p>
         <p>
-          Codex Desktop, the Codex CLI and WebView2 are required. ARM Windows
+          WebView2 and your chosen provider are required. Codex uses Desktop and CLI; Claude Code beta uses the native Claude CLI. ARM Windows
           uses x64 emulation; there is no native ARM package.
         </p>
         <p>
@@ -98,7 +97,7 @@ const r = await getRelease();
       </div>
     </div>
     <div class="prose">
-      <h2>What you should know about this alpha</h2>
+      <h2>What you should know about this prerelease</h2>
       <p>
         Real per-profile usage refresh has been observed. Complete real-desktop
         account-switch acceptance and installer-driven updating are still
@@ -114,7 +113,7 @@ const r = await getRelease();
       </p>
       <h2>How do later updates arrive?</h2>
       <p>
-        The alpha has an update check and an explicit install action. Nothing
+        The app has an update check and an explicit install action. Nothing
         silently rotates accounts or installs a new build. Until
         installer-driven updating passes real acceptance, use the latest
         official release installer to update. Saved Hub data is stored

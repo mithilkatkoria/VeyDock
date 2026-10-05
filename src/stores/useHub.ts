@@ -1,3 +1,4 @@
+import { providerFor } from '../services/providers';
 import { useEffect, useRef, useState } from 'react';
 import { emptyStore, type Installation, type Snapshot, type Store, type Profile, type WorkspaceStatus, type WorkspaceSwitch } from '../types';
 import { native, onNative } from '../services/native';
@@ -9,6 +10,7 @@ export function useHub() {
  const [workspace,setWorkspace]=useState<WorkspaceStatus>();
  const refreshWorkspace=()=>native<WorkspaceStatus>('workspace_status').then(setWorkspace).catch(()=>{});
  const [loaded,setLoaded]=useState(false);const [loadError,setLoadError]=useState('');const [error,setError]=useState('');const [now,setNow]=useState(Date.now());
+ const [notice,setNotice]=useState('');
  const [busy,setBusy]=useState<Record<string,string>>({});
  const ref=useRef(store);ref.current=store;
  const coordinator=useRef<RefreshCoordinator>(undefined);
@@ -30,7 +32,8 @@ export function useHub() {
  },[]);
  useEffect(()=>{if(!loaded)return;let last=Date.now();const run=()=>{last=Date.now();void coordinator.current!.all(ref.current.profiles);};const focus=()=>{if(ref.current.settings.refreshOnFocus&&Date.now()-last>=15000)run();};const timer=setInterval(()=>{if(ref.current.settings.autoRefresh&&document.visibilityState==='visible')run();},store.settings.refreshSeconds*1000);window.addEventListener('focus',focus);return()=>{clearInterval(timer);window.removeEventListener('focus',focus);};},[loaded,store.settings.refreshSeconds]);
  async function launch(id:string,projectId:string|null=null){setError('');setBusy(s=>({...s,[id]:'Preparing profile…'}));try{const message=await native<string>('launch_profile',{id,projectId});await reload();setBusy(s=>({...s,[id]:message}));setTimeout(()=>{setBusy(s=>({...s,[id]:''}));void coordinator.current!.refresh(id);},1800);}catch(e){if(!String(e).startsWith('Account switch cancelled'))setError(String(e));setBusy(s=>({...s,[id]:''}));}finally{void refreshWorkspace();}}
- async function login(id:string){setError('');setBusy(s=>({...s,[id]:'Starting OpenAI sign-in…'}));try{await native('login_profile',{id});await reload(id);await coordinator.current!.refresh(id);}catch(e){if(!String(e).includes('Sign-in cancelled'))setError(String(e));}finally{setBusy(s=>({...s,[id]:''}));}}
- return{store,loadError,retryLoad:async()=>{try{await reload();await coordinator.current!.all(ref.current.profiles);}catch(e){setLoadError(String(e));}},workspace,cancelSwitch:()=>native('cancel_switch').catch(e=>setError(String(e))),installation,setInstallation,loaded,error,setError,now,busy,reload,launch,login,refresh:(id:string)=>coordinator.current!.refresh(id),refreshAll:()=>coordinator.current!.all(ref.current.profiles)};
+ async function login(id:string){setError('');setBusy(s=>({...s,[id]:`Starting ${providerFor(ref.current.profiles.find(p=>p.id===id)??{}).name} sign-in…`}));try{const p=ref.current.profiles.find(p=>p.id===id);await providerFor(p??{}).authenticate(id);const next=await reload(id);await coordinator.current!.refresh(id);if(p&&providerFor(p).terminal&&next.profiles.find(p=>p.id===id)?.connection!=='connected')setNotice('Finish Claude sign-in in the terminal, then open profile settings and choose Check connection.');}catch(e){if(!String(e).includes('Sign-in cancelled'))setError(String(e));}finally{setBusy(s=>({...s,[id]:''}));}}
+ async function validate(id:string){setError('');setBusy(s=>({...s,[id]:'Checking connection…'}));try{const p=ref.current.profiles.find(p=>p.id===id);await providerFor(p??{}).validate(id);await reload(id);await coordinator.current!.refresh(id);setNotice('Connection verified. Open the profile when ready.');}catch(e){setError(String(e));}finally{setBusy(s=>({...s,[id]:''}));}}
+ return{validate,store,loadError,retryLoad:async()=>{try{await reload();await coordinator.current!.all(ref.current.profiles);}catch(e){setLoadError(String(e));}},workspace,cancelSwitch:()=>native('cancel_switch').catch(e=>setError(String(e))),installation,setInstallation,loaded,error,setError,notice,setNotice,now,busy,reload,launch,login,refresh:(id:string)=>coordinator.current!.refresh(id),refreshAll:()=>coordinator.current!.all(ref.current.profiles)};
 }
 export type HubView = ReturnType<typeof useHub>;
