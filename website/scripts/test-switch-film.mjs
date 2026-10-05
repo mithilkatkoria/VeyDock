@@ -8,7 +8,7 @@ try {
  const context=await browser.newContext({viewport:{width:1440,height:1000}}); const page=await context.newPage();
  const errors=[]; page.on("pageerror",e=>errors.push(e.message));
  await page.goto(origin); const film=page.locator("[data-switch-film]"); await film.scrollIntoViewIfNeeded();
- await page.getByRole("button",{name:"Open Codex as alex@example.com in simulated demo",exact:true}).click();
+ await page.locator("[data-film-account=alex]").click();
  await page.waitForTimeout(2600);
  assert.equal(await film.getAttribute("data-stage"),"1");
  await page.getByRole("button",{name:"Pause walkthrough",exact:true}).click();
@@ -22,7 +22,7 @@ try {
  await mkdir("research",{recursive:true}); await page.waitForTimeout(750); await film.screenshot({path:"research/film-codex-desktop.png"});
  await page.getByRole("button",{name:"Claude Code Beta terminal",exact:true}).click();
  assert.equal(await film.getAttribute("data-provider"),"claude"); assert.equal(await film.getAttribute("data-stage"),"0");
- await page.getByRole("button",{name:"Open Claude Code as sam@example.com in simulated demo",exact:true}).click();
+ await page.locator("[data-film-account=sam]").click();
  await page.getByRole("button",{name:"Pause walkthrough",exact:true}).click();
  await page.locator("[data-film-progress]").evaluate(el=>{el.value="9000";el.dispatchEvent(new Event("input",{bubbles:true}));});
  assert.equal(await film.getAttribute("data-stage"),"3");
@@ -35,7 +35,7 @@ try {
  await page.waitForTimeout(750); await film.screenshot({path:"research/film-claude-mobile.png"});
  const axe=await new AxeBuilder({page}).include("#walkthrough").analyze(); assert.deepEqual(axe.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)})),[]);
  await page.emulateMedia({reducedMotion:"reduce"});
- await page.getByRole("button",{name:"Open Claude Code as alex@example.com in simulated demo",exact:true}).click();
+ await page.locator("[data-film-account=alex]").click();
  assert.equal(await film.getAttribute("data-stage"),"1");assert.equal(await page.getByRole("button",{name:"Pause walkthrough",exact:true}).count(),0);
  await page.getByRole("button",{name:"Play walkthrough",exact:true}).click();assert.equal(await film.getAttribute("data-stage"),"2");
  await page.getByRole("button",{name:"Play walkthrough",exact:true}).click();assert.equal(await film.getAttribute("data-stage"),"3");

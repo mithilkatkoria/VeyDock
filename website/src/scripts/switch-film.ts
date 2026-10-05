@@ -71,7 +71,7 @@ if (film) {
     get("[data-film-initial]").textContent = account === "alex" ? "A" : "S";
     film!.querySelectorAll<HTMLButtonElement>("[data-film-account]").forEach(button => {
       button.setAttribute("aria-pressed", String(button.dataset.filmAccount === account));
-      button.setAttribute("aria-label", `Open ${provider === "codex" ? "Codex" : "Claude Code"} as ${button.dataset.filmAccount}@example.com in simulated demo`);
+      button.title = `Open ${provider === "codex" ? "Codex" : "Claude Code"} as ${button.dataset.filmAccount}@example.com in simulated demo`;
     });
   }
   film.querySelectorAll<HTMLButtonElement>("[data-film-account]").forEach(button => button.addEventListener("click", () => {

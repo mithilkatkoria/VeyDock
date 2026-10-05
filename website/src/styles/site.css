@@ -1327,3 +1327,5 @@ dialog input {
 .product-questions details p { color:var(--muted); max-width:800px; padding-bottom:20px; margin:0; }
 .product-questions details a { color:var(--bone); text-decoration:underline; text-underline-offset:3px; }
 @media(max-width:720px) { .fit-section { grid-template-columns:1fr; gap:28px; padding-block:45px 55px; } .fit-rows h3 { font-size:20px; } .product-questions { padding-block:45px; } .product-questions summary { font-size:16px; } }
+
+.fit-boundary a { text-decoration:underline; text-underline-offset:3px; }
