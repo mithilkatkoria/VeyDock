@@ -4,9 +4,10 @@ const origin = process.env.TEST_ORIGIN || "https://veydock-website.vercel.app";
 const browser = await chromium.launch({ channel: "msedge", headless: true });
 const page = await browser.newPage();
 const errors = [];
+let expectedNotFound = false;
 page.on("pageerror", (e) => errors.push(e.message));
 page.on("console", (m) => {
-  if (m.type() === "error") errors.push(m.text());
+  if (m.type() === "error" && !(expectedNotFound && m.text().includes("404"))) errors.push(m.text());
 });
 await mkdir("research", { recursive: true });
 const results = [];
@@ -64,7 +65,9 @@ for (const url of urls) {
     throw Error("Meta failure " + url);
   meta.push({ url, status: response.status(), ...m });
 }
-const notfound = await page.goto(origin + "/not-a-real-page");
+expectedNotFound = true;
+const notfound = await page.goto(origin + "/not-a-real-page",{waitUntil:"networkidle"});
+expectedNotFound = false;
 if (notfound.status() !== 404) throw Error("404 status " + notfound.status());
 await page.emulateMedia({ reducedMotion: "reduce" });
 await page.goto(origin);

@@ -22,22 +22,32 @@ VeyDock $version - Windows x64 (also runs on ARM Windows through emulation)
 
 Extract this folder, then open VeyDock.exe.
 For Windows Search and a Start menu shortcut, use the setup.exe installer.
-Install Codex Desktop and Codex CLI separately. Open Codex normally once, then
-add and connect your own accounts in the Hub. No personal data is bundled.
+Install your chosen provider separately. Codex uses Desktop and CLI.
+Claude Code beta uses the official native Windows CLI (v2.1.268 or later).
+Add account, choose the provider, and complete its normal sign-in.
+No personal data, accounts or provider binaries are bundled.
 
 Switching: choose a saved account in the Hub, then let Codex quit normally.
 Use Quit instead of Sign out. Signing out can revoke a saved login.
 The Hub requests a normal restart and retains your existing Codex workspace.
 If Codex remains in the background, use File > Quit (Ctrl+Q). The selected
 account stays queued for up to ten minutes and continues after Codex exits.
-Real A/B/A Desktop acceptance is still pending; this is an unsigned alpha.
+Real A/B/A Desktop acceptance is still pending; this is an unsigned prerelease.
+
+Claude Code beta: each profile uses its own CLAUDE_CONFIG_DIR terminal.
+Finish normal claude.ai sign-in, then choose Check connection in the Hub.
+Optionally enable the quota helper in profile settings. The Hub labels its
+readings Last confirmed, not live. Keyless Console sign-ins, API keys, setup
+tokens, cloud providers and Claude Desktop are unsupported. Claude real A/B/A
+and concurrent-account reliability remain pending. See docs/CLAUDE_CODE.md.
 
 Streamer mode: use the bottom-left Auto / On / Off control to mask private
 details in the Hub. Auto detects supported apps running, not actual recording.
-Choose On before sharing. Codex and browser login windows are not masked.
+Choose On before sharing. Codex, Claude terminals and browser login windows are not masked.
 
 Updates: the Hub checks after startup. Use Settings > App updates to download
-and install a verified newer release. Your saved account store is preserved.
+and install a verified newer release. Your saved account store is preserved. Installer-update acceptance on a
+clean friend computer is still pending.
 The portable app becomes an installed app when using this update path.
 Update signing does not remove Windows Unknown publisher warnings.
 
