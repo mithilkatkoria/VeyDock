@@ -1,11 +1,11 @@
 {
   "platforms": {
     "windows-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVURDlGUnlQRUpyVEM2bytwZWpGdmN3ZTRTZ3FzR241SVBNMnpGRllpTmlycXI4OGpBRUdtZTMzK05jbVFlZlJ6RXZ2MFp6NVhhVHVUOWIvcGRpY2dIc2x6UFFWL2IwWHdBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzg4ODE0OTM3CWZpbGU6RHJhZXkgQ29kZXggSHViXzAuMS4wLWFscGhhLjRfeDY0LXNldHVwLmV4ZQpOQVYwcFdlZHBTcGxhWDM1V3RiOWU0OXI0WFAxdUF2eE9OdDAwZ2xHWWZNb01ZenBWa2N6RjVDOFV5dWw4WkdERXdsZWV6STY1ajIxLytjQ0hzQzlDQT09Cg==",
-      "url": "https://github.com/mithilkatkoria/VeyDock/releases/download/v0.1.0-alpha.4/Draey-Codex-Hub-setup.exe"
+      "url": "https://github.com/mithilkatkoria/VeyDock/releases/download/v0.2.0-beta.1/VeyDock-setup.exe",
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVURDlGUnlQRUpyVEdPZjRWZjBEVWJaQXM2VEU2bXJYenptSXlmbXgyOGZ5cDBtTFNUTlNJOHdqWXFVUXdiOEYyVjVYbXBCemMwUHJwR3FCU2tQY1RSYW1LTDZnaklKb0FJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxMjA0MTg0CWZpbGU6VmV5RG9ja18wLjIuMC1iZXRhLjFfeDY0LXNldHVwLmV4ZQptcWttV3BpRG83cGFUQ0NPWm9ZZTRyUmZCblBuTEVJZytOdkpraXRyRm5DUmtjTWZEcnM3NDRXajJCRktrWHBWc2Irb25yRDRrUjZCWVNRWG5YKzBEQT09Cg=="
     }
   },
-  "pub_date": "2026-09-07T21:02:52.6798638Z",
-  "version": "0.1.0-alpha.4",
-  "notes": "Draey Codex Hub 0.1.0-alpha.4. See the release notes on GitHub for changes and verification details."
+  "version": "0.2.0-beta.1",
+  "notes": "VeyDock 0.2.0-beta.1. See the release notes on GitHub for changes and verification details.",
+  "pub_date": "2026-10-05T12:43:04.9367993Z"
 }
