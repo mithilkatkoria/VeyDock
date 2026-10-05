@@ -1,0 +1,45 @@
+import { chromium } from "playwright";
+import { AxeBuilder } from "@axe-core/playwright";
+import { mkdir } from "node:fs/promises";
+import assert from "node:assert/strict";
+const origin=process.env.TEST_ORIGIN || "http://127.0.0.1:4321";
+const browser=await chromium.launch({channel:"msedge",headless:true});
+try {
+ const context=await browser.newContext({viewport:{width:1440,height:1000}}); const page=await context.newPage();
+ const errors=[]; page.on("pageerror",e=>errors.push(e.message));
+ await page.goto(origin); const film=page.locator("[data-switch-film]"); await film.scrollIntoViewIfNeeded();
+ await page.getByRole("button",{name:"Open Codex as alex@example.com in simulated demo",exact:true}).click();
+ await page.waitForTimeout(2600);
+ assert.equal(await film.getAttribute("data-stage"),"1");
+ await page.getByRole("button",{name:"Pause walkthrough",exact:true}).click();
+ const paused=await page.locator("[data-film-progress]").inputValue(); await page.waitForTimeout(200);
+ assert.equal(await page.locator("[data-film-progress]").inputValue(),paused);
+ await page.getByRole("button",{name:"Next scene →",exact:true}).click();
+ assert.equal(await film.getAttribute("data-stage"),"2");
+ await page.getByRole("button",{name:"Next scene →",exact:true}).click();
+ assert.equal(await film.getAttribute("data-stage"),"3");
+ assert.equal(await page.locator("[data-film-email]").textContent(),"alex@example.com");
+ await mkdir("research",{recursive:true}); await page.waitForTimeout(750); await film.screenshot({path:"research/film-codex-desktop.png"});
+ await page.getByRole("button",{name:"Claude Code Beta terminal",exact:true}).click();
+ assert.equal(await film.getAttribute("data-provider"),"claude"); assert.equal(await film.getAttribute("data-stage"),"0");
+ await page.getByRole("button",{name:"Open Claude Code as sam@example.com in simulated demo",exact:true}).click();
+ await page.getByRole("button",{name:"Pause walkthrough",exact:true}).click();
+ await page.locator("[data-film-progress]").evaluate(el=>{el.value="9000";el.dispatchEvent(new Event("input",{bubbles:true}));});
+ assert.equal(await film.getAttribute("data-stage"),"3");
+ assert.equal(await page.locator("[data-film-terminal-email]").textContent(),"sam@example.com");
+ assert.equal(await page.locator("[data-film-progress]").inputValue(),"9000");
+ assert.match(await page.locator("[data-film-docs]").getAttribute("href"),/claude-code/);
+ await page.waitForTimeout(750); await film.screenshot({path:"research/film-claude-desktop.png"});
+ const widths=[1920,1440,1366,820,430,390];
+ for(const width of widths){await page.setViewportSize({width,height:1000});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width);}
+ await page.waitForTimeout(750); await film.screenshot({path:"research/film-claude-mobile.png"});
+ const axe=await new AxeBuilder({page}).include("#walkthrough").analyze(); assert.deepEqual(axe.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)})),[]);
+ await page.emulateMedia({reducedMotion:"reduce"});
+ await page.getByRole("button",{name:"Open Claude Code as alex@example.com in simulated demo",exact:true}).click();
+ assert.equal(await film.getAttribute("data-stage"),"1");assert.equal(await page.getByRole("button",{name:"Pause walkthrough",exact:true}).count(),0);
+ await page.getByRole("button",{name:"Play walkthrough",exact:true}).click();assert.equal(await film.getAttribute("data-stage"),"2");
+ await page.getByRole("button",{name:"Play walkthrough",exact:true}).click();assert.equal(await film.getAttribute("data-stage"),"3");
+ await page.locator("[data-film-progress]").focus();await page.keyboard.press("Home");assert.equal(await film.getAttribute("data-stage"),"0");
+ await page.getByRole("button",{name:"Replay walkthrough",exact:true}).click(); assert.equal(await film.getAttribute("data-stage"),"1");
+ assert.deepEqual(errors,[]); console.log(JSON.stringify({providers:2,identities:2,playPause:true,scrubbing:true,keyboard:true,reducedMotion:true,widths,axeViolations:axe.violations.length,browserErrors:errors}));
+} finally {await browser.close();}

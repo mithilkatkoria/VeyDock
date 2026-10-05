@@ -1,0 +1,34 @@
+---
+import "../styles/switch-film.css";
+---
+<section class="switch-film wrap" id="walkthrough" aria-labelledby="film-title" data-switch-film data-provider="codex" data-stage="0">
+  <div class="film-heading"><div><p class="eyebrow">THE SWITCH / AN INTERACTIVE FILM</p><h2 id="film-title">Different identity.<br /><span>Same direction.</span></h2></div><p>Choose a sample profile. Follow the handoff, then see where it lands. You control the next move.</p></div>
+  <div class="film-shell">
+    <div class="film-top"><div class="film-provider" role="group" aria-label="Walkthrough provider"><button type="button" data-film-provider="codex" aria-pressed="true">Codex <span>Desktop</span></button><button type="button" data-film-provider="claude" aria-pressed="false">Claude Code <span>Beta terminal</span></button></div><span class="film-disclosure mono">SIMULATED DEMO</span></div>
+    <div class="film-stage">
+      <div class="film-source">
+        <div class="film-window-title"><span class="film-mark" aria-hidden="true">V</span><strong>VeyDock</strong><span class="mono">01 / CHOOSE</span></div>
+        <p class="film-source-label">Your sample profiles</p>
+        <button type="button" class="film-account" data-film-account="alex"><span class="film-avatar">A</span><span><strong>Personal</strong><small>alex@example.com</small></span><span class="film-account-arrow" aria-hidden="true">Open ↗</span></button>
+        <button type="button" class="film-account" data-film-account="sam"><span class="film-avatar">S</span><span><strong>Work</strong><small>sam@example.com</small></span><span class="film-account-arrow" aria-hidden="true">Open ↗</span></button>
+        <div class="film-source-bottom"><span class="film-local-dot"></span> Sample workspace <span class="mono">LOCAL</span></div>
+      </div>
+      <div class="film-transfer" aria-hidden="true"><span class="film-transfer-line"></span><span class="film-transfer-arrow">→</span></div>
+      <div class="film-destination">
+        <div class="film-window-title"><strong data-film-app-title>Codex</strong><span class="mono">02 / ARRIVE</span></div>
+        <div class="film-idle"><span class="film-idle-symbol" aria-hidden="true">↗</span><strong>Your next session.</strong><p>Select a profile to play the walkthrough.</p><button type="button" class="film-start" data-film-start>Play account switch <span>▶</span></button></div>
+        <div class="film-arrival">
+          <div class="film-codex"><aside><strong>Projects</strong><span>Example workspace</span><span class="film-project-selected">Website refresh</span><span>Design system</span></aside><div><span class="mono">EXAMPLE WORKSPACE</span><h3>Pick up your next task.</h3><p>The workspace is shown with the selected sample identity.</p><div class="film-composer">Ask Codex about your project <span>↑</span></div></div></div>
+          <div class="film-claude"><div class="film-terminal-label mono">CLAUDE CODE / WINDOWS TERMINAL</div><div class="film-terminal-body mono"><span class="film-terminal-brand">✳ Claude Code</span><p>Example project: website-refresh</p><p class="film-terminal-prompt">&gt; /status</p><p>Account: <strong data-film-terminal-email>sam@example.com</strong></p><p>Configuration: <span>selected profile directory</span></p><p class="film-terminal-prompt">&gt; <span class="film-caret" aria-hidden="true">▌</span></p></div></div>
+          <div class="film-identity"><span class="film-avatar" data-film-initial>S</span><div><small>SELECTED SAMPLE IDENTITY</small><strong data-film-email>sam@example.com</strong></div><span class="film-identity-check" aria-hidden="true">✓</span></div>
+        </div>
+        <div class="film-handoff"><span class="film-handoff-index mono" data-film-step-number>01</span><strong data-film-handoff-title>Choose your profile</strong><p data-film-handoff-body>A deliberate choice. Never automatic rotation.</p><span class="film-loader" aria-hidden="true"></span></div>
+      </div>
+    </div>
+    <div class="film-caption"><span class="mono" data-film-chapter>READY WHEN YOU ARE</span><p data-film-caption role="status" aria-live="polite">Select Personal or Work to watch a simulated account switch.</p></div>
+    <div class="film-controls"><button type="button" data-film-play aria-label="Play walkthrough">▶</button><button type="button" data-film-replay aria-label="Replay walkthrough">↺</button><label class="sr-only" for="film-progress">Walkthrough position</label><input id="film-progress" data-film-progress type="range" min="0" max="12000" step="100" value="0" /><span class="mono" data-film-time>0:00 / 0:12</span><button type="button" data-film-next>Next scene →</button></div>
+  </div>
+  <div class="film-footnote"><p>Illustrated workflow, fictional identities. This film does not control local apps or demonstrate verified authentication. Real account-switching acceptance is still pending.</p><a data-film-docs href="/docs/providers/codex">How the Codex handoff works ↗</a></div>
+  <noscript><p>JavaScript enables this interactive walkthrough. Read the <a href="/docs/providers">provider documentation</a> for each launch workflow.</p></noscript>
+</section>
+<script src="../scripts/switch-film.ts" />

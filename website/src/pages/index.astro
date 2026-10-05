@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import SwitchFilm from "../components/SwitchFilm.astro";
 import { getRelease, site, repository } from "../lib/release";
 const r = await getRelease();
 const scenes = [
@@ -90,8 +91,8 @@ const schema = {
           <a class="button" href="/download">
             Download for Windows <span>↓</span>
           </a>
-          <a class="text-link" href={repository}>
-            Open source ↗
+          <a class="text-link" href="#walkthrough">
+            Watch the switch ▶
           </a>
         </div>
         <p class="mono release-line">
@@ -131,6 +132,7 @@ const schema = {
       </figcaption>
     </figure>
   </section>
+  <SwitchFilm />
   <section class="editorial">
     <div class="wrap editorial-inner">
       <p class="eyebrow">DIFFERENT TOOLS. ONE DELIBERATE CHOICE.</p>

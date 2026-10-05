@@ -53,3 +53,9 @@ The Vercel GitHub connection deploys changes on main using website as the root. 
 ## Canonical address migration
 
 The production address is now https://veydock.vercel.app. The previous veydock-website.vercel.app address redirects to it. The earlier Lighthouse report records the original deployment host; the domain change does not constitute a fresh Lighthouse measurement. Search Console ownership must be verified for the new URL-prefix property.
+
+## Interactive switch film
+
+The homepage now includes a lightweight, user-controlled illustrated walkthrough for Codex Desktop and Claude Code beta. Fictional example.com identities and a persistent simulated-demo label distinguish it from real account acceptance. Codex shows the normal-quit handoff; Claude shows its Windows terminal rather than Claude Desktop. No provider credentials or local launch requests are used.
+
+Validated play/pause, account selection, provider changes, scrubbing, replay, keyboard range input, reduced-motion manual scenes, six viewport widths and zero Axe violations in the film. Animation pauses off screen or when the tab is hidden. Run node scripts/test-switch-film.mjs from website, optionally with TEST_ORIGIN set to production.
