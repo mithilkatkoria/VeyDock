@@ -71,6 +71,7 @@ if (film) {
     get("[data-film-initial]").textContent = account === "alex" ? "A" : "S";
     film!.querySelectorAll<HTMLButtonElement>("[data-film-account]").forEach(button => {
       button.setAttribute("aria-pressed", String(button.dataset.filmAccount === account));
+      button.querySelector<HTMLElement>(".film-account-arrow")!.textContent = provider === "codex" ? "Open Codex ↗" : "Open terminal ↗";
       button.title = `Open ${provider === "codex" ? "Codex" : "Claude Code"} as ${button.dataset.filmAccount}@example.com in simulated demo`;
     });
   }
@@ -83,6 +84,8 @@ if (film) {
     reset(); identity(); renderedStage = -1;
     film!.querySelectorAll<HTMLButtonElement>("[data-film-provider]").forEach(b => b.setAttribute("aria-pressed", String(b === button)));
     get("[data-film-app-title]").textContent = provider === "codex" ? "Codex" : "Claude Code";
+    const sceneLabels = provider === "codex" ? ["Choose account", "Quit normally", "Reopen workspace", "Check identity"] : ["Choose account", "Check profile", "Open terminal", "Check identity"];
+    film!.querySelectorAll(".film-scene-nav strong").forEach((label, index) => label.textContent = sceneLabels[index]);
     const docs = get<HTMLAnchorElement>("[data-film-docs]");
     docs.href = provider === "codex" ? "/docs/providers/codex" : "/docs/providers/claude-code";
     docs.textContent = provider === "codex" ? "How the Codex handoff works ↗" : "How Claude Code profiles work ↗";
