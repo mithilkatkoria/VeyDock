@@ -29,7 +29,7 @@ if (page.guide)
     headline: page.title,
     description: page.description,
     datePublished: slug.includes("claude-code") ? "2026-10-05" : "2026-10-02",
-    dateModified: "2026-10-05",
+    dateModified: slug === "guides/multiple-codex-accounts-windows" ? "2026-10-09" : "2026-10-05",
     author: {
       "@type": "Person",
       name: "Mithil Katkoria",
@@ -51,7 +51,7 @@ if (page.guide)
       <h1>{page.title}</h1>
       <p class="lede">{page.description}</p>
       {page.guide && (
-        <p class="mono">BY MITHIL KATKORIA / UPDATED 5 OCTOBER 2026</p>
+        <p class="mono">BY MITHIL KATKORIA / UPDATED {slug === "guides/multiple-codex-accounts-windows" ? "9" : "5"} OCTOBER 2026</p>
       )}
     </header>
     <div class="article">

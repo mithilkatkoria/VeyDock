@@ -106,7 +106,7 @@ export const pages: Record<string, Page> = {
       ),
       section(
         "status",
-        "Before relying on the alpha",
+        "Before relying on the prerelease",
         verification +
           "<p>VeyDock is independent and is not affiliated with or endorsed by OpenAI or Anthropic.</p>",
       ),
@@ -126,7 +126,7 @@ export const pages: Record<string, Page> = {
       section(
         "install",
         "Download and install",
-        '<ol><li>Open the <a href="/download">download page</a> and choose the real setup EXE.</li><li>Compare the downloaded file with the release checksum if you want to verify integrity.</li><li>Run the installer, then open VeyDock from Windows.</li><li>Add a profile and complete the normal OpenAI sign-in.</li></ol><p>The current alpha is unsigned. Windows may display Unknown publisher or SmartScreen warnings. Do not bypass warnings on an unexpected file. Verify that it came from the linked GitHub release. Updater signatures are not Windows publisher certificates.</p>',
+        '<ol><li>Open the <a href="/download">download page</a> and choose the real setup EXE.</li><li>Compare the downloaded file with the release checksum if you want to verify integrity.</li><li>Run the installer, then open VeyDock from Windows.</li><li>Add a profile and complete the normal OpenAI sign-in.</li></ol><p>The current prerelease is unsigned. Windows may display Unknown publisher or SmartScreen warnings. Do not bypass warnings on an unexpected file. Verify that it came from the linked GitHub release. Updater signatures are not Windows publisher certificates.</p>',
       ),
       section(
         "first-run",
@@ -137,7 +137,7 @@ export const pages: Record<string, Page> = {
       section(
         "updates",
         "Installing later releases",
-        "<p>The alpha includes a release check and an explicit install action. Automatic installation is not silently performed. Installer-driven updates still require real acceptance testing. You can install a newer release over the current app; Hub data lives separately. Back up sensitive local state privately first.</p>",
+        "<p>The app includes a release check and an explicit install action. Automatic installation is not silently performed. Installer-driven updates still require real acceptance testing. You can install a newer release over the current app; Hub data lives separately. Back up sensitive local state privately first.</p>",
       ),
     ],
   },
@@ -216,10 +216,10 @@ export const pages: Record<string, Page> = {
     ],
   },
   guides: {
-    title: "Practical Codex guides",
+    title: "Codex and Claude Code account guides",
     label: "FIELD NOTES / WINDOWS",
     description:
-      "Useful guides to multiple Codex accounts, Windows switching, profile storage and interpreting usage limits.",
+      "Windows guides to managing multiple Codex accounts, reading real usage limits and organising Claude Code beta profiles. Choose the workflow for your provider.",
     sections: [
       section(
         "reading",
@@ -248,7 +248,7 @@ export const pages: Record<string, Page> = {
       section("check", "Read before launching", usage + stale),
       section(
         "limits",
-        "Know what the alpha can prove",
+        "Know what the prerelease can prove",
         verification +
           '<p>Start with an unimportant test session. Confirm the opened identity inside Codex and confirm your projects remain visible. Use the <a href="/docs/add-profile">add-profile manual</a> and <a href="/docs/switch-profiles">switching checklist</a> for the concrete steps.</p>',
       ),
@@ -367,7 +367,7 @@ export const pages: Record<string, Page> = {
       section(
         "independent",
         "Independent of OpenAI",
-        "<p>VeyDock is an independent project and is not affiliated with or endorsed by OpenAI or Anthropic. Codex and third-party services remain subject to their own terms. Public alpha status means the verification record matters more than marketing promises.</p>",
+        "<p>VeyDock is an independent project and is not affiliated with or endorsed by OpenAI or Anthropic. Codex and third-party services remain subject to their own terms. Prerelease status means the verification record matters more than marketing promises.</p>",
       ),
     ],
   },
@@ -404,7 +404,7 @@ export const pages: Record<string, Page> = {
     title: "Terms and open-source use",
     label: "LEGAL / HUMAN REVIEW REQUIRED",
     description:
-      "MIT licensing, alpha software limitations, third-party services, updates and VeyDock independence from OpenAI.",
+      "MIT licensing, prerelease software limitations, third-party services, updates and VeyDock independence from OpenAI.",
     sections: [
       section(
         "review",
@@ -470,7 +470,7 @@ pages["providers"] = {
     section(
       "compare",
       "One dock, provider-specific capabilities",
-      `<p>VeyDock is a Windows profile dock for AI coding tools. Codex and Claude Code have different authentication and launch contracts. They share profile names, reservations, projects and quick launch, not an invented common quota model.</p><table><thead><tr><th>Provider</th><th>Launch</th><th>Usage</th><th>Status</th></tr></thead><tbody><tr><td><a href="/providers/codex">Codex</a></td><td>Existing Desktop workspace</td><td>Independent app-server reads</td><td>Public alpha; full switching acceptance pending</td></tr><tr><td><a href="/providers/claude-code">Claude Code</a></td><td>Isolated Windows terminal</td><td>Last confirmed status-line cache</td><td>Beta; real A/B/A pending</td></tr></tbody></table>`,
+      `<p>VeyDock is a Windows profile dock for AI coding tools. Codex and Claude Code have different authentication and launch contracts. They share profile names, reservations, projects and quick launch, not an invented common quota model.</p><table><thead><tr><th>Provider</th><th>Launch</th><th>Usage</th><th>Status</th></tr></thead><tbody><tr><td><a href="/providers/codex">Codex</a></td><td>Existing Desktop workspace</td><td>Independent app-server reads</td><td>Prerelease; full switching acceptance pending</td></tr><tr><td><a href="/providers/claude-code">Claude Code</a></td><td>Isolated Windows terminal</td><td>Last confirmed status-line cache</td><td>Beta; real A/B/A pending</td></tr></tbody></table>`,
     ),
     section(
       "facts",

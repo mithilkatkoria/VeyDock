@@ -65,3 +65,7 @@ Validated play/pause, account selection, provider changes, scrubbing, replay, ke
 Homepage, download page, metadata, provider descriptions and GitHub now explain the free MIT app, real Codex usage, project shortcuts and Claude Code beta. Provider subscriptions and usage limits remain separate. No unverified authenticated switching or number-one ranking is promised.
 
 Once Search Console has data, review queries, pages, impressions and clicks. Improve pages that answer real user questions, compare changes over several weeks and maintain accurate release information. Google selects rankings and snippets; a perfect technical audit is not a ranking guarantee.
+
+## Google follow-up, 9 October 2026
+
+The 6 October Search Console check confirmed the sitemap succeeded and discovered 30 pages. The homepage remained unindexed and its manual request again hit the daily quota. On 9 October the browser-control connection was unavailable, so no fresh Search Console result or indexing request is claimed. No automatic retry schedule remains active. The guides index now describes both supported provider topics, outdated alpha wording has been corrected, and sitemap modification dates reflect actual edited pages.
