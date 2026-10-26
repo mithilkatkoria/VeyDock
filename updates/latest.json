@@ -1,11 +1,11 @@
 {
+  "notes": "VeyDock 0.2.0-beta.2. See the release notes on GitHub for changes and verification details.",
+  "version": "0.2.0-beta.2",
+  "pub_date": "2026-10-26T03:16:11.9536609Z",
   "platforms": {
     "windows-x86_64": {
-      "url": "https://github.com/mithilkatkoria/VeyDock/releases/download/v0.2.0-beta.1/VeyDock-setup.exe",
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVURDlGUnlQRUpyVEdPZjRWZjBEVWJaQXM2VEU2bXJYenptSXlmbXgyOGZ5cDBtTFNUTlNJOHdqWXFVUXdiOEYyVjVYbXBCemMwUHJwR3FCU2tQY1RSYW1LTDZnaklKb0FJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkxMjA0MTg0CWZpbGU6VmV5RG9ja18wLjIuMC1iZXRhLjFfeDY0LXNldHVwLmV4ZQptcWttV3BpRG83cGFUQ0NPWm9ZZTRyUmZCblBuTEVJZytOdkpraXRyRm5DUmtjTWZEcnM3NDRXajJCRktrWHBWc2Irb25yRDRrUjZCWVNRWG5YKzBEQT09Cg=="
+      "url": "https://github.com/mithilkatkoria/VeyDock/releases/download/v0.2.0-beta.2/VeyDock-setup.exe",
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVURDlGUnlQRUpyVEllcHF4RnAzMm82eEt1RitnckE5QWlscVBvazBrMXZBT0krQituTWhLSVd4R2J4dzFkM2hwMlRBRTMwTUZPeGVVUGNyMkJvc3AyZklwRyswSlBvTlFNPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkyOTg0NTcxCWZpbGU6VmV5RG9ja18wLjIuMC1iZXRhLjJfeDY0LXNldHVwLmV4ZQpqNWpCOEptZGtHaG1VNmxpTHYxSnV2dnpQL2NOQ0hYTHJTR0prbTlMb3JValg1b09ZZzM5VXVIVjZuR2dMZittdTNXUEdNdldwekZFMW9rNTVaVFREZz09Cg=="
     }
-  },
-  "version": "0.2.0-beta.1",
-  "notes": "VeyDock 0.2.0-beta.1. See the release notes on GitHub for changes and verification details.",
-  "pub_date": "2026-10-05T12:43:04.9367993Z"
+  }
 }
