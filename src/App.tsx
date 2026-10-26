@@ -68,9 +68,9 @@ function HubContent({hub}:{hub:HubView}) {
  if(hub.loadError)return <div className="app-shell"><TitleBar onSearch={()=>{}} onError={hub.setError} closeToTray={store.settings.minimizeToTray}/><main className="recovery-screen"><section className="settings-panel" role="alert"><h1>Unable to load accounts</h1><p>{privacy.detail(hub.loadError)}</p><p>Your saved files have been preserved.</p><button className="primary" onClick={()=>void hub.retryLoad()}><RefreshCw size={16}/> Retry</button><StreamerModeControl/></section></main></div>;
  return <div className={`app-shell ${sidebarCollapsed?'sidebar-collapsed':''} ${store.settings.reducedMotion?'reduced-motion':''} density-${store.settings.density}`}>
   <LaunchIntro reducedMotion={store.settings.reducedMotion}/><TitleBar onSearch={()=>setPalette(true)} onError={hub.setError} closeToTray={store.settings.minimizeToTray}/>
-  <aside className="sidebar">
+  <aside className="sidebar" aria-label="Workspace navigation">
    <button className="sidebar-collapse" onClick={toggleSidebar} aria-label={sidebarCollapsed?'Expand sidebar':'Collapse sidebar'} aria-expanded={!sidebarCollapsed} title={sidebarCollapsed?'Expand sidebar':'Collapse sidebar'}>{sidebarCollapsed?<PanelLeftOpen size={18}/>:<PanelLeftClose size={18}/>}<span>Collapse sidebar</span></button>
-   <div className="workspace-label">Workspace</div>
+   <div className="workspace-label">YOUR WORKSPACE</div>
    <nav aria-label="Main navigation">
     <button className={accountPage?'selected':''} aria-current={accountPage?'page':undefined} aria-label="Accounts" title="Accounts" onClick={()=>setPage('dashboard')}><Layers size={17}/><span className="nav-label">Accounts</span><span>{profiles.length}</span></button>
     <button className={page==='projects'?'selected':''} aria-current={page==='projects'?'page':undefined} aria-label="Projects" title="Projects" onClick={()=>setPage('projects')}><FolderOpen size={17}/><span className="nav-label">Projects</span><span>{store.projects.length}</span></button>
@@ -79,7 +79,7 @@ function HubContent({hub}:{hub:HubView}) {
     <StreamerModeControl/>
     <button className={`settings-nav ${page==='settings'?'selected':''}`} aria-current={page==='settings'?'page':undefined} aria-label="Settings" title="Settings" onClick={()=>setPage('settings')}><Settings2 size={17}/><span className="nav-label">Settings</span></button>
     <div className="device-label"><Monitor size={13}/>Stored on this device</div>
-    <div className="version"><span>v0.2.0-beta.1 · Windows</span></div>
+    <div className="version"><span>v0.2.0-beta.2 · Windows</span></div>
    </div>
   </aside>
   <main className="workspace-main">
@@ -90,7 +90,7 @@ function HubContent({hub}:{hub:HubView}) {
     <div className="page-content" key={page}>
      {page==='settings'?<Settings hub={hub}/>:page==='projects'?<><div className="page-heading"><div className="eyebrow">Workspace</div><h1>Projects</h1><p>Open a folder with the account you choose.</p></div><Projects hub={hub}/></>:<>
       <div className="dashboard-heading">
-       <div className="page-heading"><div className="eyebrow">Your workspace</div><h1>A little room to focus.</h1><p>{profiles.length} saved accounts · {available} available · Your next session, one click away.</p></div>
+       <div className="page-heading"><div className="eyebrow">Your workspace</div><h1>Accounts<span className="heading-count">{profiles.length}</span></h1><p>{profiles.length} saved accounts · {available} available · Choose where you work next.</p></div>
        <div className="heading-actions"><button className="secondary refresh-all" aria-label="Refresh all accounts" onClick={()=>void hub.refreshAll()} disabled={!profiles.length||syncing===profiles.length}><RefreshCw size={14} className={syncing?'spin':''}/><span>Refresh</span></button><button className="primary" onClick={()=>setEditor({})}><Plus size={15}/>Add account</button></div>
       </div>
       {!profiles.length&&hub.loaded?<section className="onboarding">
@@ -103,12 +103,12 @@ function HubContent({hub}:{hub:HubView}) {
        <div className="provider-tabs" aria-label="Filter providers">{[{id:'all',label:'All providers'},{id:'codex',label:'Codex'},{id:'claude-code',label:'Claude beta'}].map(tab=><button key={tab.id} aria-pressed={providerFilter===tab.id} onClick={()=>setProviderFilter(tab.id)}>{tab.label}</button>)}</div>
        <div className="account-toolbar"><div className="account-tabs" aria-label="Filter accounts">{[{id:'all',label:'All',count:profiles.length},{id:'available',label:'Available',count:available},{id:'reserved',label:'Reserved',count:profiles.length-available}].map(tab=><button key={tab.id} aria-pressed={accountFilter===tab.id} onClick={()=>setAccountFilter(tab.id)}>{tab.label}<span>{tab.count}</span></button>)}</div>
         <div className="sync-summary" role="status"><i className={syncing?'connection-dot pulse':live===profiles.length&&live?'connection-dot':'neutral-dot'}/>{syncing?'Refreshing…':live===profiles.length&&live?'All limits up to date':`${live} of ${profiles.length} live`}</div></div>
-       <div className="list-labels" aria-hidden="true"><span>Account</span><span>Remaining allowance</span><span>Launch</span></div>
+       <div className="list-labels" aria-hidden="true"><span>Account</span><span>Usage remaining</span><span>Actions</span></div>
        <div className="profile-grid">{visibleProfiles.map(p=><ProfileCard key={p.id} profile={p} snapshot={store.usageCache[p.id]} settings={store.settings} now={hub.now} active={hub.workspace?.activeProfileId===p.id} busy={hub.busy[p.id]} onLaunch={()=>void hub.launch(p.id)} onRefresh={()=>void hub.refresh(p.id)} onEdit={()=>setEditor({profile:p})} onLogin={()=>void hub.login(p.id)} onValidate={()=>void hub.validate(p.id)}/>)}{!hub.loaded&&[1,2,3].map(n=><div className="loading-card" key={n} aria-label="Loading account"><i/><i/><i/></div>)}</div>
-       {hub.loaded&&!visibleProfiles.length&&<div className="filter-empty">No {accountFilter} accounts.<button className="text-button" onClick={()=>setAccountFilter('all')}>Show all accounts</button></div>}
+       {hub.loaded&&!visibleProfiles.length&&<div className="filter-empty">No accounts match these filters.<button className="text-button" onClick={()=>{setAccountFilter('all');setProviderFilter('all');}}>Show all accounts</button></div>}
        <div className="list-footer"><span>{store.settings.autoRefresh?`Updates every ${store.settings.refreshSeconds}s`:'Automatic refresh off'}</span><span>Provider-reported usage</span></div>
       </section>}
-      <AccountActivity hub={hub}/><Projects hub={hub} compact/>
+      <div className="workspace-support"><Projects hub={hub} compact/><AccountActivity hub={hub}/></div>
      </>}
     </div>
    </div>

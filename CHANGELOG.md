@@ -7,6 +7,17 @@ All published releases receive an immutable Git tag and an entry here. Unrelease
 ### Pending
 - Record the next changes here.
 
+## [0.2.0-beta.2] - 2026-10-26
+
+### Changed
+- Redesigned the Windows app with a warm light workspace, dark navigation rail and responsive account list.
+- Replaced decorative sculptures and usage rings with clear percentage bars and expandable provider details.
+- Unified projects, settings, account forms, command search and privacy controls.
+- Preserved existing profile storage, reservations and native launch behaviour.
+
+### Verification
+- UI regression tests and responsive visual checks use development-only fixtures. Real authentication acceptance remains governed by VERIFICATION.md.
+
 ## [0.2.0-beta.1] - 2026-10-05
 
 ### Added
@@ -94,7 +105,7 @@ The signed-out restart flow still requires real Desktop acceptance; no productio
 - Unsigned test executable; no signed installer.
 - Initial download predates the documentation commit tagged with this release; it is not claimed to be a reproducible artifact of that tag.
 
-[Unreleased]: https://github.com/mithilkatkoria/VeyDock/compare/v0.2.0-beta.1...main
+[Unreleased]: https://github.com/mithilkatkoria/VeyDock/compare/v0.2.0-beta.2...main
 [0.1.0-alpha.1]: https://github.com/mithilkatkoria/VeyDock/releases/tag/v0.1.0-alpha.1
 
 [0.1.0-alpha.2]: https://github.com/mithilkatkoria/VeyDock/releases/tag/v0.1.0-alpha.2
@@ -104,3 +115,5 @@ The signed-out restart flow still requires real Desktop acceptance; no productio
 [0.1.0-alpha.4]: https://github.com/mithilkatkoria/VeyDock/releases/tag/v0.1.0-alpha.4
 
 [0.2.0-beta.1]: https://github.com/mithilkatkoria/VeyDock/releases/tag/v0.2.0-beta.1
+
+[0.2.0-beta.2]: https://github.com/mithilkatkoria/VeyDock/releases/tag/v0.2.0-beta.2

@@ -1,0 +1,56 @@
+import { fileURLToPath } from 'node:url';
+import { chromium } from 'playwright';
+import AxeBuilder from '@axe-core/playwright';
+import assert from 'node:assert/strict';
+import { mkdir,writeFile } from 'node:fs/promises';
+process.chdir(fileURLToPath(new URL('..',import.meta.url)));
+console.log('Launching browser');
+const browser=await chromium.launch({channel:'msedge',headless:true,timeout:30000});
+console.log('Browser ready');
+const errors=[];
+const context=await browser.newContext({viewport:{width:1440,height:1000},reducedMotion:'reduce'});
+const page=await context.newPage();
+page.on('pageerror',e=>errors.push(e.message));
+await page.addInitScript(()=>localStorage.setItem('draey.streamer-mode.v1','off'));
+try {
+ await mkdir('../research/desk-ui',{recursive:true});
+ console.log('Opening preview');
+ await page.goto('http://127.0.0.1:1422',{timeout:60000,waitUntil:'domcontentloaded'});
+ console.log('Preview loaded');
+ await page.locator('.profile-card').nth(3).waitFor({timeout:30000});
+ await page.waitForTimeout(1800);
+ for(const width of [1920,1440,1280,1024,800,600,390]){
+  await page.setViewportSize({width,height:1000});
+  await page.screenshot({path:`../research/desk-ui/accounts-${width}.png`,fullPage:true});
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,`Overflow at ${width}`);
+ }
+ await page.setViewportSize({width:1440,height:1000});
+ await page.getByRole('button',{name:'Available 3',exact:true}).click();
+ assert.equal(await page.locator('.profile-card').count(),3);
+ await page.screenshot({path:'../research/desk-ui/three-accounts.png'});
+ await page.getByRole('button',{name:'Reserved 1',exact:true}).click();
+ assert.equal(await page.locator('.profile-card').count(),1);
+ assert.equal(await page.getByRole('button',{name:'Open anyway',exact:true}).count(),1);
+ await page.getByRole('button',{name:'All 4',exact:true}).click();
+ await page.getByRole('button',{name:'Collapse sidebar',exact:true}).click();
+ assert.equal(await page.locator('.sidebar-collapsed').count(),1);
+ await page.getByRole('button',{name:'Expand sidebar',exact:true}).click();
+ await page.getByRole('button',{name:'Add account',exact:true}).click();
+ await page.getByRole('dialog').waitFor();
+ await page.screenshot({path:'../research/desk-ui/add-account.png'});
+ await page.keyboard.press('Escape');
+ await page.keyboard.press('Control+k');
+ await page.getByRole('dialog').waitFor();
+ await page.screenshot({path:'../research/desk-ui/launcher.png'});
+ await page.keyboard.press('Escape');
+ await page.getByRole('button',{name:'Settings',exact:true}).click();
+ await page.screenshot({path:'../research/desk-ui/settings.png',fullPage:true});
+ const settingsAxe=await new AxeBuilder({page}).analyze();
+ await page.getByRole('button',{name:'Accounts',exact:true}).click();
+ const accountsAxe=await new AxeBuilder({page}).analyze();
+ const violations=[...accountsAxe.violations,...settingsAxe.violations].map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))}));
+ await writeFile('../research/desk-ui/checks.json',JSON.stringify({errors,violations},null,2));
+ console.log(JSON.stringify({errors,violations},null,2));
+ assert.deepEqual(errors,[]);
+ assert.deepEqual(violations,[]);
+}finally{await browser.close();}
